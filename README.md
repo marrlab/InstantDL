@@ -43,6 +43,48 @@ For running the code, you need to have Python 3.7 or higher installed. In additi
 
 ## Running Regression
 
+## Comparison
+
+| Application | InstantDL | Open ML  | Google Cloud AI  | ImJoy |
+| ------ | ------ | ------  | ------  | ------ |
+| Host | Local, cluster or in Google-Colab | Web based  | Web based  | Web based |
+| Data privacy | Yes | Shared with upload | Yes  | Yes |
+| Target audience | Biomedical researchers  | Researchers and Developers  | Enterprises  | Researchers and Developers |
+| Developed for  | Biomedical images | All kinds of data  | All kinds of data  | All kinds of data |
+| Customizability of Code | Code fully accessible | Code fully accessible  | Code not available  | Possible through writing a plugin |
+| Debugged and tested | Yes | Yes  | Yes  | Yes |
+| Cost | Free | Free  | Free  | Payment plan |
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ## TODO
 
 - [x] classifciation
