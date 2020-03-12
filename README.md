@@ -1,6 +1,8 @@
 # Deep Learning Pipeline
 
-This is the code!
+Our pipeline enables non-experts to use state-of-the art deep learning methods on biomedical image data. In order to reduce potential point of errors in an experimental setup we have highly automated and standardized as well as debugged and tested our pipeline. Without any parameter tuning we have benchmarked it on XX datasets. For customization of the pipeline to specific tasks all code is easily accessibility. 
+
+<img src="documentation/1.jpg" alt="architecture" width="700" class="center"/>
 
 ## Folders
 
