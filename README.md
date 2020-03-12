@@ -2,7 +2,18 @@
 
 This is the code!
 
-## Libraries
+## Folders
+
+Here you can find the information about the folders in the code:
+
+- [classification](classification)
+- [data_generator](data_generator)
+- [Preprocessing_Evaluation](Preprocessing_Evaluation)
+- [segmentation](segmentation)
+
+## Dependencies
+
+For running the code, you need to have Python 3.7 or higher installed. In addition, these are the main dependencies:
 
 ```json
 {
@@ -23,6 +34,12 @@ This is the code!
    "tensorflow-gpu":"1.14.0"
 }
 ```
+
+## Running Classification
+
+## Running Segmentation
+
+## Running Regression
 
 ## TODO
 
