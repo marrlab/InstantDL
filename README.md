@@ -30,3 +30,7 @@ This is the code!
 - [ ] making the code modular
 - [ ] adding documentation
 - [ ] adding example
+- [ ] add docker
+- [ ] add objects instead of the main functions
+- [ ] add tests
+
