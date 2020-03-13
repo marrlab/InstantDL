@@ -3,7 +3,9 @@ Author: Dominik Waibel
 
 In this file the funcitions are started to train and test the networks
 '''
-
+import argparse
+import os
+import json
 from data_generator.custom_data_generator import *
 from segmentation.UNet_models import UNetBuilder
 from keras.callbacks import ModelCheckpoint, TensorBoard, EarlyStopping
@@ -21,19 +23,24 @@ import glob
 import sys
 from keras.optimizers import Adam, SGD
 from metrics import accuracy_score
+from data_generator.data import write_logbook
 
-def start_learning(use_algorithm, path, pretrained_weights, batchsize, Iterations_Over_Dataset, data_gen_args, loss_function, num_classes, Image_size, calculate_uncertainty):
-    '''
-    Sanity checks in order to ensure all settings in config.py have been set so the programm is able to run
-    '''
-    if all([use_algorithm is not 'Segmentation', use_algorithm is not 'Regression', use_algorithm is not 'ObjectDetection', use_algorithm is not 'Classification']):
-        sys.exit("No Task and Architecture specified")
-    if not isinstance(batchsize, int):
-        warnings.warn("Batchsize has not been set. Setting batchsize = 1")
-        batchsize = 1
-    if not isinstance(Iterations_Over_Dataset, int):
-        warnings.warn("Epochs has not been set. Setting epochs = 500 and using early stopping")
-        Iterations_Over_Dataset = 500
+def load_json(file_path):
+    with open(file_path, 'r') as stream:    
+        return json.load(stream)
+
+
+def start_learning( use_algorithm, 
+                    path, 
+                    pretrained_weights, 
+                    batchsize, 
+                    Iterations_Over_Dataset, 
+                    data_gen_args, 
+                    loss_function, 
+                    num_classes, 
+                    Image_size, 
+                    calculate_uncertainty):
+
 
     '''
     Build the models for Regression, Segmentaiton and Classification
@@ -317,3 +324,64 @@ def start_learning(use_algorithm, path, pretrained_weights, batchsize, Iteration
 
     model = None
     K.clear_session()
+
+
+if __name__ == "__main__":
+        
+    parser = argparse.ArgumentParser( \
+                            description='Starting the deep learning code')
+    parser.add_argument('-c',\
+                        '--config', \
+                        help='config json file address', \ 
+                        type=str)
+
+    args = vars(parser.parse_args())
+    
+    configs = load_json(args['config'])
+
+    for k in configs:
+        print("%s : %s \n" % (k,configs[k]))
+    
+    use_algorithm = configs["use_algorithm"]
+    path = configs["path"]  
+    pretrained_weights = configs["pretrained_weights"] 
+    batchsize = configs["batchsize"] 
+    Iterations_Over_Dataset = configs["Iterations_Over_Dataset"]  
+    data_gen_args = configs["data_gen_args"] 
+    loss_function = configs["loss_function"]  
+    num_classes = configs["num_classes"]  
+    Image_size = configs["Image_size"] 
+    calculate_uncertainty = configs["calculate_uncertainty"]
+
+    '''
+    Sanity checks in order to ensure all settings in config
+    have been set so the programm is able to run
+    '''
+    assert use_algorithm in ['Segmentation', 
+                            'Regression', 
+                            'ObjectDetection', 
+                            'Classification']
+        
+    if not isinstance(batchsize, int):
+        warnings.warn("Batchsize has not been set. Setting batchsize = 1")
+        batchsize = 1
+    if not isinstance(Iterations_Over_Dataset, int):
+        warnings.warn("Epochs has not been set. Setting epochs = 500 and using early stopping")
+        Iterations_Over_Dataset = 500
+
+    if use_pretrained_weights == True:
+        pretrained_weights = (path + "/logs/pretrained_weights_CPC25.hdf5")
+    else:
+        pretrained_weights = None
+
+ 
+    start_learning( use_algorithm, 
+                    path, 
+                    pretrained_weights, 
+                    batchsize, 
+                    Iterations_Over_Dataset, 
+                    data_gen_args, 
+                    loss_function, 
+                    num_classes, 
+                    Image_size, 
+                    calculate_uncertainty)         
