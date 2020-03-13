@@ -332,6 +332,7 @@ if __name__ == "__main__":
                             description='Starting the deep learning code')
     parser.add_argument('-c',\
                         '--config', \
+                        default="configs/sample_config.json", \
                         help='config json file address', \ 
                         type=str)
 
