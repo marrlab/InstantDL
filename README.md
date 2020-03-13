@@ -37,11 +37,11 @@ For running the code, you need to have Python 3.7 or higher installed. In additi
 }
 ```
 
-## Running Classification
+## How to use the code
 
-## Running Segmentation
-
-## Running Regression
+```bash
+python main.py --config ./configs/sample_config.json
+```
 
 ## Comparison
 
