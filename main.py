@@ -1,6 +1,6 @@
 '''
 InstantDL
-Written by Dominik Waibel
+Written by Dominik Waibel and Ali Boushehri
 
 In this file the functions are started to train and test the networks
 '''
@@ -32,7 +32,7 @@ def load_json(file_path):
         return json.load(stream)
 
 
-def start_learning( use_algorithm, 
+def start_learning( use_algorithm,
                     path, 
                     pretrained_weights, 
                     batchsize, 
@@ -43,15 +43,14 @@ def start_learning( use_algorithm,
                     Image_size, 
                     calculate_uncertainty):
 
-
-    '''
-    Build the models for Regression, Segmentaiton and Classification
-    '''
-    if use_algorithm is "Regression" or use_algorithm is "Classification" or use_algorithm is "Segmentation":
+    if use_algorithm is "Regression" or use_algorithm is "Classification" or use_algorithm is "SemanticSevmentation":
         '''
-            Get the number of input images and their shape
-            If the last image dimension,. which should contain the channel information (1 or 3) is not existing e.g. for (512,512) add a 1 as the channel number.
-            '''
+        Build the models for Regression, Segmentaiton and Classification
+        '''
+        '''
+        Get the number of input images and their shape
+        If the last image dimension,. which should contain the channel information (1 or 3) is not existing e.g. for (512,512) add a 1 as the channel number.
+        '''
         if Image_size == None:
             Training_Input_shape, num_channels, Input_image_shape = get_input_image_sizes(path, use_algorithm)
         else:
@@ -93,7 +92,7 @@ def start_learning( use_algorithm,
         '''
         Prepare data in Training and Validation set 
         '''
-        if use_algorithm == "Regression" or use_algorithm == "Segmentation":
+        if use_algorithm == "Regression" or use_algorithm == "SemanticSevmentation":
             '''
             Get Output size of U-Net
             '''
@@ -105,16 +104,15 @@ def start_learning( use_algorithm,
             if all([num_channels_label != 1, num_channels_label != 3]):
                 num_channels_label = 1
 
-            if use_algorithm == "Segmentation":
+            if use_algorithm == "SemanticSevmentation":
                 data_gen_args["binarize_mask"] = True
 
             TrainingDataGenerator = training_data_generator(Training_Input_shape, batchsize, num_channels, num_channels_label, train_image_files, data_gen_args, data_dimensions, data_path, use_algorithm)
             ValidationDataGenerator = training_data_generator(Training_Input_shape, batchsize, num_channels, num_channels_label, val_image_files, data_gen_args, data_dimensions, data_path, use_algorithm)
 
             '''
-            Build a 2D or 3D U-Net model
+            Build a 2D or 3D U-Net model and initialize it with pretrained or random weights
             '''
-
             if pretrained_weights == False:
                 pretrained_weights = None
             if data_dimensions == 3:
@@ -124,10 +122,12 @@ def start_learning( use_algorithm,
                 print("Using 2D UNet")
                 model = UNetBuilder.unet2D(pretrained_weights,network_input_size, num_channels_label,num_classes, loss_function, Dropout_On = True)
 
-            '''
-            Build a classificaiton model
-            '''
+
         if use_algorithm == "Classification":
+            '''
+            Build the classificaiton model with a ResNet50 and initilize with pretrained, imagenet or random weights
+            Initialize data generator 
+            '''
             if not isinstance(num_classes, int):
                 sys.exit("Number of classes has not been set. You net to set num_classes!")
             TrainingDataGenerator = training_data_generator_classification(Training_Input_shape,num_channels, batchsize, num_classes, train_image_files, data_gen_args, data_path, use_algorithm)
@@ -146,7 +146,12 @@ def start_learning( use_algorithm,
 
         model.summary()
 
-        # Train Segmentation and Regression and Classification
+        '''
+        Set Model callbacks such as: 
+        - Early stopping (after the validation loss has not improved for 25 epochs
+        - Checkpoints: Save model after each epoch if the validation loss has improved 
+        - Tensorboard: Monitor training live with tensorboard. Start tensorboard in terminal with: tensorboard --logdir=/path_to/logs 
+        '''
         Early_Stopping = EarlyStopping(monitor='val_loss', patience=25, mode='auto', verbose=0)
         datasetname = path.rsplit("/",1)[1]
         checkpoint_filepath = (path + "/logs" + "/pretrained_weights_" + datasetname + ".hdf5") #.{epoch:02d}.hdf5")
@@ -155,11 +160,14 @@ def start_learning( use_algorithm,
 
         tensorboard = TensorBoard(log_dir="logs/" + path + "/" + format(time.time())) #, update_freq='batch')
 
-        if use_algorithm == "Regression" or use_algorithm == "Segmentation":
+        if use_algorithm == "Regression" or use_algorithm == "SemanticSevmentation":
             callbacks_list = [model_checkpoint, tensorboard, Early_Stopping]
         if use_algorithm == "Classification":
             callbacks_list = [model_checkpoint, tensorboard, Early_Stopping]
 
+        '''
+        Train the model given the initialized model and the data from the data generator
+        '''
         model.fit_generator(TrainingDataGenerator,
                             steps_per_epoch=steps_per_epoch,
                             validation_data=ValidationDataGenerator,
@@ -170,85 +178,105 @@ def start_learning( use_algorithm,
                             use_multiprocessing=False)
         print('finished Model.fit_generator')
 
-
+        '''
+        Get the names of the test images for model evaluation
+        '''
         test_image_files = os.listdir(os.path.join(path + "/test/image"))
-
         num_test_img = int(len(os.listdir(path + "/test/image")))
         print("Testing on", num_test_img, "test files")
+
+        '''
+        Initialize the testset generator
+        '''
         testGene = testGenerator(Training_Input_shape, path, num_channels, test_image_files, use_algorithm)
         print('finished testGene')
         results = model.predict_generator(testGene, steps=num_test_img, use_multiprocessing=False, verbose=1)
         print("results", np.shape(results))
         print('finished model.predict_generator')
-        print("Starting Uncertanty estimation")
-        '''Uncertainty prediction
-        As suggested by Gal et. al.: https://arxiv.org/abs/1506.02142 
-        And as implemented in: https://openreview.net/pdf?id=Sk_P2Q9sG
-        '''
-        if use_algorithm is "Regression" or use_algorithm is "Segmentation":
+
+        if use_algorithm is "Regression" or use_algorithm is "SemanticSevmentation":
+            '''
+            Save the models prediction on the testset by printing the predictions as images to the results folder in the project path
+            '''
             saveResult(path + "/results/", test_image_files, results, Input_image_shape)
-
-        if calculate_uncertainty == True:
-            if data_dimensions == 3:
-                print("Using 3D UNet")
-                if epochs > 0:
-                    pretrained_weights = checkpoint_filepath
-                model = UNetBuilder.unet3D(pretrained_weights, network_input_size, num_channels_label, num_classes, loss_function, Dropout_On=True)
-            else:
-                print("Using 2D UNet")
-                if epochs > 0:
-                    pretrained_weights = checkpoint_filepath
-                model = UNetBuilder.unet2D(pretrained_weights,network_input_size, num_channels_label, loss_function, Dropout_On = True)
-            resultsMCD = []
-            for i in range(0, 20):
-                testGene = testGenerator(Training_Input_shape, path, num_channels, test_image_files, use_algorithm)
-                resultsMCD.append(model.predict_generator(testGene, steps=num_test_img, use_multiprocessing=False, verbose=1))
-            resultsMCD = np.array(resultsMCD)
-            aleatoric_uncertainty = np.mean(resultsMCD * (1 - resultsMCD), axis = 0)
-            epistemic_uncertainty = np.mean(resultsMCD**2, axis = 0) - np.mean(resultsMCD, axis = 0)**2
-            #combined_uncertainty = aleatoric_uncertainty + epistemic_uncertainty
-            combined_uncertainty = epistemic_uncertainty
-            '''Threshold uncertainty to make the image easier understandable'''
-            #combined_uncertainty[combined_uncertainty < np.mean(combined_uncertainty)] = 0
-            saveResult(path + "/uncertainty/", test_image_files, combined_uncertainty, Input_image_shape)
-
         if use_algorithm is "Classification":
-            '''Uncertainty prediction
-            Using: https://github.com/RobRomijnders/bayes_nn
-            for uncertainty estimation with MC Dropout for classification
+            '''
+            Save the models prediction on the testset by saving a .csv file containing filenames and predicted classes to the results folder in the project path
             '''
             saveResult_classification(path, test_image_files, results)
+
+
         if calculate_uncertainty == True:
-            if epochs > 0:
-                pretrained_weights = checkpoint_filepath
-            model = ResNet50(network_input_size, Dropout = 0.5, include_top=True, weights=pretrained_weights, input_tensor=None, pooling='max', classes=num_classes)
-            print("Starting Uncertainty estimation")
-            resultsMCD = []
-            for i in range(0, 20):
-                print("Testing Uncertainty Number: ", str(i))
-                testGene = testGenerator(Training_Input_shape, path, num_channels, test_image_files, use_algorithm)
-                resultsMCD_pred = model.predict_generator(testGene, steps=num_test_img, use_multiprocessing=False, verbose=1)
-                resultsMCD.append(resultsMCD_pred)
-            resultsMCD = np.array(resultsMCD)
-            argmax_MC_Pred = (np.argmax(resultsMCD, axis=-1))
-            average_MC_Pred = []
-            for i in range(len(argmax_MC_Pred[1])):
-                bincount = np.bincount(argmax_MC_Pred[:,i])
-                average_MC_Pred.append(np.argmax(bincount))
-            average_MC_Pred = np.array(average_MC_Pred)
-            combined_certainty = np.mean(-1 * np.sum(resultsMCD * np.log(resultsMCD + 10e-6), axis=0), axis = 1)
-            combined_certainty /= np.log(20) # normalize to values between 0 and 1
-            saveResult_classification_uncertainty(path, test_image_files, results, average_MC_Pred, combined_certainty)
+            if use_algorithm is "Regression" or use_algorithm is "SemanticSevmentation":
+                '''
+                 Start uncertainty prediction if selected for regression or semantic segmentation
+                 As suggested by Gal et. al.: https://arxiv.org/abs/1506.02142 
+                 And as implemented in: https://openreview.net/pdf?id=Sk_P2Q9sG
+                 '''
+                if data_dimensions == 3:
+                    print("Using 3D UNet")
+                    if epochs > 0:
+                        pretrained_weights = checkpoint_filepath
+                    model = UNetBuilder.unet3D(pretrained_weights, network_input_size, num_channels_label, num_classes, loss_function, Dropout_On=True)
+                else:
+                    print("Using 2D UNet")
+                    if epochs > 0:
+                        pretrained_weights = checkpoint_filepath
+                    model = UNetBuilder.unet2D(pretrained_weights,network_input_size, num_channels_label, loss_function, Dropout_On = True)
+                resultsMCD = []
+                for i in range(0, 20):
+                    testGene = testGenerator(Training_Input_shape, path, num_channels, test_image_files, use_algorithm)
+                    resultsMCD.append(model.predict_generator(testGene, steps=num_test_img, use_multiprocessing=False, verbose=1))
+                resultsMCD = np.array(resultsMCD)
+                aleatoric_uncertainty = np.mean(resultsMCD * (1 - resultsMCD), axis = 0)
+                epistemic_uncertainty = np.mean(resultsMCD**2, axis = 0) - np.mean(resultsMCD, axis = 0)**2
+                #combined_uncertainty = aleatoric_uncertainty + epistemic_uncertainty
+                combined_uncertainty = epistemic_uncertainty
+                '''Threshold uncertainty to make the image easier understandable'''
+                #combined_uncertainty[combined_uncertainty < np.mean(combined_uncertainty)] = 0
+                saveResult(path + "/uncertainty/", test_image_files, combined_uncertainty, Input_image_shape)
 
-    if use_algorithm is "ObjectDetection":
+        if calculate_uncertainty == True:
+            if use_algorithm is "Classification":
+                '''
+                Uncertainty prediction for classification 
+                Using: https://github.com/RobRomijnders/bayes_nn
+                for uncertainty estimation with MC Dropout for classification
+                '''
+                if epochs > 0:
+                    pretrained_weights = checkpoint_filepath
+                model = ResNet50(network_input_size, Dropout = 0.5, include_top=True, weights=pretrained_weights, input_tensor=None, pooling='max', classes=num_classes)
+                print("Starting Uncertainty estimation")
+                resultsMCD = []
+                for i in range(0, 20):
+                    print("Testing Uncertainty Number: ", str(i))
+                    testGene = testGenerator(Training_Input_shape, path, num_channels, test_image_files, use_algorithm)
+                    resultsMCD_pred = model.predict_generator(testGene, steps=num_test_img, use_multiprocessing=False, verbose=1)
+                    resultsMCD.append(resultsMCD_pred)
+                resultsMCD = np.array(resultsMCD)
+                argmax_MC_Pred = (np.argmax(resultsMCD, axis=-1))
+                average_MC_Pred = []
+                for i in range(len(argmax_MC_Pred[1])):
+                    bincount = np.bincount(argmax_MC_Pred[:,i])
+                    average_MC_Pred.append(np.argmax(bincount))
+                average_MC_Pred = np.array(average_MC_Pred)
+                combined_certainty = np.mean(-1 * np.sum(resultsMCD * np.log(resultsMCD + 10e-6), axis=0), axis = 1)
+                combined_certainty /= np.log(20) # normalize to values between 0 and 1
+                saveResult_classification_uncertainty(path, test_image_files, results, average_MC_Pred, combined_certainty)
 
+    if use_algorithm is "InstanceSegmentation":
+        '''
+        Initialize a model for instance segmentation 
+        '''
         UseResnet = 50
 
         RESULTS_DIR = os.path.join(path, "results/")
 
         image_files = os.listdir(os.path.join(path + "/train"))
 
-        '''Set values for config file'''
+        '''
+        Set values for config file
+        '''
         RCNNConfig.NAME = "Image"
         RCNNConfig.classdefs = ("Image", num_classes, "Classes")
         RCNNConfig.BACKBONE = str("resnet" + str(UseResnet))
@@ -268,7 +296,9 @@ def start_learning( use_algorithm,
 
         trainsubset = "train"
         testsubset = "test"
-
+        '''
+        Initialize a model for instance segmentation with pretrained weights or imagenet weights
+        '''
         if pretrained_weights == None:
             print("Weights == False")
             weights = "last"
@@ -360,9 +390,9 @@ if __name__ == "__main__":
     Sanity checks in order to ensure all settings in config
     have been set so the programm is able to run
     '''
-    assert use_algorithm in ['Segmentation', 
+    assert use_algorithm in ['SemanticSevmentation',
                             'Regression', 
-                            'ObjectDetection', 
+                            'InstanceSegmentation',
                             'Classification']
         
     if not isinstance(batchsize, int):

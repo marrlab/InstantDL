@@ -10,7 +10,7 @@ from metrics import *
 from data_generator.data import write_logbook
 
 '''
-you can only set one of the following: Regression, Segmentation, Classification or ObjectDetection
+you can only set one of the following: Regression, SemanticSegmentation, Classification or InstanceSegmentation
 '''
 use_algorithm = "Regression"
 '''
