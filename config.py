@@ -1,16 +1,14 @@
 '''
-Author: Dominik Waibel
+InstantDL
+Written by Dominik Waibel
 Config file for the deep learning pipeline.
 Set parameters here.
-target_size = (pixel, pixel, channels)
-validation_split = number of images in validation set. 0.2 = 20%
-pretrained_weights = None, or Path
 '''
+
 from main import start_learning
 from metrics import *
 from data_generator.data import write_logbook
-#from tensorflow.python.client import device_lib
-#print(device_lib.list_local_devices())
+
 '''
 you can only set one of the following: Regression, Segmentation, Classification or ObjectDetection
 '''

@@ -1,8 +1,10 @@
 '''
-Author: Dominik Waibel
+InstantDL
+Written by Dominik Waibel
 
-In this file the funcitions are started to train and test the networks
+In this file the functions are started to train and test the networks
 '''
+
 import argparse
 import os
 import json

@@ -1,7 +1,7 @@
 '''
-Author: Dominik Waibel
-
-In this file the 2D and 3D U-Nets are initialized.
+InstantDL
+2D and 3D UNet models
+Written by Dominik Waibel
 The original publication is: arXiv:1505.04597
 '''
 

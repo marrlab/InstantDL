@@ -1,3 +1,9 @@
+"""
+InstantDL
+Utils for data evaluation
+Written by Dominik Waibel
+"""
+
 import os, fnmatch
 import numpy as np
 import matplotlib.pyplot as plt
