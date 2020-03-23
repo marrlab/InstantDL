@@ -40,7 +40,47 @@ For running the code, you need to have Python 3.7 or higher installed. In additi
 ## How to use the code
 
 ```bash
-python main.py --config ./configs/sample_config.json
+The pipeline is based on folders. Please put your data manually in the corresponding folders as illustrated by the figure above. The folder names must not be changed as this will stop the pipeline from functioning.
+
+The config.json file in the config folder must be used to set parameters for the pipeline. After this the pipeline is started by executing the main.py file. Predictins from the testset will be saved after training to the Results folder which will automatically be created. 
+
+From there evaluations using jupyter-notebooks from the Evaluation folder can be used for visual and statistical assessment. Therefore only the path in the jupyter-notebook files has to be adapted. 
+
+Possible setting in the config.json file are: 
+"use_algorithm": "Regression", "SemanticSegmentation", "Instance Segmentation" or "Classification"
+"path": "data/Ouncomol_NucEnvelope_3Dnew", #Set the path to your project directory here
+"use_pretrained_weights": false, # Set to true if you want to use pretrained weights
+"pretrained_weights_path": false, # Set a relative file path from your project directory with the filename here. 
+"batchsize": 2, # Set the batchsize depeding on your GPU capabilities
+"Iterations_Over_Dataset": 200, # Set how many iterations over the dataset should be taken for learning. It might stop automatically if no improvement on the validation set was measured after 25 epochs
+
+Set data augmentation parameters here
+"save_augmented_images": false, # true or false
+"resample_images": false, # true or false
+"std_normalization": false, # true or false
+"feature_scaling": false, # true or false
+"horizontal_flip": false, # true or false
+"vertical_flip": false, # true or false
+"poission_noise": false, # false or float 
+"rotation_range": false, # false or float (degrees)
+"zoom_range": false, # false or float (magnification)
+"contrast_range": false, # false or float 
+"brightness_range": false, # false or float 
+"gamma_shift": false, # false or float (gamma shift parameter)
+"threshold_background_image": false, # true or false
+"threshold_background_groundtruth": false, # true or false
+"gaussian_blur_image": false, # true or float
+"gaussian_blur_label": false, # true or  # true or false
+"binarize_mask": false # true or false
+
+Set parameters for training here. Number of classes should be 1 for binary segmenation tasks
+"loss_function": "mse",
+"num_classes": 1, # Number of classes should be 1 for binary segmenation tasks
+"Image_size": null, # null or tuple with dimensions of desired image size in format (x-dim, y-dim, [z-dim,] channels)
+"calculate_uncertainty": false # true or false
+
+
+python main.py --config ./configs/config.json
 ```
 
 ## Comparison

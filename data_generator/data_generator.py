@@ -8,7 +8,7 @@ from data import *
 import numpy as np
 from skimage.io import imread
 from skimage.transform import resize
-from custom_data_augmentation import data_augentation
+from data_generator.data_augmentation import data_augentation
 import os
 import csv as csv
 import sys

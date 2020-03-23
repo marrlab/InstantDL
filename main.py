@@ -4,31 +4,30 @@ Written by Dominik Waibel and Ali Boushehri
 
 In this file the functions are started to train and test the networks
 '''
-
+import sys
 import argparse
 import os
 import json
-from data_generator.custom_data_generator import *
+from data_generator.data_generator import *
 from segmentation.UNet_models import UNetBuilder
 from keras.callbacks import ModelCheckpoint, TensorBoard, EarlyStopping
 import time
 import tensorflow as tf
 from keras import backend as K
 from keras.applications.resnet50 import ResNet50
-from segmentation.ResNet50 import ResNet50
+from classification.ResNet50 import ResNet50
 from segmentation.RCNNSettings import RCNNInferenceConfig, train, detect
 import segmentation.RCNNmodel as RCNNmodel
 from segmentation.RCNNSettings import RCNNConfig
 tf.config.experimental.list_physical_devices('GPU')
 from classification.ResNet_models import define_ResNetModel, get_imagenet_weights
 import glob
-import sys
 from keras.optimizers import Adam, SGD
 from metrics import accuracy_score
 from data_generator.data import write_logbook
 
 def load_json(file_path):
-    with open(file_path, 'r') as stream:    
+    with open(file_path, 'r') as stream:
         return json.load(stream)
 
 
@@ -42,8 +41,10 @@ def start_learning( use_algorithm,
                     num_classes, 
                     Image_size, 
                     calculate_uncertainty):
+    print("Start learning")
+    print(use_algorithm)
+    if use_algorithm == "Regression" or use_algorithm == "Classification" or use_algorithm == "SemanticSegmentation":
 
-    if use_algorithm is "Regression" or use_algorithm is "Classification" or use_algorithm is "SemanticSevmentation":
         '''
         Build the models for Regression, Segmentaiton and Classification
         '''
@@ -92,7 +93,7 @@ def start_learning( use_algorithm,
         '''
         Prepare data in Training and Validation set 
         '''
-        if use_algorithm == "Regression" or use_algorithm == "SemanticSevmentation":
+        if use_algorithm == "Regression" or use_algorithm == "SemanticSegmentation":
             '''
             Get Output size of U-Net
             '''
@@ -104,7 +105,7 @@ def start_learning( use_algorithm,
             if all([num_channels_label != 1, num_channels_label != 3]):
                 num_channels_label = 1
 
-            if use_algorithm == "SemanticSevmentation":
+            if use_algorithm == "SemanticSegmentation":
                 data_gen_args["binarize_mask"] = True
 
             TrainingDataGenerator = training_data_generator(Training_Input_shape, batchsize, num_channels, num_channels_label, train_image_files, data_gen_args, data_dimensions, data_path, use_algorithm)
@@ -160,7 +161,7 @@ def start_learning( use_algorithm,
 
         tensorboard = TensorBoard(log_dir="logs/" + path + "/" + format(time.time())) #, update_freq='batch')
 
-        if use_algorithm == "Regression" or use_algorithm == "SemanticSevmentation":
+        if use_algorithm == "Regression" or use_algorithm == "SemanticSegmentation":
             callbacks_list = [model_checkpoint, tensorboard, Early_Stopping]
         if use_algorithm == "Classification":
             callbacks_list = [model_checkpoint, tensorboard, Early_Stopping]
@@ -194,7 +195,7 @@ def start_learning( use_algorithm,
         print("results", np.shape(results))
         print('finished model.predict_generator')
 
-        if use_algorithm is "Regression" or use_algorithm is "SemanticSevmentation":
+        if use_algorithm is "Regression" or use_algorithm is "SemanticSegmentation":
             '''
             Save the models prediction on the testset by printing the predictions as images to the results folder in the project path
             '''
@@ -207,7 +208,7 @@ def start_learning( use_algorithm,
 
 
         if calculate_uncertainty == True:
-            if use_algorithm is "Regression" or use_algorithm is "SemanticSevmentation":
+            if use_algorithm is "Regression" or use_algorithm is "SemanticSegmentation":
                 '''
                  Start uncertainty prediction if selected for regression or semantic segmentation
                  As suggested by Gal et. al.: https://arxiv.org/abs/1506.02142 
@@ -264,7 +265,7 @@ def start_learning( use_algorithm,
                 combined_certainty /= np.log(20) # normalize to values between 0 and 1
                 saveResult_classification_uncertainty(path, test_image_files, results, average_MC_Pred, combined_certainty)
 
-    if use_algorithm is "InstanceSegmentation":
+    if use_algorithm == "InstanceSegmentation":
         '''
         Initialize a model for instance segmentation 
         '''
@@ -359,42 +360,42 @@ def start_learning( use_algorithm,
 
 
 if __name__ == "__main__":
-        
+
     parser = argparse.ArgumentParser( \
                             description='Starting the deep learning code')
     parser.add_argument('-c',\
                         '--config', \
-                        default="configs/sample_config.json", \
-                        help='config json file address', \ 
+                        default="configs/config.json", \
+                        help='config json file address', \
                         type=str)
 
     args = vars(parser.parse_args())
-    
+
     configs = load_json(args['config'])
 
     for k in configs:
         print("%s : %s \n" % (k,configs[k]))
-    
-    use_algorithm = configs["use_algorithm"]
-    path = configs["path"]  
-    pretrained_weights = configs["pretrained_weights"] 
-    batchsize = configs["batchsize"] 
-    Iterations_Over_Dataset = configs["Iterations_Over_Dataset"]  
-    data_gen_args = configs["data_gen_args"] 
-    loss_function = configs["loss_function"]  
-    num_classes = configs["num_classes"]  
-    Image_size = configs["Image_size"] 
-    calculate_uncertainty = configs["calculate_uncertainty"]
 
+    use_algorithm = configs["use_algorithm"]
+    path = configs["path"]
+    use_pretrained_weights = configs["use_pretrained_weights"]
+    pretrained_weights_path = configs["pretrained_weights_path"]
+    batchsize = configs["batchsize"]
+    Iterations_Over_Dataset = configs["Iterations_Over_Dataset"]
+    data_gen_args = configs["data_gen_args"]
+    loss_function = configs["loss_function"]
+    num_classes = configs["num_classes"]
+    Image_size = configs["Image_size"]
+    calculate_uncertainty = configs["calculate_uncertainty"]
     '''
     Sanity checks in order to ensure all settings in config
     have been set so the programm is able to run
     '''
-    assert use_algorithm in ['SemanticSevmentation',
-                            'Regression', 
+    assert use_algorithm in ['SemanticSegmentation',
+                            'Regression',
                             'InstanceSegmentation',
                             'Classification']
-        
+
     if not isinstance(batchsize, int):
         warnings.warn("Batchsize has not been set. Setting batchsize = 1")
         batchsize = 1
@@ -403,18 +404,17 @@ if __name__ == "__main__":
         Iterations_Over_Dataset = 500
 
     if use_pretrained_weights == True:
-        pretrained_weights = (path + "/logs/pretrained_weights_CPC25.hdf5")
+        pretrained_weights = (path + pretrained_weights_path)
     else:
         pretrained_weights = None
 
- 
-    start_learning( use_algorithm, 
-                    path, 
-                    pretrained_weights, 
-                    batchsize, 
-                    Iterations_Over_Dataset, 
-                    data_gen_args, 
-                    loss_function, 
-                    num_classes, 
-                    Image_size, 
-                    calculate_uncertainty)         
+    start_learning( use_algorithm,
+                    path,
+                    pretrained_weights,
+                    batchsize,
+                    Iterations_Over_Dataset,
+                    data_gen_args,
+                    loss_function,
+                    num_classes,
+                    Image_size,
+                    calculate_uncertainty)

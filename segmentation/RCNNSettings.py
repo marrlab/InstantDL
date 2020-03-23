@@ -14,7 +14,7 @@ import datetime
 import numpy as np
 import skimage.io
 #from imgaug import augmenters as iaa
-import visualizeRCNN as visualize
+import segmentation.visualizeRCNN as visualize
 import matplotlib
 
 # Agg backend runs without a display
