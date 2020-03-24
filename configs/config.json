@@ -1,0 +1,31 @@
+{
+	"use_algorithm": "Regression",
+	"path": "data/Ouncomol_NucEnvelope_3Dnew",
+	"use_pretrained_weights": false,
+	"pretrained_weights_path": false,
+	"batchsize": 2,
+	"Iterations_Over_Dataset": 200,
+	"data_gen_args": {
+					"save_augmented_images": false,
+                    "resample_images": false,
+                    "std_normalization": false,
+                    "feature_scaling": false,
+                    "horizontal_flip": false,
+                    "vertical_flip": false,
+                    "poission_noise": false,
+                    "rotation_range": false,
+                    "zoom_range": false,
+                    "contrast_range": false,
+                    "brightness_range": false,
+                    "gamma_shift": false,
+                    "threshold_background_image": false,
+                    "threshold_background_groundtruth": false,
+                    "gaussian_blur_image": false,
+                    "gaussian_blur_label": false,
+                    "binarize_mask": false
+	},
+	"loss_function": "mse",
+	"num_classes": 1,
+	"Image_size": null,
+	"calculate_uncertainty": false
+}
