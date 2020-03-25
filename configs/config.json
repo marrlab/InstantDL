@@ -1,6 +1,6 @@
 {
 	"use_algorithm": "Regression",
-	"path": "data/Ouncomol_NucEnvelope_3Dnew",
+	"path": "data/NucEnvelope",
 	"use_pretrained_weights": false,
 	"pretrained_weights_path": false,
 	"batchsize": 2,
