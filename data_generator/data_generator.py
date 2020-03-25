@@ -130,7 +130,7 @@ def training_data_generator_classification(Training_Input_shape, num_channels, b
                     reader = csv.DictReader(csvfile)
                     for row in reader:
                         if row['filename'] == img_file:
-                            label[j] = row['label']
+                            label[j] = row['groundtruth']
                         else:
                             warnings.warn("Ńo classification label found for image")
             label = to_categorical(label, num_classes)
@@ -190,7 +190,7 @@ def saveResult_classification(path, test_image_files, results):
     os.makedirs("./" + (save_path), exist_ok=True)
     with open(save_path + 'results.csv', 'w') as writeFile:
         writer = csv.writer(writeFile)
-        writer.writerow(['Filename', 'Prediciton', 'Probability for each possible outcome'])
+        writer.writerow(['filename', 'prediciton', 'Probability for each possible outcome'])
         for i in range(0, len(results)-1):
             writer.writerow([test_image_files[i], np.argmax(results[i,...]), results[i,...]])
 
@@ -200,7 +200,7 @@ def saveResult_classification_uncertainty(path, test_image_files, results, MCpre
     os.makedirs("./" + (save_path), exist_ok=True)
     with open(save_path + 'results.csv', 'w') as writeFile:
         writer = csv.writer(writeFile)
-        writer.writerow(['Filename', 'Prediciton', 'Probability for each possible outcome', 'MC Prediction', 'Certertainty: 0 is certain, high is uncertain'])
+        writer.writerow(['filename', 'prediciton', 'Probability for each possible outcome', 'MC Prediction', 'Certertainty: 0 is certain, high is uncertain'])
         for i in range(0, len(results)-1):
             writer.writerow([test_image_files[i], np.argmax(results[i,...]), results[i,...], MCprediction[i], combined_uncertainty[i]])
 
