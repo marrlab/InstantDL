@@ -83,6 +83,12 @@ Set parameters for training here. Number of classes should be 1 for binary segme
 python main.py --config ./configs/config.json
 ```
 
+## Run examples:
+One example for each task of Semantic segmentation, Instance segmentation, regression and classification is in the examples folder. 
+To run them only the corresponding config.json file from the example folder must be copied into the configs folder and renamed to "config.json". Then the main.py can be executed and the example will run with the provided data. 
+Please don't expect to achieve competitive results on these datasets, as they are very small and only for illustration purposes. 
+
+
 ## Comparison
 
 | Application | InstantDL | Open ML  | Google Cloud AI  | ImJoy |

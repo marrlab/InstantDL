@@ -108,7 +108,7 @@ class UNetBuilder(object):
         conv9 = LeakyReLU(alpha=0.1)(conv9)
 
         if num_classes > 1:
-            conv10 = Conv3D(num_classes, (1), activation='softmax')(conv9)  # MultiClass segmentation with one-hot encoded image
+            conv10 = Conv2D(num_classes, (1), activation='softmax')(conv9)  # MultiClass segmentation with one-hot encoded image
         else:
             conv10 = Conv2D(num_channels, 1, activation='sigmoid')(conv9)  # Simple segmentation with only one label
 

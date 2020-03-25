@@ -317,14 +317,13 @@ def start_learning( use_algorithm,
 
         # Select weights file to load
         if os.path.isfile(str(pretrained_weights)):
-            if pretrained_weights != None:
             #if os.path.exists(pretrained_weights):
-                print("Using pretrained weights from path")
-                weights_path = weights
-            elif "h5" in pretrained_weights or pretrained_weights == "last":
-                if os.path.exists(model.find_last()):
-                    print("Using last weights")
-                    weights_path = model.find_last()
+            print("Using pretrained weights from path")
+            weights_path = weights
+        elif pretrained_weights == "last":
+            if os.path.exists(model.find_last()):
+                print("Using last weights")
+                weights_path = model.find_last()
         else:
             print("No weigths given: Using imagenet weights")
             weights_path = model.get_imagenet_weights()

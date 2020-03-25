@@ -1,7 +1,7 @@
 {
-	"use_algorithm": "Regression",
+	"use_algorithm": "SemanticSegmentation",
 	"path": "examples/data/SemanticSegmentation",
-	"pretrained_weights_path": "examples/data/InstanceSegmentation/logs/pretrained_weights_NucEnvelope_Regression.hdf5",
+	"pretrained_weights_path": "examples/data/InstanceSegmentation/logs/pretrained_weights_Lung_SemanticSegmentation.hdf5",
 	"batchsize": 1,
 	"Iterations_Over_Dataset": 200,
 	"data_gen_args": {
@@ -9,8 +9,8 @@
 		            "resample_images": false,
 		            "std_normalization": false,
 		            "feature_scaling": false,
-		            "horizontal_flip": true,
-		            "vertical_flip": true,
+		            "horizontal_flip": false,
+		            "vertical_flip": false,
 		            "poission_noise": 0,
 		            "rotation_range": 45,
 		            "zoom_range": 2,
