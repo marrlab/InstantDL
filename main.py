@@ -20,7 +20,7 @@ from segmentation.RCNNSettings import RCNNInferenceConfig, train, detect
 import segmentation.RCNNmodel as RCNNmodel
 from segmentation.RCNNSettings import RCNNConfig
 tf.config.experimental.list_physical_devices('GPU')
-from classification.ResNet_models import define_ResNetModel, get_imagenet_weights
+from classification.ResNet50 import ResNet50 #, get_imagenet_weights
 import glob
 from keras.optimizers import Adam, SGD
 from metrics import accuracy_score
@@ -138,9 +138,9 @@ def start_learning( use_algorithm,
             if (pretrained_weights):
                 model.load_weights(pretrained_weights, by_name=True, skip_mismatch=True)
             else:
-                print("No weigths given: Using imagenet weights")
-                weights_path = get_imagenet_weights()
-                model.load_weights(weights_path, by_name=True, skip_mismatch=True)
+                print("No weigths given")
+                #weights_path = get_imagenet_weights()
+                #model.load_weights(weights_path, by_name=True, skip_mismatch=True)
             model.compile(loss=loss_function,
                           optimizer='Adam',
                           metrics=['accuracy'])
@@ -176,7 +176,7 @@ def start_learning( use_algorithm,
                             max_queue_size=50,
                             epochs=epochs,
                             callbacks = callbacks_list,
-                            use_multiprocessing=False)
+                            use_multiprocessing=True)
         print('finished Model.fit_generator')
 
         '''
@@ -195,12 +195,12 @@ def start_learning( use_algorithm,
         print("results", np.shape(results))
         print('finished model.predict_generator')
 
-        if use_algorithm is "Regression" or use_algorithm is "SemanticSegmentation":
+        if use_algorithm == "Regression" or use_algorithm == "SemanticSegmentation":
             '''
             Save the models prediction on the testset by printing the predictions as images to the results folder in the project path
             '''
             saveResult(path + "/results/", test_image_files, results, Input_image_shape)
-        if use_algorithm is "Classification":
+        elif use_algorithm == "Classification":
             '''
             Save the models prediction on the testset by saving a .csv file containing filenames and predicted classes to the results folder in the project path
             '''
@@ -378,7 +378,6 @@ if __name__ == "__main__":
 
     use_algorithm = configs["use_algorithm"]
     path = configs["path"]
-    use_pretrained_weights = configs["use_pretrained_weights"]
     pretrained_weights_path = configs["pretrained_weights_path"]
     batchsize = configs["batchsize"]
     Iterations_Over_Dataset = configs["Iterations_Over_Dataset"]
@@ -403,8 +402,8 @@ if __name__ == "__main__":
         warnings.warn("Epochs has not been set. Setting epochs = 500 and using early stopping")
         Iterations_Over_Dataset = 500
 
-    if use_pretrained_weights == True:
-        pretrained_weights = (path + pretrained_weights_path)
+    if os.path.isfile((pretrained_weights_path)):
+        pretrained_weights = (pretrained_weights_path)
     else:
         pretrained_weights = None
 

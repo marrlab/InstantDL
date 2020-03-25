@@ -213,7 +213,7 @@ def data_augentation(X, Y, data_gen_args, data_path_file_name):
         Y[Y < mean_Y] = 0
         Y[Y >= mean_Y] = 1
 
-    if "save_augmented_images" in data_gen_args:
+    if "save_augmented_images" in data_gen_args and data_gen_args["save_augmented_images"] == True:
         """ save all augmented images to a folder named "Augmentations" in the project folder to make augmentations trackable
         # Arguments
             X: tensor, the input image

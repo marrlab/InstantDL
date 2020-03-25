@@ -4,7 +4,7 @@ Author: Dominik Waibel
 This file contains the functions with which the data is improted and exported before training and testing and after testing.
 '''
 
-from data import *
+from data_generator.data import *
 import numpy as np
 from skimage.io import imread
 from skimage.transform import resize
@@ -134,7 +134,6 @@ def training_data_generator_classification(Training_Input_shape, num_channels, b
                         else:
                             warnings.warn("Ńo classification label found for image")
             label = to_categorical(label, num_classes)
-            #print("Training data", np.shape(X), np.max(X), label)
             yield (X, label)
 
 '''Generate test images for segmentation, regression and classification'''
