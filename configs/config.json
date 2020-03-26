@@ -2,10 +2,10 @@
 	"use_algorithm": "Regression",
 	"path": "examples/data/SemanticSegmentation",
 	"pretrained_weights_path": "examples/data/InstanceSegmentation/logs/pretrained_weights_NucEnvelope_Regression.hdf5",
-	"batchsize": 1,
+	"batchsize": 2,
 	"Iterations_Over_Dataset": 200,
 	"data_gen_args": {
-			"save_augmented_images": false,
+			"save_augmented_images": true,
 		            "resample_images": false,
 		            "std_normalization": false,
 		            "feature_scaling": false,

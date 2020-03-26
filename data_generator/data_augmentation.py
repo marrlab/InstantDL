@@ -224,7 +224,8 @@ def data_augentation(X, Y, data_gen_args, data_path_file_name):
         data_path, file_name = os.path.split(data_path_file_name)
         Aug_path = (data_path + '/Augmentations/' )
         os.makedirs("./" + (Aug_path), exist_ok=True)
-        title = file_name + ".tif"
+        title = file_name.split("'")[1]
+        title = os.path.splitext(title)[0]
         #datacomb = np.concatenate((X, Y), axis=2).astype("uint8")
         #sk.io.imsave(Aug_path + title, datacomb[0,...])
         if len(np.shape(X)) == 5:
