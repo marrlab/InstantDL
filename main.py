@@ -23,7 +23,7 @@ tf.config.experimental.list_physical_devices('GPU')
 from classification.ResNet50 import ResNet50 #, get_imagenet_weights
 import glob
 from keras.optimizers import Adam, SGD
-from metrics import accuracy_score
+from metrics.metrics import accuracy_score
 from data_generator.data import write_logbook
 
 def load_json(file_path):
@@ -364,7 +364,7 @@ if __name__ == "__main__":
                             description='Starting the deep learning code')
     parser.add_argument('-c',\
                         '--config', \
-                        default="configs/config.json", \
+                        default="config.json", \
                         help='config json file address', \
                         type=str)
 
