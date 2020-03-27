@@ -19,6 +19,7 @@ Here you can find the information about the folders in the code:
 - [evaluation](evaluation)
 - [examples](examples)
 - [metrics](metrics)
+- [preprocessing](preprocessing)
 - [segmentation](segmentation)
 
 ## Dependencies
@@ -102,7 +103,12 @@ Please dont expect to achieve competitive results on these datasets, as they are
 
 
 ## Uncertainty estimation
-Using Monte Carlo Dropout 20 different models can be created during interference time, which enables InstantDL to calculate the uncertainty for Semantic segmentation, Regression and Classification. It is not implemented for instance segmentation yet.
+
+We have implemented MC Dropout for semantic segmentation, regression and classification. During evaluation on the testset it evaluates 20 different models by using dropout during interference time
+and calculate the model uncertainty on the test-set as suggested by [Gal et. al.](https://arxiv.org/abs/1506.02142) and implemented in [this method](https://openreview.net/pdf?id=Sk_P2Q9sG) and [here](https://github.com/RobRomijnders/bayes_nn). The uncertainty is saved as separate numpy files for regression and semantic segmentation tasks and in the .csv file for classification tasks. Figure 2 shows how the uncertainty
+estimation for a regression and a classification task works. For regression and semantic segmentation the pipeline saves an uncertainty map to the project folder, in which areas with high uncertainty are visible (Figure 2.B). For classification
+the certainty measure is printed to the results file. Numbers close to zero are considered certain, higher numbers uncertain. Uncertainty estimation allows for a new level of interpretability of results.
+
 <img src="documentation/Figure2.jpeg" alt="architecture" width="700" class="center"/>
 
 Figure 2: Uncertainty can be estimated with InstantDL using semantic segmentation, regression and classification. Estimating uncertainty can help to identify images outside of the training distribution, corrupted images or model failures and incorrect predictions. It is a measure of the predictions robustness, adding a new level of insights and interpretability of results.
