@@ -1,0 +1,32 @@
+# Metrics
+
+In the metrics.py file some custom metrics are implemented and can be used by putting them without quotation marks into the config.json file as loss function. If the keras implementation of a metric is wished to be used set the metric with quotation marks as the loss function.
+
+Metrics which can be used from keras are:
+- "mse" or "mean_squared_error"
+- "mae" or "mean_absolute_error"
+- "mape" or "mean_absolute_percentage_error"
+- "msle" or "mean_squared_logarithmic_error"
+- "accuracy"
+- "binary_crossentropy"
+- "categorical_accuracy"
+- "sparse_categorical_accuracy"
+- "top_k_categorical_accuracy"
+- "sparse_top_k_categorical_accuracy"
+- "cosine_proximity"
+- "hinge"
+- "squared_hinge"
+- "categorical_hinge"
+- "kullback_leibler_divergence"
+- "Huber"
+
+Custom losses include:
+- dice_loss
+- dice_coef_loss_crossentropy
+- total_variation_loss
+- total_variaton_loss_mse
+- dice_mse
+- binary_crossentropy_mse
+- binary_crossentropy_dice
+
+Names with two losses in them are the sum of the two. For details please open the python file.
