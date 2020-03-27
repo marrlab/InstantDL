@@ -5,5 +5,5 @@ Dropout has been added to the ResNet50 to
 
 ## Running Classification Tasks
 
-An example of how to run a classificaiton task can be found in the [examples](examples) folder. Therefore the config.json file from the example folder has to be moved into the Pipeline folder and executed using the main.
+An example of how to run a classification task can be found in the [examples](examples) folder. Therefore the config.json file from the example folder has to be moved into the Pipeline folder and executed using the main.
 Folder names must not be changed.
