@@ -5,17 +5,20 @@ Our pipeline enables non-experts to use state-of-the art deep learning methods o
 <img src="documentation/Figure1.jpeg" alt="architecture" width="700" class="center"/>
 Figure 1. InstantDL provides an easy to use framework for the analysis of  2D and 3D biomedical images.
 (A) Flow diagram of the pipeline with indicated user action. (1) One out of four tasks (semantic segmentation, instance segmentation, regression, classification) is selected by the user. Up to ten parameters can be set in the configuration file to adopt the pipeline to the task. A code snippet illustrates task selection and six of the ten parameter settings in the configuration file:  selected task (use_algorithm), path to folder (path), if pretrained weights should be used the path to these (pretrained_weights_path) should be set, batch size (batchsize) and epochs chosen (Iterations_Over_Dataset). (2) Input data is split into train and test set by putting the data in the corresponding folders. After executing the python configuration file the pipeline will automatically load the data from the train folder, create a 20% test-validation split, normalize and augment the data (see Methods for details). Training is initiated with either a pre-trained model or random weights. After training, the  model predicts segmentation masks, pixel values or labels for the images in the test set. (3) Results can be interpreted by the user via statistical and visual assessment of the predicted outcome that can be compared to the ground truth in the test set.
-(B) Example output for a 2D semantic segmentation task. Cell nuclei in a brightfield image (Image) are segmented with a U-Net (Prediction) , and compared to the original annotation (Groundtruth). The Errormap indicates over- and under-predicted pixel. Semantic segmentation predicts a class probability for each pixel. The image is part of the 2018 Kaggle nuclei segmentation challenge dataset (2018 Data Science Bowl)
+(B) Example output for a 2D semantic segmentation task. Cell nuclei in a brightfield image (Image) are segmented with a U-Net (Prediction) , and compared to the original annotation (Groundtruth). The Errormap indicates over- and under-predicted pixel. Semantic segmentation predicts a class probability for each pixel. The image is part of the 2018 Kaggle nuclei segmentation challenge dataset [2018 Data Science Bowl] (https://www.kaggle.com/c/data-science-bowl-2018/overview)
 (C) Example output for a 2D instance segmentation task of the same image as in in (B). A  binary mask is predicted for each object in the image using the Mask-R-CNN algorithm.
 (D) Example output for a 3D regression task. From stacks of bright-field images (Image) of human embryonic kidney cells, human fibrosarcoma cells and genome-edited lines (Ounkomol et al. 2018) the pipeline predicts a nuclear envelope (Prediction) that fits the true staining (Groundtruth). The first row shows the x-y-plane, the bottom row the x-z plane of the 3D volume. Prediction is performed using a U-Net REF.
-(E) Example output for a classification task of benign and leukemic blood cells in blood smears from 200 individuals (Matek et al. 2019). We show two exemplary microscopy images (left) of a monoblast and a neutrophil. The white blood cell type is predicted with a ResNet50. The confusion matrix (middle) shows that most of the 15 classes can be well predicted, in accordance to Matek et al. (2019).
+(E) Example output for a classification task of benign and leukemic blood cells in blood smears from 200 individuals [Matek et al. 2019](https://www.nature.com/articles/s42256-019-0101-9). We show two exemplary microscopy images (left) of a monoblast and a neutrophil. The white blood cell type is predicted with a ResNet50. The confusion matrix (middle) shows that most of the 15 classes can be well predicted, in accordance to [Matek et al. 2019](https://www.nature.com/articles/s42256-019-0101-9).
+
 ## Folders
 
 Here you can find the information about the folders in the code:
 
 - [classification](classification)
 - [data_generator](data_generator)
-- [Preprocessing_Evaluation](Preprocessing_Evaluation)
+- [evaluation](evaluation)
+- [examples](examples)
+- [metrics](metrics)
 - [segmentation](segmentation)
 
 ## Dependencies
@@ -86,16 +89,16 @@ Set parameters for training here. Number of classes should be 1 for binary segme
 
 
 python main.py --config ./config.json
-```
+
 
 ## Run examples:
 One example for each task of Semantic segmentation, Instance segmentation, regression and classification is in the examples folder. 
 
-To run them only the corresponding config.json file from the example folder must be copied into the configs folder and renamed to "config.json". 
+To run them only the corresponding config.json file from the example folder must be copied into the configs folder and renamed to "config.json".
 
 Then the main.py can be executed and the example will run with the provided data. 
 
-Please don't expect to achieve competitive results on these datasets, as they are very small and only for illustration purposes. 
+Please dont expect to achieve competitive results on these datasets, as they are very small and only for illustration purposes.
 
 
 ## Uncertainty estimation
@@ -103,11 +106,11 @@ Using Monte Carlo Dropout 20 different models can be created during interference
 <img src="documentation/Figure2.jpeg" alt="architecture" width="700" class="center"/>
 
 Figure 2: Uncertainty can be estimated with InstantDL using semantic segmentation, regression and classification. Estimating uncertainty can help to identify images outside of the training distribution, corrupted images or model failures and incorrect predictions. It is a measure of the predictions robustness, adding a new level of insights and interpretability of results.
-(A) The distribution of uncertainty scores for each image of a semantic segmentation task (2018 Data Science Bowl ), where nuclei were segmented from images of different organs and imaging modalities. A high uncertainty score indicates a high uncertainty.
+(A) The distribution of uncertainty scores for each image of a semantic segmentation task [2018 Data Science Bowl] (https://www.kaggle.com/c/data-science-bowl-2018/overview), where nuclei were segmented from images of different organs and imaging modalities. A high uncertainty score indicates a high uncertainty.
 Using the uncertainty incorrect predictions can be identified: While in (B) a low uncertainty score indicates a correct prediction.
 (C) For a median uncertainty score the prediction seems to fit the input image with regions of ambiguous predictions are indicated by the uncertainty map.
 (D) A high average uncertainty can indicate model failures and can help identify incorrect predictions.
-(E) For a classification task of white blood cells (Matek et al. 2019), uncertainty estimation indicates incorrect predictions.
+(E) For a classification task of white blood cells [Matek et al. 2019](https://www.nature.com/articles/s42256-019-0101-9), uncertainty estimation indicates incorrect predictions.
 (E) Statistical assessment of the uncertainty prediction of the blast cell in myeloid leukemia dataset. The distributions of uncertainty values for correct and false predictions differ significantly (pvalue = 3,4*e-82). The significant separation of the two distributions shows that certainty correlates with correct predictions.
 
 
