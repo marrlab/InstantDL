@@ -92,7 +92,7 @@ python main.py --config ./config.json
 
 
 ## Run examples:
-One example for each task of Semantic segmentation, Instance segmentation, regression and classification is in the examples folder. 
+One example for each task of semantic segmentation, instance segmentation, regression and classification is in the examples folder.
 
 To run them only the corresponding config.json file from the example folder must be copied into the configs folder and renamed to "config.json".
 
@@ -102,7 +102,7 @@ Please dont expect to achieve competitive results on these datasets, as they are
 
 
 ## Uncertainty estimation
-Using Monte Carlo Dropout 20 different models can be created during interference time, which enables InstantDL to calculate the uncertainty for Semantic Segmentation, Regression and Classification. It is not implemented for Instance Segmentation yet.
+Using Monte Carlo Dropout 20 different models can be created during interference time, which enables InstantDL to calculate the uncertainty for Semantic segmentation, Regression and Classification. It is not implemented for instance segmentation yet.
 <img src="documentation/Figure2.jpeg" alt="architecture" width="700" class="center"/>
 
 Figure 2: Uncertainty can be estimated with InstantDL using semantic segmentation, regression and classification. Estimating uncertainty can help to identify images outside of the training distribution, corrupted images or model failures and incorrect predictions. It is a measure of the predictions robustness, adding a new level of insights and interpretability of results.
