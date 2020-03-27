@@ -116,7 +116,7 @@ Figure 2: Uncertainty can be estimated with InstantDL using semantic segmentatio
 Using the uncertainty incorrect predictions can be identified: While in (B) a low uncertainty score indicates a correct prediction.
 (C) For a median uncertainty score the prediction seems to fit the input image with regions of ambiguous predictions are indicated by the uncertainty map.
 (D) A high average uncertainty can indicate model failures and can help identify incorrect predictions.
-(E) For a classification task of white blood cells [Matek et al. 2019](https://www.nature.com/articles/s42256-019-0101-9), uncertainty estimation indicates incorrect predictions.
+(E) For a classification task of white blood cells [Matek et al. 2019](https://www.nature.com/articles/s42256-019-0101-9) , uncertainty estimation indicates incorrect predictions.
 (E) Statistical assessment of the uncertainty prediction of the blast cell in myeloid leukemia dataset. The distributions of uncertainty values for correct and false predictions differ significantly (pvalue = 3,4*e-82). The significant separation of the two distributions shows that certainty correlates with correct predictions.
 
 
