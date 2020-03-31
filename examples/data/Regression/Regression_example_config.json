@@ -1,7 +1,7 @@
 {
 	"use_algorithm": "Regression",
-	"path": "examples/data/SemanticSegmentation",
-	"pretrained_weights_path": "examples/data/InstanceSegmentation/logs/pretrained_weights_NucEnvelope_Regression.hdf5",
+	"path": "examples/data/Regression",
+	"pretrained_weights_path": "examples/data/Regression/logs/pretrained_weights_NucEnvelope_Regression.hdf5",
 	"batchsize": 1,
 	"Iterations_Over_Dataset": 200,
 	"data_gen_args": {

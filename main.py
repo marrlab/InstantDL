@@ -9,6 +9,8 @@ import argparse
 import os
 import json
 from data_generator.data_generator import *
+from data_generator.auto_evaluation_classification import classification_evaluation
+from data_generator.auto_evaluation_segmentation_regression import segmentation_regression_evaluation
 from segmentation.UNet_models import UNetBuilder
 from keras.callbacks import ModelCheckpoint, TensorBoard, EarlyStopping
 import time
@@ -200,12 +202,14 @@ def start_learning( use_algorithm,
             Save the models prediction on the testset by printing the predictions as images to the results folder in the project path
             '''
             saveResult(path + "/results/", test_image_files, results, Input_image_shape)
+            if calculate_uncertainty == False:
+                segmentation_regression_evaluation(path)
         elif use_algorithm == "Classification":
             '''
             Save the models prediction on the testset by saving a .csv file containing filenames and predicted classes to the results folder in the project path
             '''
             saveResult_classification(path, test_image_files, results)
-
+            classification_evaluation(path)
 
         if calculate_uncertainty == True:
             if use_algorithm is "Regression" or use_algorithm is "SemanticSegmentation":
@@ -236,6 +240,7 @@ def start_learning( use_algorithm,
                 '''Threshold uncertainty to make the image easier understandable'''
                 #combined_uncertainty[combined_uncertainty < np.mean(combined_uncertainty)] = 0
                 saveResult(path + "/uncertainty/", test_image_files, combined_uncertainty, Input_image_shape)
+                segmentation_regression_evaluation(path)
 
         if calculate_uncertainty == True:
             if use_algorithm is "Classification":

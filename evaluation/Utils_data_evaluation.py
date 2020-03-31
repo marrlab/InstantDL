@@ -62,16 +62,16 @@ def calcerrormap(prediction, groundtruth):
 	return abs_errormap_norm, rel_errormap_norm
 
 def prepare_data_for_evaluation(root_dir, max_images):
-	test_dir = root_dir + "test/"
-	results_dir = root_dir + "results/"
-	report_dir = root_dir + "evaluation"
-	insights_dir = root_dir + "insights"
+	test_dir = root_dir + "/test/"
+	results_dir = root_dir + "/results/"
+	report_dir = root_dir + "/evaluation/"
+	insights_dir = root_dir + "/insights/"
 	if os.path.isdir(test_dir + "/image/") == True:
 		RCNN = False
 	else:
 		RCNN = True
 	#Set results dir only for RCNN
-	results_dir = root_dir + "results/"
+	results_dir = root_dir + "/results/"
 	groundtruth_exists = False
 	if os.path.exists(root_dir + "/test/groundtruth/") and os.path.isdir(root_dir + "/test/groundtruth/"):
 		groundtruth_exists = True
@@ -103,7 +103,7 @@ def prepare_data_for_evaluation(root_dir, max_images):
 		abs_errormap_norm, rel_errormap_norm = calcerrormap(predictions, groundtruth)
 
 	else:
-		image_files = os.listdir(os.path.join(test_dir, "image/"))
+		image_files = os.listdir(test_dir + "/image/")
 		if max_images is not None:
 			image_files = image_files[0: max_images]
 		image, image_fnames = import_images(test_dir + "/image/", image_files, None)
