@@ -16,14 +16,23 @@ from skimage.transform import resize
 import os
 
 def normalize(data):
+	'''
+	:param data: data to be normalized0
+	:return: normalize data between 0 and 1
+	'''
 	mindata = np.min(data)
 	maxdata = np.max(data)
 	return (data - mindata) / (maxdata - mindata)
 
-def import_images(import_dir, files, new_file_ending): 
+def import_images(import_dir, files, new_file_ending):
+	'''
+	:param import_dir: directory from where the images are imported
+	:param files: list of filenames
+	:param new_file_ending: file ending to be attached to the imagenames
+	:return: returns a stack containing the image data and their names in the correct order
+	'''
 	data = []
 	names = []
-	#print(import_dir)
 	for file in files:
 		if new_file_ending is not None:
 			file = (file + new_file_ending)
@@ -34,9 +43,7 @@ def import_images(import_dir, files, new_file_ending):
 		if np.shape(imp)[-1] == 1:
 			imp = imp[...,-1]
 		if np.shape(imp)[-1] is not 3:
-			#print("Gray to RGB")
 			imp = gray2rgb(imp)
-		#print("import shape", np.shape(imp))
 		data.append(imp)
 		names.append(file)
 	data = np.array(data)
@@ -47,6 +54,11 @@ def import_images(import_dir, files, new_file_ending):
 	return data, names
 
 def calcerrormap(prediction, groundtruth):
+	'''
+	:param prediction: stack of images in the prediction dataset
+	:param groundtruth: stack of images in the groundtruth dataset
+	:return: stack with the absolute and relative differene between the prediction and groundtruth
+	'''
 	print(np.shape(groundtruth))
 	print(np.shape(prediction))
 	groundtruth = np.asarray(groundtruth, dtype=float)
@@ -62,6 +74,12 @@ def calcerrormap(prediction, groundtruth):
 	return abs_errormap_norm, rel_errormap_norm
 
 def prepare_data_for_evaluation(root_dir, max_images):
+	'''
+	:param root_dir: path to directory
+	:param max_images: the maximum number of images to to be evaluated
+	:return: executes the quantitative and visual asssesment of the model predition
+			saves quantitative results to the insights folder and visual results to the evaluation folder
+	'''
 	test_dir = root_dir + "/test/"
 	results_dir = root_dir + "/results/"
 	report_dir = root_dir + "/evaluation/"

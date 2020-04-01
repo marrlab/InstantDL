@@ -133,8 +133,8 @@ def start_learning( use_algorithm,
             '''
             if not isinstance(num_classes, int):
                 sys.exit("Number of classes has not been set. You net to set num_classes!")
-            TrainingDataGenerator = training_data_generator_classification(Training_Input_shape,num_channels, batchsize, num_classes, train_image_files, data_gen_args, data_path, use_algorithm)
-            ValidationDataGenerator = training_data_generator_classification(Training_Input_shape,num_channels, batchsize, num_classes, train_image_files, data_gen_args, data_path, use_algorithm)
+            TrainingDataGenerator = training_data_generator_classification(Training_Input_shape,batchsize, num_channels, num_classes, train_image_files, data_gen_args, data_path, use_algorithm)
+            ValidationDataGenerator = training_data_generator_classification(Training_Input_shape,batchsize, num_channels, num_classes, train_image_files, data_gen_args, data_path, use_algorithm)
 
             model = ResNet50(network_input_size, Dropout = 0.1,include_top=True, weights=pretrained_weights, input_tensor=None, pooling='max', classes=num_classes)
             if (pretrained_weights):
@@ -203,13 +203,15 @@ def start_learning( use_algorithm,
             '''
             saveResult(path + "/results/", test_image_files, results, Input_image_shape)
             if calculate_uncertainty == False:
-                segmentation_regression_evaluation(path)
+                if evaluation == True:
+                    segmentation_regression_evaluation(path)
         elif use_algorithm == "Classification":
             '''
             Save the models prediction on the testset by saving a .csv file containing filenames and predicted classes to the results folder in the project path
             '''
             saveResult_classification(path, test_image_files, results)
-            classification_evaluation(path)
+            if evaluation == True:
+                classification_evaluation(path)
 
         if calculate_uncertainty == True:
             if use_algorithm is "Regression" or use_algorithm is "SemanticSegmentation":
@@ -240,7 +242,8 @@ def start_learning( use_algorithm,
                 '''Threshold uncertainty to make the image easier understandable'''
                 #combined_uncertainty[combined_uncertainty < np.mean(combined_uncertainty)] = 0
                 saveResult(path + "/uncertainty/", test_image_files, combined_uncertainty, Input_image_shape)
-                segmentation_regression_evaluation(path)
+                if evaluation == True:
+                   segmentation_regression_evaluation(path)
 
         if calculate_uncertainty == True:
             if use_algorithm is "Classification":
@@ -269,7 +272,8 @@ def start_learning( use_algorithm,
                 combined_certainty = np.mean(-1 * np.sum(resultsMCD * np.log(resultsMCD + 10e-6), axis=0), axis = 1)
                 combined_certainty /= np.log(20) # normalize to values between 0 and 1
                 saveResult_classification_uncertainty(path, test_image_files, results, average_MC_Pred, combined_certainty)
-
+                if evaluation == True:
+                    classification_evaluation(path)
     if use_algorithm == "InstanceSegmentation":
         '''
         Initialize a model for instance segmentation 
@@ -358,7 +362,8 @@ def start_learning( use_algorithm,
         model.load_weights(weights_path, by_name=True)
         test_Val_IMAGE_IDS = []
         detect(model, dataset, testsubset, RESULTS_DIR, test_Val_IMAGE_IDS)
-
+        if evaluation == True:
+            segmentation_regression_evaluation(path)
     model = None
     K.clear_session()
 
@@ -390,6 +395,7 @@ if __name__ == "__main__":
     num_classes = configs["num_classes"]
     Image_size = configs["Image_size"]
     calculate_uncertainty = configs["calculate_uncertainty"]
+    evaluation = configs["evaluation"]
     '''
     Sanity checks in order to ensure all settings in config
     have been set so the programm is able to run
@@ -420,4 +426,5 @@ if __name__ == "__main__":
                     loss_function,
                     num_classes,
                     Image_size,
-                    calculate_uncertainty)
+                    calculate_uncertainty,
+                    evaluation)

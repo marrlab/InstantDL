@@ -18,12 +18,17 @@ from keras.utils import to_categorical
 from skimage.color import gray2rgb
 import warnings
 
-'''Get the minimum and maximum value of a dataset for normalization'''
-def get_min_max(data_path, folder_name, train_image_files):
-    num_img = len(train_image_files)
+def get_min_max(data_path, folder_name, image_files):
+    '''
+    :param data_path: path to project folder
+    :param folder_name: one of the data folder names, e.g. image or groundtruth
+    :param train_image_files: list of image files
+    :return: the minimum and maximum pixel value of the dataset
+    '''
+    num_img = len(image_files)
     Xmin = np.empty(num_img)
     Xmax = np.empty(num_img)
-    for i, img_file in enumerate(train_image_files):
+    for i, img_file in enumerate(image_files):
         if img_file.endswith(".npy"):
             Xmin[i] = np.min(np.array(np.load(data_path + folder_name + img_file)))
             Xmax[i] = np.max(np.array(np.load(data_path + folder_name + img_file)))
@@ -35,8 +40,12 @@ def get_min_max(data_path, folder_name, train_image_files):
     print("min value of", folder_name,"is", min, " max valueis", max)
     return min, max
 
-'''Import an image from the directory and remove the alpha channel if existing'''
 def import_image(path_name):
+    '''
+    :param path_name: path to image file
+    :return: numpy array containing the image data in at the given path.
+    The alpha channel is removed if existing for consistency
+    '''
     if path_name.endswith('.npy'):
         image_data = np.array(np.load(path_name))
     else:
@@ -48,6 +57,18 @@ def import_image(path_name):
 
 '''Normalize the improted images, resize them and create batches'''
 def image_generator(Training_Input_shape, batchsize, num_channels, train_image_file, folder_name, data_path, X_min, X_max, use_algorithm):
+    '''
+    :param Training_Input_shape: The dimensions of one image used for training. Can be set in the config.json file
+    :param batchsize: the batchsize used for training
+    :param num_channels: the number of channels of one image. Typically 1 (grayscale) or 3 (rgb)
+    :param train_image_file: the file name
+    :param folder_name: the folder name of the file to be imported
+    :param data_path: the project directory
+    :param X_min: the minimum pixel value of this dataset
+    :param X_max: the maximum pixel value of this dataset
+    :param use_algorithm: the selected network (UNet, ResNet50 or MRCNN)
+    :return: a batch of image data with dimensions (batchsize, x-dim, y-dim, [z-dim], channels)
+    '''
     X = []
     for i in range(0, batchsize):
         img_file = train_image_file[i]
@@ -69,6 +90,18 @@ def image_generator(Training_Input_shape, batchsize, num_channels, train_image_f
 
 '''Generate the data for training and return images and groundtruth for regression and segmentation'''
 def training_data_generator(Training_Input_shape, batchsize, num_channels, num_channels_label, train_image_files, data_gen_args, data_dimensions,data_path, use_algorithm):
+    '''
+    :param Training_Input_shape: The dimensions of one image used for training. Can be set in the config.json file
+    :param batchsize: the batchsize used for training
+    :param num_channels: the number of channels of one image. Typically 1 (grayscale) or 3 (rgb)
+    :param num_channels_label: the number of channels of one groundtruth image. Typically 1 (grayscale) or 3 (rgb)
+    :param train_image_files: list of files in the training dataset
+    :param data_gen_args: augmentation arguments
+    :param data_dimensions: the dimensions of one image or the dimension to which the image should be resized
+    :param data_path: path to the project directory
+    :param use_algorithm: the selected network (UNet, ResNet50 or MRCNN)
+    :return: A pair of batched training data, e.g. image and groundtruth
+    '''
     Folder_Names = ["/groundtruth/", "/image/", "/image1/", "/image2/", "/image3/", "/image4/", "/image5/", "/image6/", "/image7/"]
     X_min = np.zeros((len(Folder_Names)))
     X_max = np.zeros((len(Folder_Names)))
@@ -100,7 +133,18 @@ def training_data_generator(Training_Input_shape, batchsize, num_channels, num_c
             yield (X_train, Y)
 
 '''Generate the data for training and return images and groundtruth for classification'''
-def training_data_generator_classification(Training_Input_shape, num_channels, batchsize, num_classes, train_image_files, data_gen_args, data_path, use_algorithm):
+def training_data_generator_classification(Training_Input_shape, batchsize, num_channels, num_classes, train_image_files, data_gen_args, data_path, use_algorithm):
+    '''
+    :param Training_Input_shape: The dimensions of one image used for training. Can be set in the config.json file
+    :param batchsize: the batchsize used for training
+    :param num_channels: the number of channels of one image. Typically 1 (grayscale) or 3 (rgb)
+    :param num_classes: the number of classes of the dataset, set in the config.json
+    :param train_image_files: list of filenames in the training dataset
+    :param data_gen_args: augmentation arguments
+    :param data_path: path to the project directory
+    :param use_algorithm: the selected network (UNet, ResNet50 or MRCNN)
+    :return: A pair of batched training data, e.g. image and groundtruth labels
+    '''
     csvfilepath = os.path.join(data_path + '/groundtruth/', 'groundtruth.csv')
     Folder_Names = ["/image/", "/image1/", "/image2/", "/image3/", "/image4/", "/image5/", "/image6/", "/image7/"]
     X_min = np.zeros((len(Folder_Names)))
@@ -138,6 +182,14 @@ def training_data_generator_classification(Training_Input_shape, num_channels, b
 
 '''Generate test images for segmentation, regression and classification'''
 def testGenerator(Input_image_shape, path, num_channels, test_image_files, use_algorithm):
+    '''
+    :param Input_image_shape: The dimensions of one image used for training. Can be set in the config.json file
+    :param path: path to the project directory
+    :param num_channels: the number of channels of one image. Typically 1 (grayscale) or 3 (rgb)
+    :param test_image_files: list of filenames in the test dataset
+    :param use_algorithm: the selected network (UNet, ResNet50 or MRCNN)
+    :return: one image on which a model prediction is executed
+    '''
     test_path = path + "/test/"
     batchsize = 1
     Folder_Names = ["/image/", "/image1/", "/image2/", "/image3/", "/image4/", "/image5/", "/image6/", "/image7/"]
@@ -161,29 +213,41 @@ def testGenerator(Input_image_shape, path, num_channels, test_image_files, use_a
             print("Test", np.shape(X))
             yield X
 
-'''Save the result for regression and segmentation as images and .npy files'''
-def saveResult(path, test_image_files, npyfile, Input_image_shape):
-    npyfile = npyfile * 255
+def saveResult(path, test_image_files, results, Input_image_shape):
+    '''
+    :param path: path to the project directory
+    :param test_image_files: list of filenames in the test dataset
+    :param results: the predicted segmentation or image
+    :param Input_image_shape: The dimensions of one image used for training. Can be set in the config.json file
+    :return: saves the predicted segmentation or image to the Results folder in the project directory
+    '''
+    results = results * 255
     print("Save result")
     os.makedirs(path, exist_ok=True)
-    print("shape npyfile", np.shape(npyfile))
+    print("shape npyfile", np.shape(results))
     print("test_image_files", len(test_image_files))
     for i in range(len(test_image_files)):
         print("filename", test_image_files[i])
         titlenpy = (test_image_files[i] + "_predict")
         print(i)
-        if np.shape(npyfile)[-1] == 0:
-            npyfile = npyfile[:,:,:,0]
-        minnpy = np.min(npyfile[i, ...])
-        maxnpy = np.max(npyfile[i, ...])
-        npy_resized = np.squeeze(resize(npyfile[i, ...], Input_image_shape))
+        if np.shape(results)[-1] == 0:
+            results = results[:,:,:,0]
+        minnpy = np.min(results[i, ...])
+        maxnpy = np.max(results[i, ...])
+        npy_resized = np.squeeze(resize(results[i, ...], Input_image_shape))
         newmin = np.min(npy_resized)
         newmax = np.max(npy_resized)
         npy_resized = ((npy_resized - newmin) / (newmax - newmin)) * (maxnpy - minnpy) + minnpy
         plottestimage_npy(npy_resized.astype("uint8"), path, titlenpy)
 
-'''Save the result for classification to the result.csv file'''
 def saveResult_classification(path, test_image_files, results):
+    '''
+    :param path: path to the project directory
+    :param test_image_files: list of filenames in the test dataset
+    :param results: list of predicted labels
+    :return: saves a .csv file to the results folder in the project directory
+            containing the predicted labels on the testset
+    '''
     print("Save result")
     save_path = (path + '/results/')
     os.makedirs("./" + (save_path), exist_ok=True)
@@ -194,6 +258,15 @@ def saveResult_classification(path, test_image_files, results):
             writer.writerow([test_image_files[i], np.argmax(results[i,...]), results[i,...]])
 
 def saveResult_classification_uncertainty(path, test_image_files, results, MCprediction, combined_uncertainty):
+    '''
+    :param path: path to the project directory
+    :param test_image_files: list of filenames in the test dataset
+    :param results: list of predicted labels
+    :param MCprediction: list of predicted labels based on the likeliest prediction using MC Dropout
+    :param combined_uncertainty: list of uncertaintys for each image
+    :return: saves a .csv file to the results folder in the project directory
+            containing the predicted labels on the testset
+    '''
     print("Save result")
     save_path = (path + '/results/')
     os.makedirs("./" + (save_path), exist_ok=True)
@@ -205,6 +278,12 @@ def saveResult_classification_uncertainty(path, test_image_files, results, MCpre
 
 '''Import filenames and split them into train and validation set according to the variable -validation_split = 20%    '''
 def training_validation_data_split(data_path):
+    '''
+    Splits files in the train folder into a training and validation dataset
+        and returns both lists containing the filenames
+    :param data_path: path to the project directory
+    :return: list of filenames of training and validaton data files
+    '''
     image_files = os.listdir(os.path.join(data_path + "/image"))
     lenval = int(len(image_files) * 0.2)
     validation_spilt_id = np.array(list(range(0, len(image_files), int(len(image_files) / lenval))))
@@ -223,6 +302,11 @@ def training_validation_data_split(data_path):
 
 '''Get the size of the input iamges and check dimensions'''
 def get_input_image_sizes(path, use_algorithm):
+    '''
+    :param path: path to project directory
+    :param use_algorithm: the selected network (UNet, ResNet50 or MRCNN)
+    :return: the shape of the input data and the number of channels
+    '''
     data_path = path + '/train'
     img_file = os.listdir(data_path + "/image/")[0]
     Input_image_shape = np.array(np.shape(np.array(import_image(data_path + "/image/" + img_file))))
@@ -247,8 +331,6 @@ def get_input_image_sizes(path, use_algorithm):
         Training_Input_shape[-1] = 3
 
     num_channels = Training_Input_shape[-1]
-    #print("num channels are: ", num_channels)
-    #Training_Input_shape[-1] = Training_Input_shape[-1] * num_channels
     input_size = tuple(Training_Input_shape)
     print("Input size is: ", input_size)
     return tuple(Training_Input_shape), num_channels, Input_image_shape
