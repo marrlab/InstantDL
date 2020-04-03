@@ -21,7 +21,7 @@ def start_learning( use_algorithm,
 
     print("Start learning")
     print(use_algorithm)
-    if use_algorithm == "Regression" or use_algorithm == "Classification" or use_algorithm == "SemanticSegmentation":
+    if use_algorithm in ["Regression", "Classification", "SemanticSegmentation"]:
 
         '''
         Build the models for Regression, Segmentaiton and Classification
@@ -71,7 +71,7 @@ def start_learning( use_algorithm,
         '''
         Prepare data in Training and Validation set 
         '''
-        if use_algorithm == "Regression" or use_algorithm == "SemanticSegmentation":
+        if use_algorithm in ["Regression", "SemanticSegmentation"]:
             '''
             Get Output size of U-Net
             '''
@@ -86,8 +86,22 @@ def start_learning( use_algorithm,
             if use_algorithm == "SemanticSegmentation":
                 data_gen_args["binarize_mask"] = True
 
-            TrainingDataGenerator = training_data_generator(Training_Input_shape, batchsize, num_channels, num_channels_label, train_image_files, data_gen_args, data_dimensions, data_path, use_algorithm)
-            ValidationDataGenerator = training_data_generator(Training_Input_shape, batchsize, num_channels, num_channels_label, val_image_files, data_gen_args, data_dimensions, data_path, use_algorithm)
+            TrainingDataGenerator = training_data_generator(Training_Input_shape,
+                                                            batchsize, num_channels,
+                                                            num_channels_label,
+                                                            train_image_files,
+                                                            data_gen_args,
+                                                            data_dimensions,
+                                                            data_path,
+                                                            use_algorithm)
+            ValidationDataGenerator = training_data_generator(Training_Input_shape,
+                                                              batchsize, num_channels,
+                                                              num_channels_label,
+                                                              val_image_files,
+                                                              data_gen_args,
+                                                              data_dimensions,
+                                                              data_path,
+                                                              use_algorithm)
 
             '''
             Build a 2D or 3D U-Net model and initialize it with pretrained or random weights
@@ -109,10 +123,29 @@ def start_learning( use_algorithm,
             '''
             if not isinstance(num_classes, int):
                 sys.exit("Number of classes has not been set. You net to set num_classes!")
-            TrainingDataGenerator = training_data_generator_classification(Training_Input_shape,batchsize, num_channels, num_classes, train_image_files, data_gen_args, data_path, use_algorithm)
-            ValidationDataGenerator = training_data_generator_classification(Training_Input_shape,batchsize, num_channels, num_classes, train_image_files, data_gen_args, data_path, use_algorithm)
+            TrainingDataGenerator = training_data_generator_classification(Training_Input_shape,
+                                                                           batchsize,
+                                                                           num_channels,
+                                                                           num_classes,
+                                                                           train_image_files,
+                                                                           data_gen_args,
+                                                                           data_path,
+                                                                           use_algorithm)
+            ValidationDataGenerator = training_data_generator_classification(Training_Input_shape,batchsize,
+                                                                             num_channels,
+                                                                             num_classes,
+                                                                             train_image_files,
+                                                                             data_gen_args,
+                                                                             data_path,
+                                                                             use_algorithm)
 
-            model = ResNet50(network_input_size, Dropout = 0.1,include_top=True, weights=pretrained_weights, input_tensor=None, pooling='max', classes=num_classes)
+            model = ResNet50(network_input_size,
+                             Dropout = 0.1,
+                             include_top=True,
+                             weights=pretrained_weights,
+                             input_tensor=None,
+                             pooling='max',
+                             classes=num_classes)
             if (pretrained_weights):
                 model.load_weights(pretrained_weights, by_name=True, skip_mismatch=True)
             else:
@@ -138,8 +171,8 @@ def start_learning( use_algorithm,
         model_checkpoint = ModelCheckpoint(checkpoint_filepath, monitor=('val_loss'), verbose=1, save_best_only=True)
 
         tensorboard = TensorBoard(log_dir="logs/" + path + "/" + format(time.time())) #, update_freq='batch')
-
-        if use_algorithm == "Regression" or use_algorithm == "SemanticSegmentation":
+        print("Tensorboard log is created at: logs/  it can be opend using tensorboard --logdir=logs for a terminal in the InstantDL folder")
+        if use_algorithm in ["Regression", "SemanticSegmentation"]:
             callbacks_list = [model_checkpoint, tensorboard, Early_Stopping]
         if use_algorithm == "Classification":
             callbacks_list = [model_checkpoint, tensorboard, Early_Stopping]
@@ -150,7 +183,7 @@ def start_learning( use_algorithm,
         model.fit_generator(TrainingDataGenerator,
                             steps_per_epoch=steps_per_epoch,
                             validation_data=ValidationDataGenerator,
-                            validation_steps=2,
+                            validation_steps=len(val_image_files),
                             max_queue_size=50,
                             epochs=epochs,
                             callbacks = callbacks_list,
@@ -173,9 +206,10 @@ def start_learning( use_algorithm,
         print("results", np.shape(results))
         print('finished model.predict_generator')
 
-        if use_algorithm == "Regression" or use_algorithm == "SemanticSegmentation":
+        if use_algorithm in ["Regression", "SemanticSegmentation"]:
             '''
-            Save the models prediction on the testset by printing the predictions as images to the results folder in the project path
+            Save the models prediction on the testset by printing the predictions 
+            as images to the results folder in the project path
             '''
             saveResult(path + "/results/", test_image_files, results, Input_image_shape)
             if calculate_uncertainty == False:
@@ -183,14 +217,15 @@ def start_learning( use_algorithm,
                     segmentation_regression_evaluation(path)
         elif use_algorithm == "Classification":
             '''
-            Save the models prediction on the testset by saving a .csv file containing filenames and predicted classes to the results folder in the project path
+            Save the models prediction on the testset by saving a .csv file containing filenames 
+            and predicted classes to the results folder in the project path
             '''
             saveResult_classification(path, test_image_files, results)
             if evaluation == True:
                 classification_evaluation(path)
 
         if calculate_uncertainty == True:
-            if use_algorithm is "Regression" or use_algorithm is "SemanticSegmentation":
+            if use_algorithm in ["Regression", "SemanticSegmentation"]:
                 '''
                  Start uncertainty prediction if selected for regression or semantic segmentation
                  As suggested by Gal et. al.: https://arxiv.org/abs/1506.02142 
@@ -200,24 +235,31 @@ def start_learning( use_algorithm,
                     print("Using 3D UNet")
                     if epochs > 0:
                         pretrained_weights = checkpoint_filepath
-                    model = UNetBuilder.unet3D(pretrained_weights, network_input_size, num_channels_label, num_classes, loss_function, Dropout_On=True)
+                    model = UNetBuilder.unet3D(pretrained_weights,
+                                               network_input_size,
+                                               num_channels_label,
+                                               num_classes,
+                                               loss_function,
+                                               Dropout_On=True)
                 else:
                     print("Using 2D UNet")
                     if epochs > 0:
                         pretrained_weights = checkpoint_filepath
-                    model = UNetBuilder.unet2D(pretrained_weights,network_input_size, num_channels_label, loss_function, Dropout_On = True)
+                    model = UNetBuilder.unet2D(pretrained_weights,
+                                               network_input_size,
+                                               num_channels_label,
+                                               loss_function,
+                                               Dropout_On = True)
                 resultsMCD = []
                 for i in range(0, 20):
                     testGene = testGenerator(Training_Input_shape, path, num_channels, test_image_files, use_algorithm)
-                    resultsMCD.append(model.predict_generator(testGene, steps=num_test_img, use_multiprocessing=False, verbose=1))
+                    resultsMCD.append(model.predict_generator(testGene,
+                                                              steps=num_test_img,
+                                                              use_multiprocessing=False,
+                                                              verbose=1))
                 resultsMCD = np.array(resultsMCD)
-                aleatoric_uncertainty = np.mean(resultsMCD * (1 - resultsMCD), axis = 0)
                 epistemic_uncertainty = np.mean(resultsMCD**2, axis = 0) - np.mean(resultsMCD, axis = 0)**2
-                #combined_uncertainty = aleatoric_uncertainty + epistemic_uncertainty
-                combined_uncertainty = epistemic_uncertainty
-                '''Threshold uncertainty to make the image easier understandable'''
-                #combined_uncertainty[combined_uncertainty < np.mean(combined_uncertainty)] = 0
-                saveResult(path + "/uncertainty/", test_image_files, combined_uncertainty, Input_image_shape)
+                saveResult(path + "/uncertainty/", test_image_files, epistemic_uncertainty, Input_image_shape)
                 if evaluation == True:
                    segmentation_regression_evaluation(path)
 
@@ -230,13 +272,22 @@ def start_learning( use_algorithm,
                 '''
                 if epochs > 0:
                     pretrained_weights = checkpoint_filepath
-                model = ResNet50(network_input_size, Dropout = 0.5, include_top=True, weights=pretrained_weights, input_tensor=None, pooling='max', classes=num_classes)
+                model = ResNet50(network_input_size,
+                                 Dropout = 0.5,
+                                 include_top=True,
+                                 weights=pretrained_weights,
+                                 input_tensor=None,
+                                 pooling='max',
+                                 classes=num_classes)
                 print("Starting Uncertainty estimation")
                 resultsMCD = []
                 for i in range(0, 20):
                     print("Testing Uncertainty Number: ", str(i))
                     testGene = testGenerator(Training_Input_shape, path, num_channels, test_image_files, use_algorithm)
-                    resultsMCD_pred = model.predict_generator(testGene, steps=num_test_img, use_multiprocessing=False, verbose=1)
+                    resultsMCD_pred = model.predict_generator(testGene,
+                                                              steps=num_test_img,
+                                                              use_multiprocessing=False,
+                                                              verbose=1)
                     resultsMCD.append(resultsMCD_pred)
                 resultsMCD = np.array(resultsMCD)
                 argmax_MC_Pred = (np.argmax(resultsMCD, axis=-1))
@@ -247,7 +298,11 @@ def start_learning( use_algorithm,
                 average_MC_Pred = np.array(average_MC_Pred)
                 combined_certainty = np.mean(-1 * np.sum(resultsMCD * np.log(resultsMCD + 10e-6), axis=0), axis = 1)
                 combined_certainty /= np.log(20) # normalize to values between 0 and 1
-                saveResult_classification_uncertainty(path, test_image_files, results, average_MC_Pred, combined_certainty)
+                saveResult_classification_uncertainty(path,
+                                                      test_image_files,
+                                                      results,
+                                                      average_MC_Pred,
+                                                      combined_certainty)
                 if evaluation == True:
                     classification_evaluation(path)
     if use_algorithm == "InstanceSegmentation":
@@ -268,7 +323,7 @@ def start_learning( use_algorithm,
         RCNNConfig.BACKBONE = str("resnet" + str(UseResnet))
         print("RCNNConfig.BACKBONE", RCNNConfig.BACKBONE)
         RCNNConfig.STEPS_PER_EPOCH = int(len(image_files))
-        RCNNConfig.VALIDATION_STEPS = 1
+        RCNNConfig.VALIDATION_STEPS = 10
         RCNNConfig.NUM_CLASSES = 1 + num_classes # Background + Classes
         RCNNConfig.data_gen_args = data_gen_args
 
