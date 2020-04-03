@@ -148,7 +148,7 @@ def data_augentation(X, Y, data_gen_args, data_path_file_name):
             gaussian_blur: float, amound of gaussian blur added
             returns: one tensor, X, which have the same dimensions as the input
         """
-        value = data_gen_args["gaussian_blur"]
+        value = data_gen_args["gaussian_blur_image"]
         X = gaussian_filter(X, sigma=value)
 
     if "gaussian_blur_label" in data_gen_args and data_gen_args["gaussian_blur_label"] > 0 and random.choice([True, False, False]) == True:
@@ -158,7 +158,7 @@ def data_augentation(X, Y, data_gen_args, data_path_file_name):
             gaussian_blur: float, amound of gaussian blur added
             returns: one tensor, Y, which have the same dimensions as the input
         """
-        value = data_gen_args["gaussian_blur"]
+        value = data_gen_args["gaussian_blur_label"]
         Y = gaussian_filter(Y, sigma=value)
 
     if "contrast_range" in data_gen_args and random.choice([True, False, False]) == True:
