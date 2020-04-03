@@ -141,7 +141,7 @@ def data_augentation(X, Y, data_gen_args, data_path_file_name):
         value = data_gen_args["gaussian_noise"]
         X = X + np.random.normal(0, value)
 
-    if "gaussian_blur_image" in data_gen_args and data_gen_args["gaussian_blur"] > 0 and random.choice([True, False, False]) == True:
+    if "gaussian_blur_image" in data_gen_args and data_gen_args["gaussian_blur_image"] > 0 and random.choice([True, False, False]) == True:
         """ Blurs the input image in gaussian fashin by a 33% chance
         # Arguments
             X: tensor, the input image
@@ -151,7 +151,7 @@ def data_augentation(X, Y, data_gen_args, data_path_file_name):
         value = data_gen_args["gaussian_blur"]
         X = gaussian_filter(X, sigma=value)
 
-    if "gaussian_blur_label" in data_gen_args and data_gen_args["gaussian_blur"] > 0 and random.choice([True, False, False]) == True:
+    if "gaussian_blur_label" in data_gen_args and data_gen_args["gaussian_blur_label"] > 0 and random.choice([True, False, False]) == True:
         """ Blurs the groundtruth image in gaussian fashin by a 33% chance
         # Arguments
             Y: tensor, the groundtruth image
