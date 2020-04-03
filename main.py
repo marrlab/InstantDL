@@ -131,6 +131,7 @@ def start_learning( use_algorithm,
                                                                            data_gen_args,
                                                                            data_path,
                                                                            use_algorithm)
+
             ValidationDataGenerator = training_data_generator_classification(Training_Input_shape,batchsize,
                                                                              num_channels,
                                                                              num_classes,
@@ -234,8 +235,10 @@ def start_learning( use_algorithm,
                 if data_dimensions == 3:
                     print("Using 3D UNet")
                     if epochs > 0:
-                        pretrained_weights = checkpoint_filepath
-                    model = UNetBuilder.unet3D(pretrained_weights,
+                        uncertainty_weights = checkpoint_filepath
+                    else:
+                        uncertainty_weights = pretrained_weights
+                    model = UNetBuilder.unet3D(uncertainty_weights,
                                                network_input_size,
                                                num_channels_label,
                                                num_classes,
@@ -244,8 +247,10 @@ def start_learning( use_algorithm,
                 else:
                     print("Using 2D UNet")
                     if epochs > 0:
-                        pretrained_weights = checkpoint_filepath
-                    model = UNetBuilder.unet2D(pretrained_weights,
+                        uncertainty_weights = checkpoint_filepath
+                    else:
+                        uncertainty_weights = pretrained_weights
+                    model = UNetBuilder.unet2D(uncertainty_weights,
                                                network_input_size,
                                                num_channels_label,
                                                loss_function,
@@ -271,11 +276,13 @@ def start_learning( use_algorithm,
                 for uncertainty estimation with MC Dropout for classification
                 '''
                 if epochs > 0:
-                    pretrained_weights = checkpoint_filepath
+                    uncertainty_weights = checkpoint_filepath
+                else:
+                    uncertainty_weights = pretrained_weights
                 model = ResNet50(network_input_size,
                                  Dropout = 0.5,
                                  include_top=True,
-                                 weights=pretrained_weights,
+                                 weights=uncertainty_weights,
                                  input_tensor=None,
                                  pooling='max',
                                  classes=num_classes)
