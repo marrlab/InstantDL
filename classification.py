@@ -33,31 +33,18 @@ class Classification(object):
         If the last image dimension,. which should contain the channel information (1 or 3) is not existing e.g. for (512,512) add a 1 as the channel number.
         '''
         if self.Image_size == None:
-            Training_Input_shape, num_channels, Input_image_shape = get_input_image_sizes(self.path, self.use_algorithm)
+            Training_Input_shape, num_channels, _ = get_input_image_sizes(self.path, self.use_algorithm)
         else:
             Training_Input_shape = self.Image_size
-            self.num_channels = int(self.Image_size[-1])
-            data_path = self.path + '/train'
-            img_file = os.listdir(data_path + "/image/")[0]
-            Input_image_shape = np.array(np.shape(np.array(import_image(data_path + "/image/" + img_file))))
-
-        ''' 
-        Check if the 2D or 3D Pipeline is needed
-        '''
-        if len(Training_Input_shape[:-1]) == 3:
-            data_dimensions = 3
-        if len(Training_Input_shape[:-1]) == 2:
-            data_dimensions = 2
-
-        print("Image dimensions are: ", data_dimensions, "D")
+            num_channels = int(self.Image_size[-1])
 
         Folders = ["image", "image1", "image2", "image3", "image4", "image5", "image6", "image7"]
+
         number_input_images = len([element for element in os.listdir(self.path + "/train/") if element in Folders])
         network_input_size = np.array(Training_Input_shape)
         network_input_size[-1] = int(Training_Input_shape[-1]) * number_input_images
         network_input_size = tuple(network_input_size)
         print("Number of input folders is: ", number_input_images)
-        print("UNet input shape", network_input_size)
 
         '''
         Import filenames and split them into train and validation set according to the variable -validation_split = 20%
@@ -227,7 +214,6 @@ class Classification(object):
                                                 results,
                                                 average_MC_Pred,
                                                 combined_certainty)
-                #################################################
         if self.evaluation == True:
             classification_evaluation(self.path)
     
