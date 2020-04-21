@@ -21,6 +21,7 @@ import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import segmentation.utilsRCNN as utils
+from data_generator.data_generator import import_image
 
 # Base Configuration Class
 # Don't use this class directly. Instead, sub-class it and override
@@ -318,7 +319,6 @@ class NucleusDataset(utils.Dataset):
                 path=os.path.join(dataset_dir, image_id, "image/{}.png".format(image_id)))
 
     def load_mask(self, image_id):
-        from data_generator.custom_data_generator import import_image
         """Generate instance masks for an image.
        Returns:
         masks: A bool array of shape [height, width, instance count] with
