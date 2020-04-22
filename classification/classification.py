@@ -216,38 +216,3 @@ class Classification(object):
                                                 combined_certainty)
         if self.evaluation == True:
             classification_evaluation(self.path)
-    
-    def run(self):
-        data_prepration_results = self.data_prepration()
-        
-        Training_Input_shape = data_prepration_results[0]
-        num_channels = data_prepration_results[1]
-        network_input_size = data_prepration_results[2]
-        data_path = data_prepration_results[3]
-        train_image_files = data_prepration_results[4]
-        val_image_files = data_prepration_results[5]
-        steps_per_epoch = data_prepration_results[6]
-
-        TrainingDataGenerator, ValidationDataGenerator = self.data_generator(  data_path, 
-                                                                                Training_Input_shape, 
-                                                                                num_channels, 
-                                                                                train_image_files)
-
-        model = self.load_model(network_input_size)
-        model, checkpoint_filepath = self.train_model(  model,
-                                                        TrainingDataGenerator,
-                                                        ValidationDataGenerator , 
-                                                        steps_per_epoch, 
-                                                        val_image_files )
-
-        results,test_image_files, num_test_img = self.test_set_evaluation(  model, 
-                                                                            Training_Input_shape, 
-                                                                            num_channels)
-
-        self.uncertainty_prediction(    results, 
-                                        checkpoint_filepath, 
-                                        network_input_size, 
-                                        Training_Input_shape, 
-                                        num_channels, 
-                                        test_image_files, 
-                                        num_test_img)
