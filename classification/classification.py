@@ -15,14 +15,14 @@ class Classification(object):
                     evaluation):
 
         self.use_algorithm = use_algorithm
-        assert self.use_algorithm == "classification"
+        assert self.use_algorithm == "Classification"
         self.path = path
         self.pretrained_weights = pretrained_weights
         self.batchsize = batchsize
         self.Iterations_Over_Dataset = Iterations_Over_Dataset
         self.data_gen_args = data_gen_args
         self.loss_function = loss_function
-        self.num_classes = self.num_classes
+        self.num_classes = num_classes
         self.Image_size = Image_size
         self.calculate_uncertainty = calculate_uncertainty
         self.evaluation = evaluation

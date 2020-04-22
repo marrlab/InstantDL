@@ -1,6 +1,6 @@
 {
-	"use_algorithm": "InstanceSegmentation",
-	"path": "examples/data/dsb_MRCNN_combined",
+	"use_algorithm": "Classification",
+	"path": "examples/data/Classification",
 	"pretrained_weights_path": false,
 	"batchsize": 1,
 	"Iterations_Over_Dataset": 50,
@@ -21,8 +21,8 @@
 		            "threshold_background_groundtruth": false,
 		            "binarize_mask": false
 	},
-	"loss_function": "binary_crossentropy",
-	"num_classes": 1,
+	"loss_function": "categorical_crossentropy",
+	"num_classes": 10,
 	"Image_size": null,
 	"calculate_uncertainty": false,
 	"evaluation": true

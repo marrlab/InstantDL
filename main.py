@@ -6,7 +6,7 @@ In this file the functions are started to train and test the networks
 '''
 
 from utils import *
-from classification import Classification
+from classification.classification import Classification
 
 def GetPipeLine(use_algorithm,
                     path, 
@@ -20,7 +20,7 @@ def GetPipeLine(use_algorithm,
                     calculate_uncertainty,
                     evaluation):
     
-    if use_algorithm == "classification":
+    if use_algorithm == "Classification":
         pipeline = Classification(use_algorithm,
                         path, 
                         pretrained_weights, 
@@ -32,10 +32,9 @@ def GetPipeLine(use_algorithm,
                         Image_size, 
                         calculate_uncertainty,
                         evaluation)
+        return pipeline
     else: 
         print("pipeline is still not ready")
-
-    return pipeline
     
 
 def start_learning( use_algorithm,
