@@ -46,6 +46,18 @@ def GetPipeLine(use_algorithm,
                         Image_size, 
                         calculate_uncertainty,
                         evaluation)
+    elif use_algorithm == "InstanceSegmentation":
+        pipeline = InstanceSegmentation(use_algorithm,
+                        path, 
+                        pretrained_weights, 
+                        batchsize, 
+                        Iterations_Over_Dataset, 
+                        data_gen_args, 
+                        loss_function, 
+                        num_classes, 
+                        Image_size, 
+                        calculate_uncertainty,
+                        evaluation)
     else: 
         print("pipeline is still not ready")
     
