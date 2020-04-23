@@ -6,7 +6,8 @@ In this file the functions are started to train and test the networks
 '''
 
 from utils import *
-from classification.classification import Classification
+from classification.Classification import Classification
+from segmentation.Regression import Regression
 
 def GetPipeLine(use_algorithm,
                     path, 
@@ -33,6 +34,18 @@ def GetPipeLine(use_algorithm,
                         calculate_uncertainty,
                         evaluation)
         return pipeline
+    elif use_algorithm in ["Regression", "SemanticSegmentation"]:
+        pipeline = Regression(use_algorithm,
+                        path, 
+                        pretrained_weights, 
+                        batchsize, 
+                        Iterations_Over_Dataset, 
+                        data_gen_args, 
+                        loss_function, 
+                        num_classes, 
+                        Image_size, 
+                        calculate_uncertainty,
+                        evaluation)
     else: 
         print("pipeline is still not ready")
     
@@ -64,42 +77,8 @@ def start_learning( use_algorithm,
                     Image_size, 
                     calculate_uncertainty,
                     evaluation)
-
-    data_prepration_results = pipeline.data_prepration()
-        
-
-    Training_Input_shape = data_prepration_results[0]
-    num_channels = data_prepration_results[1]
-    network_input_size = data_prepration_results[2]
-    data_path = data_prepration_results[3]
-    train_image_files = data_prepration_results[4]
-    val_image_files = data_prepration_results[5]
-    steps_per_epoch = data_prepration_results[6]
-
-    TrainingDataGenerator, ValidationDataGenerator = pipeline.data_generator(  data_path, 
-                                                                                Training_Input_shape, 
-                                                                                num_channels, 
-                                                                                train_image_files)
-
-    model = pipeline.load_model(network_input_size)
-    model, checkpoint_filepath = pipeline.train_model(  model,
-                                                        TrainingDataGenerator,
-                                                        ValidationDataGenerator , 
-                                                        steps_per_epoch, 
-                                                        val_image_files )
-
-    results,test_image_files, num_test_img = pipeline.test_set_evaluation(  model, 
-                                                                            Training_Input_shape, 
-                                                                            num_channels)
-
-    pipeline.uncertainty_prediction(    results, 
-                                    checkpoint_filepath, 
-                                    network_input_size, 
-                                    Training_Input_shape, 
-                                    num_channels, 
-                                    test_image_files, 
-                                    num_test_img)
-    model = None
+                    
+    pipeline.run()
     K.clear_session()
 
 
