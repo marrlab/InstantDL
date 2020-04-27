@@ -8,6 +8,7 @@ In this file the functions are started to train and test the networks
 from utils import *
 from classification.classification import Classification
 from segmentation.Regression import Regression
+from segmentation.InstanceSegmentation import InstanceSegmentation
 
 def GetPipeLine(use_algorithm,
                     path, 
@@ -46,6 +47,7 @@ def GetPipeLine(use_algorithm,
                         Image_size, 
                         calculate_uncertainty,
                         evaluation)
+        return pipeline
     elif use_algorithm == "InstanceSegmentation":
         pipeline = InstanceSegmentation(use_algorithm,
                         path, 
@@ -58,6 +60,7 @@ def GetPipeLine(use_algorithm,
                         Image_size, 
                         calculate_uncertainty,
                         evaluation)
+        return pipeline
     else: 
         print("pipeline is still not ready")
     
