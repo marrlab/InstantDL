@@ -274,7 +274,7 @@ def saveResult_classification_uncertainty(path, test_image_files, results, MCpre
         writer = csv.writer(writeFile)
         writer.writerow(['filename', 'prediciton', 'Probability for each possible outcome', 'MC Prediction', 'Certertainty: 0 is certain, high is uncertain'])
         for i in range(0, len(results)-1):
-            writer.writerow([test_image_files[i], np.argmax(results[i,...]), results[i,...], MCprediction[i], combined_uncertainty[i]])
+            writer.writerow([test_image_files[i], np.argmax(results[i,...]), results[i,...], MCprediction[i], np.abs(combined_uncertainty[i])])
 
 '''Import filenames and split them into train and validation set according to the variable -validation_split = 20%    '''
 def training_validation_data_split(data_path):

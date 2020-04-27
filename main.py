@@ -6,7 +6,7 @@ In this file the functions are started to train and test the networks
 '''
 
 from utils import *
-from classification.Classification import Classification
+from classification.classification import Classification
 from segmentation.Regression import Regression
 
 def GetPipeLine(use_algorithm,

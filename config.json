@@ -3,7 +3,7 @@
 	"path": "examples/data/Classification",
 	"pretrained_weights_path": false,
 	"batchsize": 1,
-	"Iterations_Over_Dataset": 50,
+	"Iterations_Over_Dataset": 1,
 	"data_gen_args": {
 			"save_augmented_images": false,
 		            "resample_images": false,
@@ -24,6 +24,6 @@
 	"loss_function": "categorical_crossentropy",
 	"num_classes": 10,
 	"Image_size": null,
-	"calculate_uncertainty": false,
+	"calculate_uncertainty": true,
 	"evaluation": true
 }
