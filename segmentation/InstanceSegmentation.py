@@ -111,9 +111,9 @@ class InstanceSegmentation(object):
             model.load_weights(weights_path, by_name=True)
         tensorboard = TensorBoard(log_dir="logs/" + self.path + "/" + format(time.time()))  # , update_freq='batch')
         custom_callbacks = [EarlyStopping(monitor='val_loss', min_delta=0, patience=20, verbose=0, mode='auto'), tensorboard]
-        if self.Iterations_Over_Dataset > 1:
+        if self.Iterations_Over_Dataset > 0:
             print("Start train")
-            train(model, dataset, trainsubset, VAL_IMAGE_IDS, self.Iterations_Over_Dataset+1, custom_callbacks)
+            train(model, dataset, trainsubset, VAL_IMAGE_IDS, self.Iterations_Over_Dataset, custom_callbacks)
 
 
         print("Testing with weights:", weights_path)

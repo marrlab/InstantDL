@@ -224,8 +224,8 @@ class Regression(object):
             model = UNetBuilder.unet3D(uncertainty_weights,
                                                network_input_size,
                                                num_channels_label,
-                                               self.num_classes,
-                                               self.loss_function,
+                                               loss_function = self.loss_function,
+                                               num_classes = self.num_classes,
                                                Dropout_On=True)
         else:
             print("Using 2D UNet")
@@ -236,7 +236,8 @@ class Regression(object):
             model = UNetBuilder.unet2D(uncertainty_weights,
                                                network_input_size,
                                                num_channels_label,
-                                               self.loss_function,
+                                               loss_function = self.loss_function,
+                                               num_classes = self.num_classes,
                                                Dropout_On = True)
         resultsMCD = []
         for i in range(0, 20):

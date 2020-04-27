@@ -58,6 +58,7 @@ def get_confusion_matrix(path, Groundtruth, Results):
     plt.title(title, fontsize=15)
     plt.ylabel('True Class', fontsize=15)
     plt.xlabel('Predicted Class', fontsize=15)
+    plt.tight_layout()
     plt.savefig("./" + path + "/insights/Confusion_Matrix.png")
 
 def load_data(path):

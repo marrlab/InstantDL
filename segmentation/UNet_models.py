@@ -119,7 +119,7 @@ class UNetBuilder(object):
 
         if (pretrained_weights):
             model2D.load_weights(pretrained_weights, by_name=True, skip_mismatch=True)
-            for layer, pre in zip(model3D.layers, pretrained_weights):
+            for layer, pre in zip(model2D.layers, pretrained_weights):
                 weights = layer.get_weights()
                 if weights:
                     if np.array_equal(weights[0], pre[0]):
