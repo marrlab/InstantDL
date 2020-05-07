@@ -58,18 +58,19 @@ class Regression(object):
         if len(Training_Input_shape[:-1]) == 2:
             data_dimensions = 2
 
-        logging.info("Image dimensions are: ", data_dimensions, "D")
+        logging.info("Image dimensions are: %s D" % data_dimensions )
 
         Folders = ["image", "image1", "image2", "image3", "image4", "image5", "image6", "image7"]
         number_input_images = len([element for element in os.listdir(self.path + "/train/") if element in Folders])
         network_input_size = np.array(Training_Input_shape)
         network_input_size[-1] = int(Training_Input_shape[-1]) * number_input_images
         network_input_size = tuple(network_input_size)
-        logging.info("Number of input folders is: ", number_input_images)
-        logging.info("UNet input shape", network_input_size)
+        logging.info("Number of input folders is: %s" % number_input_images)
+        logging.info("UNet input shape %s" % (network_input_size,))
 
         '''
-        Import filenames and split them into train and validation set according to the variable -validation_split = 20%
+        Import filenames and split them into train and validation set according to 
+        the variable -validation_split = 20%
         '''
         data_path = self.path + '/train'
         train_image_files, val_image_files = training_validation_data_split(data_path)
@@ -77,7 +78,7 @@ class Regression(object):
         steps_per_epoch = int(len(train_image_files)/self.batchsize)
 
         self.epochs = self.Iterations_Over_Dataset
-        logging.info("Making:", steps_per_epoch, "steps per Epoch")
+        logging.info("Making: %s steps per Epoch" % steps_per_epoch)
         return [Training_Input_shape, num_channels, network_input_size, Input_image_shape,
                         data_path, train_image_files, val_image_files, steps_per_epoch, data_dimensions,val_image_files]
 
@@ -93,7 +94,7 @@ class Regression(object):
         '''
 
         img_file_label_name = os.listdir(data_path + "/groundtruth/")[0]
-        logging.info("img_file_label_name", img_file_label_name)
+        logging.info("img_file_label_name: %s" % img_file_label_name)
         Training_Input_shape_label = np.shape(np.array(import_image(data_path + "/groundtruth/" + img_file_label_name)))
         num_channels_label = Training_Input_shape_label[-1]
         if all([num_channels_label != 1, num_channels_label != 3]):

@@ -17,7 +17,7 @@ def plottestimage_npy(image, path, title):
     
     return: None
     '''
-    logging.info("shape of image %s" % np.shape(image))
+    logging.info("shape of image %s" % (np.shape(image),))
     imsave(path + title + ".tif", image)
 
 def plot2images(image, mask, path, title):

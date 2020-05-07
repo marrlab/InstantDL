@@ -282,7 +282,7 @@ def saveResult(path, test_image_files, results, Input_image_shape):
     results = results * 255
     logging.info("Save result")
     os.makedirs(path, exist_ok=True)
-    logging.info("shape npyfile %s" % np.shape(results))
+    logging.info("shape npyfile %s" % (np.shape(results),))
     logging.info("test_image_files %s" % len(test_image_files))
     for i in range(len(test_image_files)):
         logging.info("filename %s" % test_image_files[i])
