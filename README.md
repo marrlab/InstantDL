@@ -87,7 +87,7 @@ Set data augmentation parameters here
 Set parameters training here. Number of classes should be 1 using binary segmenation tasks
 "loss_function": "mse",
 "num_classes": 1, # Number of classes should be 1 for binary segmenation tasks
-"Image_size": null, # null or tuple with dimensions of desired image size in format (x-dim, y-dim, [z-dim,] channels)
+"Image_size": null, # null or tuple with dimensions of desired image size in format (x-dim, y-dim, (z-dim), channels)
 "calculate_uncertainty": false # true or false
 ```
 
@@ -147,7 +147,7 @@ Using the uncertainty incorrect predictions can be identified: While in (B) a lo
 
 
 Image resize
-Tuple (x-dim, y-dim, [z-dim], channels)
+Tuple (x-dim, y-dim, (z-dim), channels)
 Calculate uncertainty
 Set to true or false. It is only supported with semantic segmentation, pixel-wise regression and classificaiton
 
@@ -165,6 +165,12 @@ Set to true or false. It is only supported with semantic segmentation, pixel-wis
 | Customizability of Code | Code fully accessible | Code fully accessible  | Code not available  | Possible through writing a plugin |
 | Debugged and tested | Yes | Yes  | Yes  | Yes |
 | Cost | Free | Free  | Free  | Payment plan |
+
+## Citation
+
+If you use InstantDL in a project, please cite
+
+COMING SOON :)
 
 ## TODO
 

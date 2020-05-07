@@ -4,66 +4,8 @@ Written by Dominik Waibel and Ali Boushehri
 
 In this file the functions are started to train and test the networks
 '''
-
-from utils import *
-from classification.classification import Classification
-from segmentation.Regression import Regression
-from segmentation.InstanceSegmentation import InstanceSegmentation
-
-def GetPipeLine(use_algorithm,
-                    path, 
-                    pretrained_weights, 
-                    batchsize, 
-                    Iterations_Over_Dataset, 
-                    data_gen_args, 
-                    loss_function, 
-                    num_classes, 
-                    Image_size, 
-                    calculate_uncertainty,
-                    evaluation):
-    
-    if use_algorithm == "Classification":
-        pipeline = Classification(use_algorithm,
-                        path, 
-                        pretrained_weights, 
-                        batchsize, 
-                        Iterations_Over_Dataset, 
-                        data_gen_args, 
-                        loss_function, 
-                        num_classes, 
-                        Image_size, 
-                        calculate_uncertainty,
-                        evaluation)
-        return pipeline
-    elif use_algorithm in ["Regression", "SemanticSegmentation"]:
-        pipeline = Regression(use_algorithm,
-                        path, 
-                        pretrained_weights, 
-                        batchsize, 
-                        Iterations_Over_Dataset, 
-                        data_gen_args, 
-                        loss_function, 
-                        num_classes, 
-                        Image_size, 
-                        calculate_uncertainty,
-                        evaluation)
-        return pipeline
-    elif use_algorithm == "InstanceSegmentation":
-        pipeline = InstanceSegmentation(use_algorithm,
-                        path, 
-                        pretrained_weights, 
-                        batchsize, 
-                        Iterations_Over_Dataset, 
-                        data_gen_args, 
-                        loss_function, 
-                        num_classes, 
-                        Image_size, 
-                        calculate_uncertainty,
-                        evaluation)
-        return pipeline
-    else: 
-        logging.info("pipeline is still not ready")
-    
+from .utils import *
+from . import GetPipeLine
 
 def start_learning( use_algorithm,
                     path, 
