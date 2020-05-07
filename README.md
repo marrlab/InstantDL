@@ -92,18 +92,18 @@ Set parameters training here. Number of classes should be 1 using binary segmena
 
 python main.py --config ./config.json
 
-
-Import of data in all common image file formats that are processable with scikit-image (e.g. .jpg, .tiff, .png) and .npy files. 
-Initialization of a model with pre-trained weights or random weights. For classification and instance segmentation, InstantDL will automatically use ImageNet weights if no weights are given. 
-Split of ‘train’-folder into 80% training and 20% validation set and randomly shuffles the training data.
-Normalization of data to the range between 0 and 1 based on the train dataset’s minimum and maximum pixel value. The data will be re-normalized when saved after testing.
-Batch creation and data augmentation on the fly.
-Training for the set epoch length using early stopping of training if the validation accuracy has not improved for the last epochs. Using the Adam optimizer (Kingma and Ba, 2014).
-Real time monitoring of training with Tensorboard or terminal. 
-Saving of the best model during training. 
-Automated evaluation of the trained model on the test data and saving of predicted labels.
-For pixel-wise regression, semantic segmentation or classification, InstantDL will calculate the uncertainty for each image. Therefore Monte Carlo dropout is used to evaluate 20 different models. The uncertainty estimation is saved to the project directory.
-Experiment settings are automatically saved to a logbook in order to simplify experiment monitoring.
+Training works as follows:
+- Import of data in all common image file formats that are processable with scikit-image (e.g. .jpg, .tiff, .png) and .npy files.
+- Initialization of a model with pre-trained weights or random weights. For classification and instance segmentation, InstantDL will automatically use ImageNet weights if no weights are given.
+- Split of ‘train’-folder into 80% training and 20% validation set and randomly shuffles the training data.
+- Normalization of data to the range between 0 and 1 based on the train dataset’s minimum and maximum pixel value. The data will be re-normalized when saved after testing.
+- Batch creation and data augmentation on the fly.
+- Training for the set epoch length using early stopping of training if the validation accuracy has not improved for the last epochs. Using the Adam optimizer (Kingma and Ba, 2014).
+- Real time monitoring of training with Tensorboard or terminal.
+- Saving of the best model during training.
+- Automated evaluation of the trained model on the test data and saving of predicted labels.
+- For pixel-wise regression, semantic segmentation or classification, InstantDL will calculate the uncertainty for each image. Therefore Monte Carlo dropout is used to evaluate 20 different models. The uncertainty estimation is saved to the project directory.
+- Experiment settings are automatically saved to a logbook in order to simplify experiment monitoring.
 
 | Parameter | Explanation of the .json parameter|
 | ------ | ------ |
