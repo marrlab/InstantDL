@@ -136,7 +136,9 @@ Using the uncertainty incorrect predictions can be identified: While in (B) a lo
 - [x] making the code modular
 - [x] adding documentation
 - [x] adding example
-- [ ] add docker
+- [x] add docker
+- [ ] add docker documentation
+- [ ] add docker for gpu and cuda toolkit
 - [x] add objects instead of the main functions
 - [ ] add tests
 - [ ] add thresholding for semantic segmentation

@@ -24,5 +24,6 @@
 	"loss_function": "binary_crossentropy",
 	"num_classes": 2,
 	"Image_size": null,
-	"calculate_uncertainty": false
+	"calculate_uncertainty": false,
+	"evaluation": true
 }
