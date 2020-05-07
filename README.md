@@ -133,10 +133,11 @@ Using the uncertainty incorrect predictions can be identified: While in (B) a lo
 
 ## TODO
 
-- [ ] making the code modular
+- [x] making the code modular
 - [x] adding documentation
 - [x] adding example
 - [ ] add docker
-- [ ] add objects instead of the main functions
+- [x] add objects instead of the main functions
 - [ ] add tests
-
+- [ ] add thresholding for semantic segmentation
+- [ ] add versions

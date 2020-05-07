@@ -102,7 +102,7 @@ def display_instances(image, boxes, masks, class_ids, class_names,
     # Number of instances
     N = boxes.shape[0]
     if not N:
-        print("\n*** No instances to display *** \n")
+        logging.info("\n*** No instances to display *** \n")
     else:
         assert boxes.shape[0] == masks.shape[-1] == class_ids.shape[0]
 
@@ -262,9 +262,9 @@ def draw_rois(image, rois, refined_rois, mask, class_ids, class_names, limit=10)
     ax.imshow(masked_image)
 
     # Print stats
-    print("Positive ROIs: ", class_ids[class_ids > 0].shape[0])
-    print("Negative ROIs: ", class_ids[class_ids == 0].shape[0])
-    print("Positive Ratio: {:.2f}".format(
+    logging.info("Positive ROIs: ", class_ids[class_ids > 0].shape[0])
+    logging.info("Negative ROIs: ", class_ids[class_ids == 0].shape[0])
+    logging.info("Positive Ratio: {:.2f}".format(
         class_ids[class_ids > 0].shape[0] / class_ids.shape[0]))
 
 

@@ -148,8 +148,8 @@ if __name__ == "__main__":
     x_train = np.expand_dims(x_train, -1).astype('float32') / 255
     x_test = np.expand_dims(x_test, -1).astype('float32') / 255
 
-    print('x_train shape:', x_train.shape)
-    print('x_test shape:', x_test.shape)
+    logging.info('x_train shape:', x_train.shape)
+    logging.info('x_test shape:', x_test.shape)
 
     # Build data generator and model
     datagen = ImageDataGenerator()

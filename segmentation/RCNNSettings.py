@@ -244,11 +244,11 @@ class Config(object):
 
     def display(self):
         """Display Configuration values."""
-        print("\nConfigurations:")
+        logging.info("\nConfigurations:")
         for a in dir(self):
             if not a.startswith("__") and not callable(getattr(self, a)):
-                print("{:30} {}".format(a, getattr(self, a)))
-        print("\n")
+                logging.info("{:30} {}".format(a, getattr(self, a)))
+        logging.info("\n")
 
 
 class RCNNConfig(Config):
@@ -302,7 +302,7 @@ class NucleusDataset(utils.Dataset):
 
         subset_dir = "train" if subset in ["train", "val"] else subset
         dataset_dir = os.path.join(dataset_dir, subset_dir)
-        print("Datasetdir", dataset_dir)
+        logging.info("Datasetdir", dataset_dir)
         if subset == "val":
             image_ids = VAL_IMAGE_IDS
         else:
@@ -341,7 +341,7 @@ class NucleusDataset(utils.Dataset):
             mask.append(m)
 
         mask = np.stack(mask, axis=-1)
-        #print("loading masks", np.shape(mask))
+        #logging.info("loading masks", np.shape(mask))
         # Return mask, and array of class IDs of each instance. Since we have
         # one class ID, we return an array of ones
         return mask, np.ones([mask.shape[-1]], dtype=np.int32)
@@ -372,7 +372,7 @@ def train(model, dataset_dir, subset, VAL_IMAGE_IDS, epochs, custom_callbacks):
     dataset_val.load_dataset(dataset_dir, "val", VAL_IMAGE_IDS)
     dataset_val.prepare()
 
-    print("Train all layers")
+    logging.info("Train all layers")
     model.train(dataset_train, dataset_val,
                 learning_rate=RCNNConfig.LEARNING_RATE,
                 epochs=epochs,
@@ -447,7 +447,7 @@ def mask_to_rle(image_id, mask, scores):
 
 def detect(model, dataset_dir, subset, RESULTS_DIR, VAL_IMAGE_IDS):
     """Run detection on images in the given directory."""
-    print("Running on {}".format(dataset_dir))
+    logging.info("Running on {}".format(dataset_dir))
 
     # Create directory
     if not os.path.exists(RESULTS_DIR):
@@ -465,7 +465,7 @@ def detect(model, dataset_dir, subset, RESULTS_DIR, VAL_IMAGE_IDS):
     # Load over images
     submission = []
     for image_id in dataset.image_ids:
-        print("Test image id", image_id)
+        logging.info("Test image id", image_id)
         # Load image and run detection
         image = dataset.load_image(image_id)
         # Detect objects
@@ -475,7 +475,7 @@ def detect(model, dataset_dir, subset, RESULTS_DIR, VAL_IMAGE_IDS):
         #rle = mask_to_rle(source_id, r["masks"], r["scores"])
         #submission.append(rle)
 
-        print("detection masks and scores", np.shape(r["masks"]), np.shape(r["scores"]))
+        logging.info("detection masks and scores", np.shape(r["masks"]), np.shape(r["scores"]))
         np.save(submit_dir + dataset.image_info[image_id]["id"], r["masks"])
 
         #TODO: Uncertanty Prediction with MC Dropout:
@@ -496,5 +496,5 @@ def detect(model, dataset_dir, subset, RESULTS_DIR, VAL_IMAGE_IDS):
     #file_path = os.path.join(submit_dir, "submit.csv")
     #with open(file_path, "w") as f:
     #    f.write(submission)
-    #print("Saved to ", submit_dir)
+    #logging.info("Saved to ", submit_dir)
 

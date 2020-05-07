@@ -355,7 +355,7 @@ class Dataset(object):
     def load_image(self, image_id):
         """Load the specified image and return a [H,W,3] Numpy array.
         """
-        #print("loading image:", self.image_info[image_id]['path'])
+        #logging.info("loading image:", self.image_info[image_id]['path'])
         #image = skimage.io.imread(self.image_info[image_id]['path'])
         image = import_image(self.image_info[image_id]['path'])
         # If grayscale. Convert to RGB for consistency.
@@ -766,11 +766,11 @@ def compute_ap_range(gt_box, gt_class_id, gt_mask,
                         pred_box, pred_class_id, pred_score, pred_mask,
                         iou_threshold=iou_threshold)
         if verbose:
-            print("AP @{:.2f}:\t {:.3f}".format(iou_threshold, ap))
+            logging.info("AP @{:.2f}:\t {:.3f}".format(iou_threshold, ap))
         AP.append(ap)
     AP = np.array(AP).mean()
     if verbose:
-        print("AP @{:.2f}-{:.2f}:\t {:.3f}".format(
+        logging.info("AP @{:.2f}-{:.2f}:\t {:.3f}".format(
             iou_thresholds[0], iou_thresholds[-1], AP))
     return AP
 
@@ -843,11 +843,11 @@ def download_trained_weights(coco_model_path, verbose=1):
     coco_model_path: local path of COCO trained weights
     """
     if verbose > 0:
-        print("Downloading pretrained model to " + coco_model_path + " ...")
+        logging.info("Downloading pretrained model to " + coco_model_path + " ...")
     with urllib.request.urlopen(COCO_MODEL_URL) as resp, open(coco_model_path, 'wb') as out:
         shutil.copyfileobj(resp, out)
     if verbose > 0:
-        print("... done downloading pretrained model!")
+        logging.info("... done downloading pretrained model!")
 
 
 def norm_boxes(boxes, shape):

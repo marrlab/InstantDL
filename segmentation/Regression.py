@@ -58,15 +58,15 @@ class Regression(object):
         if len(Training_Input_shape[:-1]) == 2:
             data_dimensions = 2
 
-        print("Image dimensions are: ", data_dimensions, "D")
+        logging.info("Image dimensions are: ", data_dimensions, "D")
 
         Folders = ["image", "image1", "image2", "image3", "image4", "image5", "image6", "image7"]
         number_input_images = len([element for element in os.listdir(self.path + "/train/") if element in Folders])
         network_input_size = np.array(Training_Input_shape)
         network_input_size[-1] = int(Training_Input_shape[-1]) * number_input_images
         network_input_size = tuple(network_input_size)
-        print("Number of input folders is: ", number_input_images)
-        print("UNet input shape", network_input_size)
+        logging.info("Number of input folders is: ", number_input_images)
+        logging.info("UNet input shape", network_input_size)
 
         '''
         Import filenames and split them into train and validation set according to the variable -validation_split = 20%
@@ -77,7 +77,7 @@ class Regression(object):
         steps_per_epoch = int(len(train_image_files)/self.batchsize)
 
         self.epochs = self.Iterations_Over_Dataset
-        print("Making:", steps_per_epoch, "steps per Epoch")
+        logging.info("Making:", steps_per_epoch, "steps per Epoch")
         return [Training_Input_shape, num_channels, network_input_size, Input_image_shape,
                         data_path, train_image_files, val_image_files, steps_per_epoch, data_dimensions,val_image_files]
 
@@ -93,7 +93,7 @@ class Regression(object):
         '''
 
         img_file_label_name = os.listdir(data_path + "/groundtruth/")[0]
-        print("img_file_label_name", img_file_label_name)
+        logging.info("img_file_label_name", img_file_label_name)
         Training_Input_shape_label = np.shape(np.array(import_image(data_path + "/groundtruth/" + img_file_label_name)))
         num_channels_label = Training_Input_shape_label[-1]
         if all([num_channels_label != 1, num_channels_label != 3]):
@@ -129,13 +129,13 @@ class Regression(object):
         if self.pretrained_weights == False:
             self.pretrained_weights = None
         if data_dimensions == 3:
-            print("Using 3D UNet")
+            logging.info("Using 3D UNet")
             model = UNetBuilder.unet3D(self.pretrained_weights, network_input_size, num_channels_label,self.num_classes, self.loss_function, Dropout_On = True)
         else:
-            print("Using 2D UNet")
+            logging.info("Using 2D UNet")
             model = UNetBuilder.unet2D(self.pretrained_weights,network_input_size, num_channels_label,self.num_classes, self.loss_function, Dropout_On = True)
 
-        print(model.summary())
+        logging.info(model.summary())
         return model
 
     def train_model(self, model,TrainingDataGenerator,ValidationDataGenerator , steps_per_epoch, val_image_files ):
@@ -152,7 +152,7 @@ class Regression(object):
         model_checkpoint = ModelCheckpoint(checkpoint_filepath, monitor=('val_loss'), verbose=1, save_best_only=True)
 
         tensorboard = TensorBoard(log_dir="logs/" + self.path + "/" + format(time.time())) #, update_freq='batch')
-        print("Tensorboard log is created at: logs/  it can be opend using tensorboard --logdir=logs for a terminal in the InstantDL folder")
+        logging.info("Tensorboard log is created at: logs/  it can be opend using tensorboard --logdir=logs for a terminal in the InstantDL folder")
         callbacks_list = [model_checkpoint, tensorboard, Early_Stopping]
 
         '''
@@ -166,7 +166,7 @@ class Regression(object):
                                 epochs=self.epochs,
                                 callbacks = callbacks_list,
                                 use_multiprocessing=True)
-        print('finished Model.fit_generator')
+        logging.info('finished Model.fit_generator')
         return model, checkpoint_filepath
 
     def test_set_evaluation(self, model, Training_Input_shape, num_channels,Input_image_shape):
@@ -175,16 +175,16 @@ class Regression(object):
         '''
         test_image_files = os.listdir(os.path.join(self.path + "/test/image"))
         num_test_img = int(len(os.listdir(self.path + "/test/image")))
-        print("Testing on", num_test_img, "test files")
+        logging.info("Testing on", num_test_img, "test files")
 
         '''
         Initialize the testset generator
         '''
         testGene = testGenerator(Training_Input_shape, self.path, num_channels, test_image_files, self.use_algorithm)
-        print('finished testGene')
+        logging.info('finished testGene')
         results = model.predict_generator(testGene, steps=num_test_img, use_multiprocessing=False, verbose=1)
-        print("results", np.shape(results))
-        print('finished model.predict_generator')
+        logging.info("results", np.shape(results))
+        logging.info('finished model.predict_generator')
 
 
         '''
@@ -216,7 +216,7 @@ class Regression(object):
         And as implemented in: https://openreview.net/pdf?id=Sk_P2Q9sG
         '''
         if data_dimensions == 3:
-            print("Using 3D UNet")
+            logging.info("Using 3D UNet")
             if self.epochs > 0:
                 uncertainty_weights = checkpoint_filepath
             else:
@@ -228,7 +228,7 @@ class Regression(object):
                                                num_classes = self.num_classes,
                                                Dropout_On=True)
         else:
-            print("Using 2D UNet")
+            logging.info("Using 2D UNet")
             if self.epochs > 0:
                 uncertainty_weights = checkpoint_filepath
             else:

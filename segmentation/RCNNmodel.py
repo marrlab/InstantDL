@@ -47,7 +47,7 @@ def log(text, array=None):
         else:
             text += ("min: {:10}  max: {:10}".format("",""))
         text += "  {}".format(array.dtype)
-    print(text)
+    logging.info(text)
 
 
 class BatchNorm(KL.BatchNormalization):
@@ -2218,7 +2218,7 @@ class MaskRCNN():
         for layer in layers:
             # Is the layer a model?
             if layer.__class__.__name__ == 'Model':
-                print("In model: ", layer.name)
+                logging.info("In model: ", layer.name)
                 self.set_trainable(
                     layer_regex, keras_model=layer, indent=indent + 4)
                 continue
@@ -2263,7 +2263,7 @@ class MaskRCNN():
                 # Epoch number in file is 1-based, and in Keras code it's 0-based.
                 # So, adjust for that then increment by one to start from the next epoch
                 self.epoch = int(m.group(6)) - 1 + 1
-                print('Re-starting from epoch %d' % self.epoch)
+                logging.info('Re-starting from epoch %d' % self.epoch)
 
         # Directory for training logs
         #self.log_dir = os.path.join(self.model_dir, "{}{:%Y%m%dT%H%M}".format(

@@ -20,12 +20,12 @@ class UNetBuilder(object):
     '''
 
     def unet2D(pretrained_weights,input_size, num_channels,num_classes, loss_function, Dropout_On, base_n_filters = 32):
-        print("started UNet")
+        logging.info("started UNet")
         inputs = Input(input_size)
         conv1 = Conv2D(base_n_filters, 3, padding='same', kernel_initializer='he_normal')(inputs)
         conv1 = BatchNormalization()(conv1)
         conv1 = LeakyReLU(alpha=0.2)(conv1)
-        print("finished 1. convolution")
+        logging.info("finished 1. convolution")
         conv1 = Conv2D(base_n_filters, 3, padding='same', kernel_initializer='he_normal')(conv1)
         conv1 = BatchNormalization()(conv1)
         conv1 = LeakyReLU(alpha=0.2)(conv1)
@@ -113,8 +113,8 @@ class UNetBuilder(object):
             conv10 = Conv2D(num_channels, 1, activation='sigmoid')(conv9)  # Simple segmentation with only one label
 
         model2D = Model(inputs=inputs, outputs=conv10)
-        print("shape input UNet:", np.shape(inputs))
-        print("shape output UNet:", np.shape(conv10))
+        logging.info("shape input UNet:", np.shape(inputs))
+        logging.info("shape output UNet:", np.shape(conv10))
         model2D.compile(optimizer="Adam", loss = loss_function, metrics=['mse'])
 
         if (pretrained_weights):
@@ -123,19 +123,19 @@ class UNetBuilder(object):
                 weights = layer.get_weights()
                 if weights:
                     if np.array_equal(weights[0], pre[0]):
-                        print('not loaded', layer.name)
+                        logging.info('not loaded', layer.name)
                     else:
-                        print('loaded', layer.name)
+                        logging.info('loaded', layer.name)
 
         return model2D
 
     def unet3D(pretrained_weights, input_size, num_channels,num_classes, loss_function, Dropout_On, base_n_filters=32):
-        print("started UNet")
+        logging.info("started UNet")
         inputs = Input(input_size)
         conv1 = Conv3D(base_n_filters, 3, padding='same', kernel_initializer='he_normal')(inputs)
         conv1 = BatchNormalization()(conv1)
         conv1 = LeakyReLU(alpha=0.2)(conv1)
-        print("finished 1. convolution")
+        logging.info("finished 1. convolution")
         conv1 = Conv3D(base_n_filters, 3, padding='same', kernel_initializer='he_normal')(conv1)
         conv1 = BatchNormalization()(conv1)
         conv1 = LeakyReLU(alpha=0.2)(conv1)
@@ -227,8 +227,8 @@ class UNetBuilder(object):
             conv10 = Conv3D(num_channels, 1, activation='sigmoid')(conv9)  # Changed activiation from Relu to linear
 
         model3D = Model(inputs=inputs, outputs=conv10)
-        print("shape input UNet:", np.shape(inputs))
-        print("shape output UNet:", np.shape(conv10))
+        logging.info("shape input UNet:", np.shape(inputs))
+        logging.info("shape output UNet:", np.shape(conv10))
         model3D.compile(optimizer="Adam", loss=loss_function, metrics=['mse'])
 
         if (pretrained_weights):
@@ -237,7 +237,7 @@ class UNetBuilder(object):
                 weights = layer.get_weights()
                 if weights:
                     if np.array_equal(weights[0], pre[0]):
-                        print('not loaded', layer.name)
+                        logging.info('not loaded', layer.name)
                     else:
-                        print('loaded', layer.name)
+                        logging.info('loaded', layer.name)
         return model3D
