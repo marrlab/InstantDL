@@ -10,6 +10,7 @@ from keras.layers import Input, Conv2D, Conv3D, LeakyReLU, BatchNormalization, D
 from keras.optimizers import Adam, SGD, RMSprop
 import numpy as np
 from keras.losses import *
+import logging
 
 class UNetBuilder(object):
     '''
@@ -113,8 +114,8 @@ class UNetBuilder(object):
             conv10 = Conv2D(num_channels, 1, activation='sigmoid')(conv9)  # Simple segmentation with only one label
 
         model2D = Model(inputs=inputs, outputs=conv10)
-        logging.info("shape input UNet:", np.shape(inputs))
-        logging.info("shape output UNet:", np.shape(conv10))
+        logging.info("shape input UNet %s" % np.shape(inputs))
+        logging.info("shape output UNet %s" % np.shape(conv10))
         model2D.compile(optimizer="Adam", loss = loss_function, metrics=['mse'])
 
         if (pretrained_weights):
@@ -123,9 +124,9 @@ class UNetBuilder(object):
                 weights = layer.get_weights()
                 if weights:
                     if np.array_equal(weights[0], pre[0]):
-                        logging.info('not loaded', layer.name)
+                        logging.info('not loaded %s' % layer.name)
                     else:
-                        logging.info('loaded', layer.name)
+                        logging.info('loaded %s' % layer.name)
 
         return model2D
 
@@ -227,8 +228,8 @@ class UNetBuilder(object):
             conv10 = Conv3D(num_channels, 1, activation='sigmoid')(conv9)  # Changed activiation from Relu to linear
 
         model3D = Model(inputs=inputs, outputs=conv10)
-        logging.info("shape input UNet:", np.shape(inputs))
-        logging.info("shape output UNet:", np.shape(conv10))
+        logging.info("shape input UNet %s" % np.shape(inputs))
+        logging.info("shape output UNet %s" % np.shape(conv10))
         model3D.compile(optimizer="Adam", loss=loss_function, metrics=['mse'])
 
         if (pretrained_weights):
@@ -237,7 +238,7 @@ class UNetBuilder(object):
                 weights = layer.get_weights()
                 if weights:
                     if np.array_equal(weights[0], pre[0]):
-                        logging.info('not loaded', layer.name)
+                        logging.info('not loaded %s' % layer.name)
                     else:
-                        logging.info('loaded', layer.name)
+                        logging.info('loaded %s' % layer.name)
         return model3D

@@ -14,6 +14,7 @@ from skimage.io import imread
 from skimage.color import gray2rgb, rgb2gray
 from skimage.transform import resize
 import os
+import logging
 
 def normalize(data):
 	'''

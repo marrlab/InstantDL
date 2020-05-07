@@ -17,7 +17,7 @@ import tensorflow as tf
 import keras.backend as K
 import keras.layers as KL
 import keras.models as KM
-
+import logging
 
 class ParallelModel(KM.Model):
     """Subclasses the standard Keras Model and adds multi-GPU support.

@@ -65,8 +65,10 @@ class Classification(object):
         '''
         Prepare data in Training and Validation set 
         '''
-        if not isinstance(self.num_classes, int):
-            sys.exit("Number of classes has not been set. You net to set num_classes!")
+        assert isinstance(self.num_classes, int), \
+            logging.error("Number of classes has not been set. You net to set num_classes!")
+            
+        
         TrainingDataGenerator = training_data_generator_classification(Training_Input_shape,
                                                                            self.batchsize,
                                                                            num_channels,

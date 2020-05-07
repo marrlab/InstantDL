@@ -4,24 +4,33 @@ import numpy as np
 import os
 from skimage.io import imsave
 import datetime
+import logging
 
 def plottestimage_npy(image, path, title):
     '''
-    :param image: the networks prediction
-    :param path: results path to where the image is saved
-    :param title: image name
-    :return: saves the networks prediction to the results folder
+    saves the networks prediction to the results folder
+
+    Args
+        image: the networks prediction
+        path: results path to where the image is saved
+        title: image name
+    
+    return: None
     '''
-    logging.info(np.shape(image))
+    logging.info("shape of image %s" % np.shape(image))
     imsave(path + title + ".tif", image)
 
 def plot2images(image, mask, path, title):
     '''
-    :param image: image data
-    :param mask: mask data
-    :param path: path to where the image pair is saved
-    :param title: image name
-    :return: saves a pair of images (image and mask) to directory
+    saves a pair of images (image and mask) to directory
+
+    Args   
+        image: image data
+        mask: mask data
+        path: path to where the image pair is saved
+        title: image name
+    
+    return: None
     '''
     plt.figure()
     plt.subplot(1, 2, 1)

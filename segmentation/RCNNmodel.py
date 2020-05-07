@@ -2218,7 +2218,7 @@ class MaskRCNN():
         for layer in layers:
             # Is the layer a model?
             if layer.__class__.__name__ == 'Model':
-                logging.info("In model: ", layer.name)
+                logging.info("In model: %s" % layer.name)
                 self.set_trainable(
                     layer_regex, keras_model=layer, indent=indent + 4)
                 continue

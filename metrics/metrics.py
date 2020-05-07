@@ -10,6 +10,8 @@ from keras.losses import *
 from keras.losses import categorical_crossentropy as cct
 import tensorflow as tf
 from sklearn.metrics import accuracy_score
+import keras as K
+import logging
 
 def dice_coef(y_true, y_pred):
     """The dice coefficient needed to calculate the dice loss
