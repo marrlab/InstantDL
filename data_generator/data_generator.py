@@ -37,7 +37,7 @@ def get_min_max(data_path, folder_name, image_files):
             Xmax[i] = np.max(np.array(imread(data_path + folder_name + img_file)))
     min = np.min(Xmin)
     max = np.max(Xmax)
-    print("min value of", folder_name,"is", min, " max valueis", max)
+    logging.info("min value of", folder_name,"is", min, " max valueis", max)
     return min, max
 
 def import_image(path_name):
@@ -108,8 +108,8 @@ def training_data_generator(Training_Input_shape, batchsize, num_channels, num_c
     for i, folder_name in enumerate(Folder_Names):
         if os.path.isdir(data_path + folder_name) == True:
             X_min[i], X_max[i] = get_min_max(data_path, folder_name, train_image_files)
-    print("array of min values:", X_min)
-    print("array of max values:", X_max)
+    logging.info("array of min values:", X_min)
+    logging.info("array of max values:", X_max)
     while True:
         def grouped(train_image_files, batchsize):
             return zip(*[iter(train_image_files)] * batchsize)
@@ -129,7 +129,7 @@ def training_data_generator(Training_Input_shape, batchsize, num_channels, num_c
                     if "image" in folder_name and index == 1:
                         X = image_generator(Training_Input_shape, batchsize, num_channels, train_image_file, folder_name, data_path, X_min[index], X_max[index], use_algorithm)
             X_train, Y = data_augentation(X, Y, data_gen_args, data_path + str(train_image_file))
-            #print("Training data", np.shape(X_train), np.mean(X_train), np.max(X_train), np.shape(Y), np.mean(Y), np.max(Y))
+            #logging.info("Training data", np.shape(X_train), np.mean(X_train), np.max(X_train), np.shape(Y), np.mean(Y), np.max(Y))
             yield (X_train, Y)
 
 '''Generate the data for training and return images and groundtruth for classification'''
@@ -152,8 +152,8 @@ def training_data_generator_classification(Training_Input_shape, batchsize, num_
     for i, folder_name in enumerate(Folder_Names):
         if os.path.isdir(data_path + folder_name) == True:
             X_min[i], X_max[i] = get_min_max(data_path, folder_name, train_image_files)
-    print("array of min values:", X_min)
-    print("array of max values:", X_max)
+    logging.info("array of min values:", X_min)
+    logging.info("array of max values:", X_max)
     while True:
         def grouped(train_image_files, batchsize):
             return zip(*[iter(train_image_files)] * batchsize)
@@ -176,7 +176,7 @@ def training_data_generator_classification(Training_Input_shape, batchsize, num_
                         if row['filename'] == img_file:
                             label[j] = row['groundtruth']
                         else:
-                            warnings.warn("Ńo classification label found for image")
+                            logging.warning("Ńo classification label found for image")
             label = to_categorical(label, num_classes)
             yield (X, label)
 
@@ -198,8 +198,8 @@ def testGenerator(Input_image_shape, path, num_channels, test_image_files, use_a
     for i, folder_name in enumerate(Folder_Names):
         if os.path.isdir(test_path + folder_name) == True:
             X_min[i], X_max[i] = get_min_max(test_path, folder_name, test_image_files)
-    print(test_image_files)
-    print("len test files", len(test_image_files))
+    logging.info(test_image_files)
+    logging.info("len test files", len(test_image_files))
     while True:
         for test_file in test_image_files:
             test_file = [test_file]
@@ -210,7 +210,7 @@ def testGenerator(Input_image_shape, path, num_channels, test_image_files, use_a
                         X = np.concatenate([X, imp], axis = -1)
                     else:
                         X = imp
-            print("Test", np.shape(X))
+            logging.info("Test", np.shape(X))
             yield X
 
 def saveResult(path, test_image_files, results, Input_image_shape):
@@ -222,14 +222,14 @@ def saveResult(path, test_image_files, results, Input_image_shape):
     :return: saves the predicted segmentation or image to the Results folder in the project directory
     '''
     results = results * 255
-    print("Save result")
+    logging.info("Save result")
     os.makedirs(path, exist_ok=True)
-    print("shape npyfile", np.shape(results))
-    print("test_image_files", len(test_image_files))
+    logging.info("shape npyfile", np.shape(results))
+    logging.info("test_image_files", len(test_image_files))
     for i in range(len(test_image_files)):
-        print("filename", test_image_files[i])
+        logging.info("filename", test_image_files[i])
         titlenpy = (test_image_files[i] + "_predict")
-        print(i)
+        logging.info(i)
         if np.shape(results)[-1] == 0:
             results = results[:,:,:,0]
         minnpy = np.min(results[i, ...])
@@ -248,7 +248,7 @@ def saveResult_classification(path, test_image_files, results):
     :return: saves a .csv file to the results folder in the project directory
             containing the predicted labels on the testset
     '''
-    print("Save result")
+    logging.info("Save result")
     save_path = (path + '/results/')
     os.makedirs("./" + (save_path), exist_ok=True)
     with open(save_path + 'results.csv', 'w') as writeFile:
@@ -267,7 +267,7 @@ def saveResult_classification_uncertainty(path, test_image_files, results, MCpre
     :return: saves a .csv file to the results folder in the project directory
             containing the predicted labels on the testset
     '''
-    print("Save result")
+    logging.info("Save result")
     save_path = (path + '/results/')
     os.makedirs("./" + (save_path), exist_ok=True)
     with open(save_path + 'results.csv', 'w') as writeFile:
@@ -287,7 +287,7 @@ def training_validation_data_split(data_path):
     image_files = os.listdir(os.path.join(data_path + "/image"))
     lenval = int(len(image_files) * 0.2)
     validation_spilt_id = np.array(list(range(0, len(image_files), int(len(image_files) / lenval))))
-    print(validation_spilt_id)
+    logging.info(validation_spilt_id)
     train_image_files = []
     val_image_files = []
     for i in range(0, len(image_files)):
@@ -296,8 +296,8 @@ def training_validation_data_split(data_path):
         if i not in validation_spilt_id:
             train_image_files.append(image_files[i])
     train_image_files = np.random.permutation(train_image_files)
-    print("Found:", len(train_image_files), "images in training set")
-    print("Found:", len(val_image_files), "images in validation set")
+    logging.info("Found:", len(train_image_files), "images in training set")
+    logging.info("Found:", len(val_image_files), "images in validation set")
     return train_image_files, val_image_files
 
 '''Get the size of the input iamges and check dimensions'''
@@ -310,9 +310,9 @@ def get_input_image_sizes(path, use_algorithm):
     data_path = path + '/train'
     img_file = os.listdir(data_path + "/image/")[0]
     Input_image_shape = np.array(np.shape(np.array(import_image(data_path + "/image/" + img_file))))
-    print("Input shape Input_image_shape", str(Input_image_shape))
+    logging.info("Input shape Input_image_shape", str(Input_image_shape))
     if use_algorithm is "Regression" or use_algorithm is "Segmentation":
-        print(Input_image_shape)
+        logging.info(Input_image_shape)
         if int(Input_image_shape[0]) not in [int(16), int(32),int(64),int(128),int(256),int(512),int(1024),int(2048)]:
             if int(Input_image_shape[1]) not in [int(16), int(32),int(64),int(128),int(256),int(512),int(1024),int(2048)]:
                 sys.exit("The Input data needs to be of pixel dimensions: 16, 32, 64, 128, 256, 512, 1024 or 2048 in each dimension")
@@ -320,11 +320,11 @@ def get_input_image_sizes(path, use_algorithm):
     # If has an alpha channel, remove it for consistency
     Training_Input_shape = copy.deepcopy(Input_image_shape)
     if Training_Input_shape[-1] == 4:
-        print("Removing alpha channel")
+        logging.info("Removing alpha channel")
         Training_Input_shape[-1] = 3
 
     if all([Input_image_shape[-1] != 1, Input_image_shape[-1] != 3]):
-        print("Adding an empty channel dimension to the image dimensions")
+        logging.info("Adding an empty channel dimension to the image dimensions")
         Training_Input_shape = np.array(tuple(Input_image_shape) + (1,))
 
     if use_algorithm == "Classification":
@@ -332,5 +332,5 @@ def get_input_image_sizes(path, use_algorithm):
 
     num_channels = Training_Input_shape[-1]
     input_size = tuple(Training_Input_shape)
-    print("Input size is: ", input_size)
+    logging.info("Input size is: ", input_size)
     return tuple(Training_Input_shape), num_channels, Input_image_shape

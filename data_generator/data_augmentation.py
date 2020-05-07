@@ -234,5 +234,5 @@ def data_augentation(X, Y, data_gen_args, data_path_file_name):
             plot2images(X[0, ...], Y[0,...], Aug_path, title)
         elif len(np.shape(X)) == 4 and np.shape(X)[-1] == 1:
             plot2images(X[0, ..., 0], Y[0, :, :, 0], Aug_path, title)
-    #print("Augmented Dimensions:", np.shape(X), np.shape(Y))
+    #logging.info("Augmented Dimensions:", np.shape(X), np.shape(Y))
     return X, Y
