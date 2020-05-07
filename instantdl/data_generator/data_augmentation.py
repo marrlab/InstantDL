@@ -8,7 +8,7 @@ import numpy as np
 from PIL import Image, ImageEnhance
 import skimage as sk
 import random
-from data_generator.data import plot2images
+from instantdl.data_generator.data import plot2images
 from scipy.ndimage.interpolation import rotate
 from scipy.ndimage.filters import gaussian_filter
 import math

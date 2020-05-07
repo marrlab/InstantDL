@@ -1,8 +1,8 @@
 
-from utils import *
-from classification.classification import Classification
-from segmentation.Regression import Regression
-from segmentation.InstanceSegmentation import InstanceSegmentation
+from instantdl.utils import *
+from instantdl.classification.classification import Classification
+from instantdl.segmentation.Regression import Regression
+from instantdl.segmentation.InstanceSegmentation import InstanceSegmentation
 
 def GetPipeLine(use_algorithm,
                     path, 

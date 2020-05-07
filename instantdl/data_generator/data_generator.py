@@ -4,11 +4,11 @@ Author: Dominik Waibel
 This file contains the functions with which the data is improted and exported before training and testing and after testing.
 '''
 
-from data_generator.data import *
+from instantdl.data_generator.data import *
 import numpy as np
 from skimage.io import imread
 from skimage.transform import resize
-from data_generator.data_augmentation import data_augentation
+from instantdl.data_generator.data_augmentation import data_augentation
 import os
 import csv as csv
 import sys

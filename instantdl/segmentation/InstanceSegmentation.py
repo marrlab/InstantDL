@@ -5,7 +5,7 @@ Written by Dominik Waibel and Ali Boushehri
 In this file the functions are started to train and test the networks
 '''
 
-from utils import *
+from instantdl.utils import *
 
 class InstanceSegmentation(object):
     def __init__(self, 

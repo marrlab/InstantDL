@@ -14,14 +14,14 @@ import datetime
 import numpy as np
 import skimage.io
 #from imgaug import augmenters as iaa
-import segmentation.visualizeRCNN as visualize
+import instantdl.segmentation.visualizeRCNN as visualize
 import matplotlib
 import logging
 # Agg backend runs without a display
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
-import segmentation.utilsRCNN as utils
-from data_generator.data_generator import import_image
+import instantdl.segmentation.utilsRCNN as utils
+from instantdl.data_generator.data_generator import import_image
 
 # Base Configuration Class
 # Don't use this class directly. Instead, sub-class it and override

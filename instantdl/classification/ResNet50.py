@@ -12,10 +12,10 @@ import os
 import warnings
 import numpy as np
 from keras_applications import get_submodules_from_kwargs
-import classification.imagenet_utils_custom
-from classification.imagenet_utils_custom import decode_predictions, _obtain_input_shape
+import instantdl.classification.imagenet_utils_custom as custom_utils
+from instantdl.classification.imagenet_utils_custom import decode_predictions, _obtain_input_shape
 
-preprocess_input = classification.imagenet_utils_custom.preprocess_input
+preprocess_input = custom_utils.preprocess_input
 
 WEIGHTS_PATH = ('https://github.com/fchollet/deep-learning-models/'
                 'releases/download/v0.2/'

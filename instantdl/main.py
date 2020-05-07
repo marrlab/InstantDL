@@ -4,8 +4,8 @@ Written by Dominik Waibel and Ali Boushehri
 
 In this file the functions are started to train and test the networks
 '''
-from .utils import *
-from . import GetPipeLine
+from instantdl.utils import *
+from instantdl import GetPipeLine
 
 def start_learning( use_algorithm,
                     path, 

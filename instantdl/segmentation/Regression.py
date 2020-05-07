@@ -5,8 +5,8 @@ Written by Dominik Waibel and Ali Boushehri
 In this file the functions are started to train and test the networks
 '''
 
-from utils import *
-from segmentation.UNet_models import UNetBuilder
+from instantdl.utils import *
+from instantdl.segmentation.UNet_models import UNetBuilder
 
 class Regression(object):
     def __init__(self, 

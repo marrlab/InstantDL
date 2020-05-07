@@ -1,4 +1,4 @@
-from utils import *
+from instantdl.utils import *
 
 class Classification(object):
     def __init__(self, 
