@@ -22,7 +22,7 @@ import glob
 from keras.optimizers import Adam, SGD
 from metrics.metrics import accuracy_score
 from data_generator.data import write_logbook
-
+import logging
 
 def load_json(file_path):
     with open(file_path, 'r') as stream:

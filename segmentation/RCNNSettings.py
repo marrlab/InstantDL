@@ -8,7 +8,7 @@ Written by Waleed Abdulla
 """
 
 import os
-
+import logging
 import json
 import datetime
 import numpy as np
