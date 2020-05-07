@@ -22,7 +22,7 @@ import glob
 from keras.optimizers import Adam, SGD
 from data_generator.data import write_logbook
 import logging
-logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(level=logging.INFO)
 
 def load_json(file_path):
     with open(file_path, 'r') as stream:
