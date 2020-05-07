@@ -222,8 +222,6 @@ def training_data_generator_classification(Training_Input_shape,
                     for row in reader:
                         if row['filename'] == img_file:
                             label[j] = row['groundtruth']
-                        else:
-                            logging.warning("Ńo classification label found for image")
             label = to_categorical(label, num_classes)
             yield (X, label)
 
@@ -415,5 +413,5 @@ def get_input_image_sizes(path, use_algorithm):
 
     num_channels = Training_Input_shape[-1]
     input_size = tuple(Training_Input_shape)
-    logging.info("Input size is: %s" % input_size)
+#    logging.info("Input size is: %s" % input_size) TODO did not work...
     return tuple(Training_Input_shape), num_channels, Input_image_shape

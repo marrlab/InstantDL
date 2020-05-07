@@ -1,6 +1,6 @@
 {
-	"use_algorithm": "InstanceSegmentation",
-	"path": "examples/data/InstanceSegmentation",
+	"use_algorithm": "Classification",
+	"path": "examples/data/Classification",
 	"pretrained_weights_path": false,
 	"batchsize": 1,
 	"Iterations_Over_Dataset": 1,
@@ -9,7 +9,7 @@
 		            "resample_images": false,
 		            "std_normalization": false,
 		            "feature_scaling": false,
-		            "horizontal_flip": true,
+		            "horizontal_flip": false,
 		            "vertical_flip": true,
 		            "poission_noise": false,
 		            "rotation_range": false,
@@ -22,7 +22,7 @@
 		            "binarize_mask": false
 	},
 	"loss_function": "binary_crossentropy",
-	"num_classes": 1,
+	"num_classes": 2,
 	"Image_size": null,
 	"calculate_uncertainty": true,
 	"evaluation": true

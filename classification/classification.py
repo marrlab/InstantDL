@@ -221,7 +221,6 @@ class Classification(object):
 
     def run(self):    
         data_prepration_results = self.data_prepration()
-        
 
         Training_Input_shape = data_prepration_results[0]
         num_channels = data_prepration_results[1]
