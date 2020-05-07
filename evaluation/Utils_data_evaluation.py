@@ -47,10 +47,10 @@ def import_images(import_dir, files, new_file_ending):
 		data.append(imp)
 		names.append(file)
 	data = np.array(data)
-	print("Checking dimensions:")
+	logging.info("Checking dimensions:")
 	if np.shape(data)[-1] == 1:
 		data = data[...,0]
-	print("Shape of data imported is:", np.shape(data))
+	logging.info("Shape of data imported is:", np.shape(data))
 	return data, names
 
 def calcerrormap(prediction, groundtruth):
@@ -59,8 +59,8 @@ def calcerrormap(prediction, groundtruth):
 	:param groundtruth: stack of images in the groundtruth dataset
 	:return: stack with the absolute and relative differene between the prediction and groundtruth
 	'''
-	print(np.shape(groundtruth))
-	print(np.shape(prediction))
+	logging.info(np.shape(groundtruth))
+	logging.info(np.shape(prediction))
 	groundtruth = np.asarray(groundtruth, dtype=float)
 	prediction = np.asarray(prediction, dtype=float)
 	groundtruth_norm = (groundtruth - np.mean(groundtruth))/(np.std(groundtruth))
@@ -70,7 +70,7 @@ def calcerrormap(prediction, groundtruth):
 	abs_errormap_norm = ((groundtruth_fs - prediction_fs))
 	rel_errormap_norm = np.abs(np.divide(abs_errormap_norm, groundtruth_norm, out=np.zeros_like(abs_errormap_norm), where=groundtruth_norm!=0))
 	rel_error_norm = np.mean(np.concatenate(np.concatenate((rel_errormap_norm))))
-	print("The relative Error over the normalized dataset is:",rel_error_norm, " best ist close to zero")
+	logging.info("The relative Error over the normalized dataset is:",rel_error_norm, " best ist close to zero")
 	return abs_errormap_norm, rel_errormap_norm
 
 def prepare_data_for_evaluation(root_dir, max_images):
@@ -94,13 +94,13 @@ def prepare_data_for_evaluation(root_dir, max_images):
 	if os.path.exists(root_dir + "/test/groundtruth/") and os.path.isdir(root_dir + "/test/groundtruth/"):
 		groundtruth_exists = True
 	if RCNN == True:
-		print("Resizing MaskRCNN images to 256, 256 dimensins to make them stackable")
+		logging.info("Resizing MaskRCNN images to 256, 256 dimensins to make them stackable")
 		image_fnames = os.listdir(test_dir)
 		image_fnames = image_fnames[0:max_images]
 		image = []
 		groundtruth = []
 		predictions = []
-		print("importing", len(image_fnames), "files")
+		logging.info("importing", len(image_fnames), "files")
 		for name in image_fnames:
 			image_folder = (test_dir+name+"/image/"+name+".png")
 			imagein = (np.array(rgb2gray(io.imread(image_folder))))
@@ -116,8 +116,8 @@ def prepare_data_for_evaluation(root_dir, max_images):
 			prediction = np.sum(np.where(prediction == 1, 1, 0), axis = -1)
 			prediction[prediction > 1] = 1
 			predictions.append(resize(prediction, (256,256)))
-		print("pred", np.shape(predictions))
-		print("gt", np.shape(groundtruth))
+		logging.info("pred", np.shape(predictions))
+		logging.info("gt", np.shape(groundtruth))
 		abs_errormap_norm, rel_errormap_norm = calcerrormap(predictions, groundtruth)
 
 	else:
@@ -150,9 +150,9 @@ def prepare_data_for_evaluation(root_dir, max_images):
 	if os.path.isdir(root_dir + "uncertainty"):
 		np.save(root_dir + "/insights/" + "uncertainty", normalize(uncertainty))
 	if os.path.isdir(test_dir + "image1"):
-		print("Two")
+		logging.info("Two")
 		np.save(root_dir + "/insights/" + "image1", image1)
 	if os.path.isdir(test_dir + "image2"):
-		print("Three")
+		logging.info("Three")
 		np.save(root_dir + "/insights/" + "image1", image1)
 		np.save(root_dir + "/insights/" + "image2", image2)

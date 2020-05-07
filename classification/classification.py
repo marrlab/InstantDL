@@ -44,7 +44,7 @@ class Classification(object):
         network_input_size = np.array(Training_Input_shape)
         network_input_size[-1] = int(Training_Input_shape[-1]) * number_input_images
         network_input_size = tuple(network_input_size)
-        print("Number of input folders is: ", number_input_images)
+        logging.info("Number of input folders is: ", number_input_images)
 
         '''
         Import filenames and split them into train and validation set according to the variable -validation_split = 20%
@@ -55,7 +55,7 @@ class Classification(object):
         steps_per_epoch = int(len(train_image_files)/self.batchsize)
 
         self.epochs = self.Iterations_Over_Dataset
-        print("Making:", steps_per_epoch, "steps per Epoch")
+        logging.info("Making:", steps_per_epoch, "steps per Epoch")
         return [Training_Input_shape, num_channels, network_input_size, 
                         data_path, train_image_files, val_image_files, steps_per_epoch]
 
@@ -102,14 +102,14 @@ class Classification(object):
         if (self.pretrained_weights):
             model.load_weights(self.pretrained_weights, by_name=True, skip_mismatch=True)
         else:
-            print("No weigths given")
+            logging.info("No weigths given")
             #weights_path = get_imagenet_weights()
             #model.load_weights(weights_path, by_name=True, skip_mismatch=True)
         model.compile(loss=self.loss_function,
                           optimizer='Adam',
                           metrics=['accuracy'])
 
-        print(model.summary())
+        logging.info(model.summary())
         return model
 
     def train_model(self, model,TrainingDataGenerator,ValidationDataGenerator , steps_per_epoch, val_image_files ):
@@ -126,7 +126,7 @@ class Classification(object):
         model_checkpoint = ModelCheckpoint(checkpoint_filepath, monitor=('val_loss'), verbose=1, save_best_only=True)
 
         tensorboard = TensorBoard(log_dir="logs/" + self.path + "/" + format(time.time())) #, update_freq='batch')
-        print("Tensorboard log is created at: logs/  it can be opend using tensorboard --logdir=logs for a terminal in the InstantDL folder")
+        logging.info("Tensorboard log is created at: logs/  it can be opend using tensorboard --logdir=logs for a terminal in the InstantDL folder")
 
         #################################################if self.use_algorithm == "Classification":
         callbacks_list = [model_checkpoint, tensorboard, Early_Stopping]
@@ -142,7 +142,7 @@ class Classification(object):
                                 epochs=self.epochs,
                                 callbacks = callbacks_list,
                                 use_multiprocessing=True)
-        print('finished Model.fit_generator')
+        logging.info('finished Model.fit_generator')
         return model, checkpoint_filepath
 
     def test_set_evaluation(self, model, Training_Input_shape, num_channels):
@@ -151,16 +151,16 @@ class Classification(object):
         '''
         test_image_files = os.listdir(os.path.join(self.path + "/test/image"))
         num_test_img = int(len(os.listdir(self.path + "/test/image")))
-        print("Testing on", num_test_img, "test files")
+        logging.info("Testing on", num_test_img, "test files")
 
         '''
         Initialize the testset generator
         '''
         testGene = testGenerator(Training_Input_shape, self.path, num_channels, test_image_files, self.use_algorithm)
-        print('finished testGene')
+        logging.info('finished testGene')
         results = model.predict_generator(testGene, steps=num_test_img, use_multiprocessing=False, verbose=1)
-        print("results", np.shape(results))
-        print('finished model.predict_generator')
+        logging.info("results", np.shape(results))
+        logging.info('finished model.predict_generator')
         
         #################################################
         '''
@@ -190,10 +190,10 @@ class Classification(object):
                             input_tensor=None,
                             pooling='max',
                             classes=self.num_classes)
-        print("Starting Uncertainty estimation")
+        logging.info("Starting Uncertainty estimation")
         resultsMCD = []
         for i in range(0, 20):
-            print("Testing Uncertainty Number: ", str(i))
+            logging.info("Testing Uncertainty Number: ", str(i))
             testGene = testGenerator(Training_Input_shape, self.path, num_channels, test_image_files, self.use_algorithm)
             resultsMCD_pred = model.predict_generator(testGene,
                                                               steps=num_test_img,

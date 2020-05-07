@@ -256,7 +256,7 @@ def ResNet50(input_shape,
         elif pooling == 'max':
             x = layers.GlobalMaxPooling2D()(x)
         else:
-            warnings.warn('The output shape of `ResNet50(include_top=False)` '
+            logging.warning('The output shape of `ResNet50(include_top=False)` '
                           'has been changed since Keras 2.2.0.')
 
     # Ensure that the model takes into account
@@ -291,7 +291,7 @@ def ResNet50(input_shape,
             weights = layer.get_weights()
             if weights:
                 if np.array_equal(weights[0], pre[0]):
-                    print('not loaded', layer.name)
+                    logging.info('not loaded', layer.name)
                 else:
-                    print('loaded', layer.name)
+                    logging.info('loaded', layer.name)
     return model

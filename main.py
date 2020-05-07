@@ -62,7 +62,7 @@ def GetPipeLine(use_algorithm,
                         evaluation)
         return pipeline
     else: 
-        print("pipeline is still not ready")
+        logging.info("pipeline is still not ready")
     
 
 def start_learning( use_algorithm,
@@ -77,8 +77,8 @@ def start_learning( use_algorithm,
                     calculate_uncertainty,
                     evaluation):
 
-    print("Start learning")
-    print(use_algorithm)
+    logging.info("Start learning")
+    logging.info(use_algorithm)
     
     
     pipeline = GetPipeLine( use_algorithm,
@@ -112,7 +112,7 @@ if __name__ == "__main__":
     configs = load_json(args['config'])
 
     for k in configs:
-        print("%s : %s \n" % (k,configs[k]))
+        logging.info("%s : %s \n" % (k,configs[k]))
 
     use_algorithm = configs["use_algorithm"]
     path = configs["path"]
@@ -125,6 +125,7 @@ if __name__ == "__main__":
     Image_size = configs["Image_size"]
     calculate_uncertainty = configs["calculate_uncertainty"]
     evaluation = configs["evaluation"]
+    
     '''
     Sanity checks in order to ensure all settings in config
     have been set so the programm is able to run
@@ -135,10 +136,10 @@ if __name__ == "__main__":
                             'Classification']
 
     if not isinstance(batchsize, int):
-        warnings.warn("Batchsize has not been set. Setting batchsize = 1")
+        logging.warning("Batchsize has not been set. Setting batchsize = 1")
         batchsize = 1
     if not isinstance(Iterations_Over_Dataset, int):
-        warnings.warn("Epochs has not been set. Setting epochs = 500 and using early stopping")
+        logging.warning("Epochs has not been set. Setting epochs = 500 and using early stopping")
         Iterations_Over_Dataset = 500
 
     if os.path.isfile((pretrained_weights_path)):

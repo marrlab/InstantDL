@@ -45,13 +45,13 @@ def getPearson(gt, pred):
     return pearson, pearson_all
 
 def save_2Dimages(data, names, z_index, path_name, image_name):
-    print("plot len data", len(data))
+    logging.info("plot len data", len(data))
     plt.figure(figsize = (len(data)*8,10))
     grid = plt.GridSpec(4, len(data), height_ratios=[0.01,0.3,0.02,0.01], width_ratios=len(data) * [1])
-    print("shape data save", np.shape(data))
+    logging.info("shape data save", np.shape(data))
     for img, image in enumerate(data):
         shape = np.shape(image)
-        print("shape plot image", np.shape(image))
+        logging.info("shape plot image", np.shape(image))
         plts = plt.subplot(grid[0:2, img])
         if names[img] == "abs_errormap":
             max_val = np.max(np.abs(image))
@@ -76,7 +76,7 @@ def save_2Dimages(data, names, z_index, path_name, image_name):
             labelleft = False)
             plts = plt.tick_params(labelsize=50)
         if names[img] == "abs_errormap":
-            print("colorbar")
+            logging.info("colorbar")
             if "uncertainty" in names:
                 cbax = plt.subplot(grid[2:3,-2])
             else:
@@ -85,7 +85,7 @@ def save_2Dimages(data, names, z_index, path_name, image_name):
             cbax.set_ticks([])
             cbax.set_label('Over-     Under- \n prediction', size = 50)
         if names[img] == "uncertainty":
-            print("colorbar uncertanty")
+            logging.info("colorbar uncertanty")
             cbay = plt.subplot(grid[2:3,-1])
             cbay = Colorbar(ax = cbay,  mappable = pltcbunc, orientation="horizontal")
             cbay.set_ticks([])
@@ -97,16 +97,16 @@ def save_2Dimages(data, names, z_index, path_name, image_name):
 
 def save_3Dimages(data, names, z_index, path_name, image_name):
     plt.figure(figsize=(len(data) * 8, 12))
-    print("plot len data", len(data))
+    logging.info("plot len data", len(data))
     grid = plt.GridSpec(5, len(data), height_ratios=[0.01, 0.3, 0.1, 0.02, 0.01], width_ratios=len(data) * [1])
 
-    print("shape data save", np.shape(data))
+    logging.info("shape data save", np.shape(data))
     for img, image in enumerate(data):
         shape = np.shape(image)
-        print("shape image", np.shape(image))
+        logging.info("shape image", np.shape(image))
         x_image = image[int(shape[0] / 2), ...]
         z_image = image[:, int(shape[1] / 2), :]
-        print("shape plot image", np.shape(x_image))
+        logging.info("shape plot image", np.shape(x_image))
         plts = plt.subplot(grid[0:2, img])
         plts = plt.plot(np.arange(np.shape(x_image)[1]), [np.shape(x_image)[1] / 2] * np.shape(x_image)[1], color='0.5')
         plts = plt.title(names[img], size=50)
@@ -173,7 +173,7 @@ def save_3Dimages(data, names, z_index, path_name, image_name):
         cbax.set_ticks([])
         cbax.set_label('Low      High', size=50)
         cbax.ax.tick_params(labelsize=50)
-    print(path_name + z_index  + image_name + ".png")
+    logging.info(path_name + z_index  + image_name + ".png")
     plt.savefig(path_name + z_index  + image_name + ".png", dpi=50, bbox_inches='tight')
     plt.show()
     plt.close()
@@ -194,16 +194,16 @@ def quantitative_evaluation(path, data, names):
     from sklearn.metrics import accuracy_score, adjusted_rand_score, auc, roc_auc_score
     Pearson, Pearson_all = getPearson(data[names.index("prediction")], data[names.index("groundtruth")])
 
-    print("Metriccs:")
-    print("The accuracy on the normalized dataset is: ",
+    logging.info("Metriccs:")
+    logging.info("The accuracy on the normalized dataset is: ",
           1 - np.mean(np.square(groundtruth_norm - prediction_norm)) / (groundtruth_norm.size))
-    print("The median relative error on the normalized dataset is: ", np.median(rel_errormap_norm) * 100, "%")
-    print("The mean absolute error on the normalized dataset is: ", np.mean(data[names.index("abs_errormap")]))
-    print("The Pearson coefficient is: ", np.median(1-Pearson))
-    print("The Jaccard index is: ", jaccard(prediction_binary.flatten(), groundtruth_binary.flatten()))
-    print("The AUC is:", roc_auc_score(prediction_binary.flatten(), groundtruth_binary.flatten()))
-    # print("The Information score is: ", mutual_info_score(np.concatenate(np.concatenate(prediction_norm)), np.concatenate(np.concatenate(groundtruth_norm))))
-    # print("The rand score is:" , adjusted_rand_score(np.concatenate(np.concatenate(groundtruth_norm)), np.concatenate(np.concatenate(prediction_norm))))
+    logging.info("The median relative error on the normalized dataset is: ", np.median(rel_errormap_norm) * 100, "%")
+    logging.info("The mean absolute error on the normalized dataset is: ", np.mean(data[names.index("abs_errormap")]))
+    logging.info("The Pearson coefficient is: ", np.median(1-Pearson))
+    logging.info("The Jaccard index is: ", jaccard(prediction_binary.flatten(), groundtruth_binary.flatten()))
+    logging.info("The AUC is:", roc_auc_score(prediction_binary.flatten(), groundtruth_binary.flatten()))
+    # logging.info("The Information score is: ", mutual_info_score(np.concatenate(np.concatenate(prediction_norm)), np.concatenate(np.concatenate(groundtruth_norm))))
+    # logging.info("The rand score is:" , adjusted_rand_score(np.concatenate(np.concatenate(groundtruth_norm)), np.concatenate(np.concatenate(prediction_norm))))
     f = open(path + '/Error analysis.txt', 'w')
     f.write('\n' + "The median relative error on the normalized dataset is: " + str(
         np.median(rel_errormap_norm)) + " percent")
@@ -226,28 +226,28 @@ def visual_assesment(path, data, names):
     for index, image in enumerate(data):
         if names[index] not in ["abs_errormap"]:
             if names[index] not in ["abs_errormap"]:
-                print(index)
-                print(np.mean(np.mean(image)))
-                print(np.shape(image))
+                logging.info(index)
+                logging.info(np.mean(np.mean(image)))
+                logging.info(np.shape(image))
                 data[index, ...] = normalize(data[index, ...])
 
     names_out = copy.deepcopy(names)
     report_dir = "./" + path + "/evaluation/"
-    print("Length of data", len(data))
+    logging.info("Length of data", len(data))
     if len(np.shape(data[0])) == 3 or len(np.shape(data[0])) == 4 and np.shape(data[0])[-1] == 3:
         for index in range(len(data[0])):
-            print("index", index)
-            print("saving 2D image")
+            logging.info("index", index)
+            logging.info("saving 2D image")
             '''Taking the slices in z-dimension one after another'''
             save_2Dimages(np.array(data)[:, index, ...], names, str(index), report_dir, image_names[index])
 
     if len(np.shape(data[0])) == 5 or len(np.shape(data[0])) == 5 and np.shape(data[0])[-1] == 4:
         for index in range(len(data[1])):
-            print(index)
-            print("saving 3D image")
+            logging.info(index)
+            logging.info("saving 3D image")
             '''Taking the slices in z-dimension one after another'''
-            print("data shape", np.shape(np.array(data)))
-            print("save 3d", report_dir)
+            logging.info("data shape", np.shape(np.array(data)))
+            logging.info("save 3d", report_dir)
             save_3Dimages(np.array(data)[:, index, ...], names, str(index), report_dir, image_names[index])
 
 
@@ -262,12 +262,12 @@ def segmentation_regression_evaluation(path):
     for name in data_names:
         if os.path.isfile(path + "/insights/" + name + ".npy"):
             import_data = np.array(np.load(path + "/insights/" + name + ".npy").astype('float'))
-            print(name, np.shape(import_data))
+            logging.info(name, np.shape(import_data))
             datain.append(import_data)
             names.append(str(name))
     data = np.array(datain)
     image_names = np.load(path + "/insights/image_names.npy")
-    print(names)
-    print(np.shape(data))
+    logging.info(names)
+    logging.info(np.shape(data))
     quantitative_evaluation(savepath, data, names)
     visual_assesment(path, data, names)

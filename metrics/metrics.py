@@ -62,11 +62,11 @@ def total_variation_loss(prediction):
         img_nrows = prediction.shape[1]
         img_ncols = prediction.shape[2]
         if K.image_data_format() == 'channels_first':
-            print("Total Variation Loss Channel first")
+            logging.info("Total Variation Loss Channel first")
             a = K.square(prediction[:, :, :img_nrows - 1, :img_ncols - 1, :] - prediction[:, :, 1:, :img_ncols - 1, :])
             b = K.square(prediction[:, :, :img_nrows - 1, :img_ncols - 1, :] - prediction[:, :, :img_nrows - 1, 1:, :])
         else:
-            print("Total Variation Loss Channel last")
+            logging.info("Total Variation Loss Channel last")
             a = K.square(prediction[:, :img_nrows - 1, :img_ncols - 1, :, :] - prediction[:, 1:, :img_ncols - 1, :, :])
             b = K.square(prediction[:, :img_nrows - 1, :img_ncols - 1, :, :] - prediction[:, :img_nrows - 1, 1:, :, :])
         return K.sum(K.pow(a + b, 1.25))
@@ -74,11 +74,11 @@ def total_variation_loss(prediction):
         img_nrows = prediction.shape[1]
         img_ncols = prediction.shape[2]
         if K.image_data_format() == 'channels_first':
-            print("Total Variation Loss Channel first")
+            logging.info("Total Variation Loss Channel first")
             a = K.square(prediction[:, :, :img_nrows - 1, :img_ncols - 1] - prediction[:, :, 1:, :img_ncols - 1, :])
             b = K.square(prediction[:, :, :img_nrows - 1, :img_ncols - 1] - prediction[:, :, :img_nrows - 1, 1:])
         else:
-            print("Total Variation Loss Channel last")
+            logging.info("Total Variation Loss Channel last")
             a = K.square(prediction[:, :img_nrows - 1, :img_ncols - 1, :] - prediction[:, 1:, :img_ncols - 1, :])
             b = K.square(prediction[:, :img_nrows - 1, :img_ncols - 1, :] - prediction[:, :img_nrows - 1, 1:, :])
         return K.sum(K.pow(a + b, 1.25))
@@ -90,7 +90,7 @@ def mse(y_true, y_pred):
         y_pred: tensor, the prediction or output of the network
         returns: float
     """
-    print("y_pred", y_pred, "y_true", y_true)
+    logging.info("y_pred", y_pred, "y_true", y_true)
     return K.mean(K.square(y_pred - y_true))
 
 def total_variaton_loss_mse(image, prediction):

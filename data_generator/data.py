@@ -12,7 +12,7 @@ def plottestimage_npy(image, path, title):
     :param title: image name
     :return: saves the networks prediction to the results folder
     '''
-    print(np.shape(image))
+    logging.info(np.shape(image))
     imsave(path + title + ".tif", image)
 
 def plot2images(image, mask, path, title):
