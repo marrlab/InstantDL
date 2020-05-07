@@ -16,7 +16,7 @@ import copy
 from matplotlib.colorbar import Colorbar
 from skimage.color import rgb2gray, gray2rgb
 
-from evaluation.Utils_data_evaluation import prepare_data_for_evaluation
+from instantdl.evaluation.Utils_data_evaluation import prepare_data_for_evaluation
 
 def threshold(img):
     img[img < np.mean(img)] = 0
