@@ -172,4 +172,5 @@ Set to true or false. It is only supported with semantic segmentation, pixel-wis
 - [ ] add tests
 - [ ] add thresholding for semantic segmentation
 - [ ] add versions
+- [ ] create automatically train and test set
 - [ ] add all loss fuctions
