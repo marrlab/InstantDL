@@ -49,7 +49,6 @@ For running the code, you need to have Python 3.7 or higher installed. In additi
 
 ## How to use the code
 
-```bash```
 The pipeline is based on folders. Please put your data manually in the corresponding folders as illustrated by the figure above. The folder names must not be changed as this will stop the pipeline from functioning.
 
 The config.json file in the config folder must be used to set parameters for the pipeline. After this the pipeline is started by executing the main.py file. Predictins from the testset will be saved after training to the Results folder which will automatically be created. 
@@ -57,12 +56,14 @@ The config.json file in the config folder must be used to set parameters for the
 From there evaluations using jupyter-notebooks from the Evaluation folder can be used for visual and statistical assessment. Therefore only the path in the jupyter-notebook files has to be adapted. 
 
 Possible setting in the config.json file are: 
+```json
 "use_algorithm": "Regression", "SemanticSegmentation", "Instance Segmentation" or "Classification"
 "path": "data/Ouncomol_NucEnvelope_3Dnew", #Set the path to your project directory here
 "use_pretrained_weights": false, # Set to true if you want to use pretrained weights
 "pretrained_weights_path": false, # Set a relative file path from your project directory with the filename here. 
 "batchsize": 2, # Set the batchsize depeding on your GPU capabilities
-"Iterations_Over_Dataset": 200, # Set how many iterations over the dataset should be taken for learning. It might stop automatically if no improvement on the validation set was measured after 25 epochs
+"Iterations_Over_Dataset": 200, # Set how many iterations over the dataset should be taken for learning. 
+It might stop automatically if no improvement on the validation set was measured after 25 epochs
 
 Set data augmentation parameters here
 "save_augmented_images": false, # true or false
@@ -88,22 +89,27 @@ Set parameters training here. Number of classes should be 1 using binary segmena
 "num_classes": 1, # Number of classes should be 1 for binary segmenation tasks
 "Image_size": null, # null or tuple with dimensions of desired image size in format (x-dim, y-dim, [z-dim,] channels)
 "calculate_uncertainty": false # true or false
+```
 
+For running the code, you can simply run it using:
 
+```bash
 python main.py --config ./config.json
+```
 
-Training works as follows:
-- Import of data in all common image file formats that are processable with scikit-image (e.g. .jpg, .tiff, .png) and .npy files.
-- Initialization of a model with pre-trained weights or random weights. For classification and instance segmentation, InstantDL will automatically use ImageNet weights if no weights are given.
-- Split of ‘train’-folder into 80% training and 20% validation set and randomly shuffles the training data.
-- Normalization of data to the range between 0 and 1 based on the train dataset’s minimum and maximum pixel value. The data will be re-normalized when saved after testing.
-- Batch creation and data augmentation on the fly.
-- Training for the set epoch length using early stopping of training if the validation accuracy has not improved for the last epochs. Using the Adam optimizer (Kingma and Ba, 2014).
-- Real time monitoring of training with Tensorboard or terminal.
-- Saving of the best model during training.
-- Automated evaluation of the trained model on the test data and saving of predicted labels.
-- For pixel-wise regression, semantic segmentation or classification, InstantDL will calculate the uncertainty for each image. Therefore Monte Carlo dropout is used to evaluate 20 different models. The uncertainty estimation is saved to the project directory.
-- Experiment settings are automatically saved to a logbook in order to simplify experiment monitoring.
+## Training steps:
+
+1. Import of data in all common image file formats that are processable with scikit-image (e.g. .jpg, .tiff, .png) and .npy files.
+2. Initialization of a model with pre-trained weights or random weights. For classification and instance segmentation, InstantDL will automatically use ImageNet weights if no weights are given.
+3. Split of ‘train’-folder into 80% training and 20% validation set and randomly shuffles the training data.
+4. Normalization of data to the range between 0 and 1 based on the train dataset’s minimum and maximum pixel value. The data will be re-normalized when saved after testing.
+5. Batch creation and data augmentation on the fly.
+6. Training for the set epoch length using early stopping of training if the validation accuracy has not improved for the last epochs. Using the Adam optimizer (Kingma and Ba, 2014).
+7. Real time monitoring of training with Tensorboard or terminal.
+8. Saving of the best model during training.
+9. Automated evaluation of the trained model on the test data and saving of predicted labels.
+10. For pixel-wise regression, semantic segmentation or classification, InstantDL will calculate the uncertainty for each image. Therefore Monte Carlo dropout is used to evaluate 20 different models. The uncertainty estimation is saved to the project directory.
+11. Experiment settings are automatically saved to a logbook in order to simplify experiment monitoring.
 
 | Parameter | Explanation of the .json parameter|
 | ------ | ------ |
