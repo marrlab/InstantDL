@@ -105,7 +105,15 @@ Automated evaluation of the trained model on the test data and saving of predict
 For pixel-wise regression, semantic segmentation or classification, InstantDL will calculate the uncertainty for each image. Therefore Monte Carlo dropout is used to evaluate 20 different models. The uncertainty estimation is saved to the project directory.
 Experiment settings are automatically saved to a logbook in order to simplify experiment monitoring.
 
-
+| Parameter | Explanation of the .json parameter|
+| ------ | ------ |
+| Path | Relative path to project directory containing the data, pretrained models, results and evaluation |
+| Path to pre-trained weights | Relative path to pre-trained weights |
+| Batch size | Set integer, it depends on your GPU / CPU capabilities |
+| Number of iterations over dataset | Integer, using early stopping if no improvement is measured on the validation set after 25 epochs |
+| Data augmentation | Resample images (yes/no), std-mean-normalization (yes/no), feature scaling (yes/no), vertical and horizontal flip (yes/no), zoom (factor), rotation (degrees), add Poisson noise (amound), zoom range (factor), contrast (factor), brightness (factor), gamma shift (factor), threshold background of image (yes/no), threshold background of ground truth (yes/no), Gaussian blur of image (factor), Gaussian blur of groundtruth (factor), binarize groundtruth (yes/no), save augmented images and masks to folder (yes/no) |
+| Loss function | Choose from the following: MSE, MAE, dice loss, binary cross entropy, categorical cross entropy |
+| Number of classes | Set to the number of classes in your dataset|
 
 ## Run examples:
 One example of each task of semantic segmentation, instance segmentation, regression and classification is in the examples folder.
@@ -129,6 +137,13 @@ Using the uncertainty incorrect predictions can be identified: While in (B) a lo
 (D) A high average uncertainty can indicate model failures and can help identify incorrect predictions.
 (E) For a classification task of white blood cells [Matek et al. 2019](https://www.nature.com/articles/s42256-019-0101-9) , uncertainty estimation indicates incorrect predictions.
 (E) Statistical assessment of the uncertainty prediction of the blast cell myeloid leukemia dataset. The distributions of uncertainty values and correct and false predictions differ significantly (pvalue = 3,4*e-82). The significant separation of the two distributions shows that certainty correlates with correct predictions.
+
+
+
+Image resize
+Tuple (x-dim, y-dim, [z-dim], channels)
+Calculate uncertainty
+Set to true or false. It is only supported with semantic segmentation, pixel-wise regression and classificaiton
 
 
 
@@ -157,3 +172,4 @@ Using the uncertainty incorrect predictions can be identified: While in (B) a lo
 - [ ] add tests
 - [ ] add thresholding for semantic segmentation
 - [ ] add versions
+- [ ] add all loss fuctions
