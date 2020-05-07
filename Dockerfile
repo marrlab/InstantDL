@@ -24,10 +24,10 @@ RUN conda install -c anaconda tensorflow=1.14.0
 RUN conda install -c anaconda keras=2.2.4
 RUN conda install -c anaconda matplotlib=3.1.1
 RUN conda install -c anaconda numpy=1.16.4
-RUN conda install -c anaconda python=3.6.7
+RUN conda install -c anaconda pandas=1.0.3
 RUN conda install -c anaconda scikit-image=0.15.0
 RUN conda install -c anaconda scikit-learn=0.21.3
-RUN conda install -c anaconda scipy=1.3.00
+RUN conda install -c anaconda scipy=1.3.0
 
 # Copy the current directory contents into the container at /app
 COPY . /app

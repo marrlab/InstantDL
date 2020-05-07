@@ -20,7 +20,6 @@ tf.config.experimental.list_physical_devices('GPU')
 from classification.ResNet50 import ResNet50 #, get_imagenet_weights
 import glob
 from keras.optimizers import Adam, SGD
-from metrics.metrics import accuracy_score
 from data_generator.data import write_logbook
 import logging
 logging.basicConfig(level=logging.DEBUG)
