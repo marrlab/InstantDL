@@ -262,7 +262,7 @@ def testGenerator(Input_image_shape, path, num_channels, test_image_files, use_a
                         X = np.concatenate([X, imp], axis = -1)
                     else:
                         X = imp
-            logging.info("Test %s" % np.shape(X))
+            logging.info("Test %s" % (np.shape(X),))
             yield X
 
 def saveResult(path, test_image_files, results, Input_image_shape):
@@ -413,5 +413,5 @@ def get_input_image_sizes(path, use_algorithm):
 
     num_channels = Training_Input_shape[-1]
     input_size = tuple(Training_Input_shape)
-#    logging.info("Input size is: %s" % input_size) TODO did not work...
+    logging.info("Input size is: %s" % (input_size,))
     return tuple(Training_Input_shape), num_channels, Input_image_shape

@@ -12,7 +12,7 @@ import sys
 import random
 import itertools
 import colorsys
-
+import logging
 import numpy as np
 from skimage.measure import find_contours
 import matplotlib.pyplot as plt

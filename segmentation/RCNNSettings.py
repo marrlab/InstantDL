@@ -16,7 +16,7 @@ import skimage.io
 #from imgaug import augmenters as iaa
 import segmentation.visualizeRCNN as visualize
 import matplotlib
-
+import logging
 # Agg backend runs without a display
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
