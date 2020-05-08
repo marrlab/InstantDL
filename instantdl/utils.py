@@ -10,6 +10,7 @@ from instantdl.segmentation.UNet_models import UNetBuilder
 from keras.callbacks import ModelCheckpoint, TensorBoard, EarlyStopping
 import time
 import tensorflow as tf
+tf.get_logger().setLevel('WARNING')
 from keras import backend as K
 from keras.applications.resnet50 import ResNet50
 from instantdl.classification.ResNet50 import ResNet50

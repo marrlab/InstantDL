@@ -1,5 +1,5 @@
 import os
-from setuptools import setup
+from setuptools import setup, find_packages
 
 # Utility function to read the README file.
 # Used for the long_description.  It's nice, because now 1) we have a top level
@@ -17,7 +17,9 @@ setup(
     license = "MIT",
     keywords = "Computational Biology Deep Learning",
     url = "https://github.com/aliechoes/ICBPipeline",
-    packages=['instantdl'],
+    packages=find_packages(exclude=["doc*", "test*"]),
+    install_requires=[  'keras==2.2.4',
+                        'tensorboard>=1.13.0,<=1.14.0'],
     long_description=read('README.md'),
     classifiers=[
         "Development Status :: 3 - Alpha",
