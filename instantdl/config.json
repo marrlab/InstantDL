@@ -3,7 +3,7 @@
 	"path": "examples/data/SemanticSegmentation",
 	"pretrained_weights_path": false,
 	"batchsize": 1,
-	"Iterations_Over_Dataset": 1,
+	"Iterations_Over_Dataset": 0,
 	"data_gen_args": {
 			"save_augmented_images": false,
 		            "resample_images": false,

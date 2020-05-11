@@ -46,13 +46,15 @@ def getPearson(gt, pred):
     return pearson, pearson_all
 
 def save_2Dimages(data, names, z_index, path_name, image_name):
-    logging.info("plot len data", len(data))
+    logging.info("plot len data")
+    logging.info(len(data))
     plt.figure(figsize = (len(data)*8,10))
     grid = plt.GridSpec(4, len(data), height_ratios=[0.01,0.3,0.02,0.01], width_ratios=len(data) * [1])
-    logging.info("shape data save", np.shape(data))
+    logging.info("shape data save")
+    logging.info(np.shape(data))
     for img, image in enumerate(data):
         shape = np.shape(image)
-        logging.info("shape plot image", np.shape(image))
+        #logging.info("shape plot image", np.shape(image))
         plts = plt.subplot(grid[0:2, img])
         if names[img] == "abs_errormap":
             max_val = np.max(np.abs(image))
@@ -234,10 +236,12 @@ def visual_assesment(path, data, names):
 
     names_out = copy.deepcopy(names)
     report_dir = "./" + path + "/evaluation/"
-    logging.info("Length of data", len(data))
+    logging.info("Length of data")
+    logging.info(len(data))
     if len(np.shape(data[0])) == 3 or len(np.shape(data[0])) == 4 and np.shape(data[0])[-1] == 3:
         for index in range(len(data[0])):
-            logging.info("index", index)
+            logging.info("index")
+            logging.info(index)
             logging.info("saving 2D image")
             '''Taking the slices in z-dimension one after another'''
             save_2Dimages(np.array(data)[:, index, ...], names, str(index), report_dir, image_names[index])
@@ -263,12 +267,16 @@ def segmentation_regression_evaluation(path):
     for name in data_names:
         if os.path.isfile(path + "/insights/" + name + ".npy"):
             import_data = np.array(np.load(path + "/insights/" + name + ".npy").astype('float'))
-            logging.info(name, np.shape(import_data))
+            logging.info(name)
+            logging.info(np.shape(import_data))
             datain.append(import_data)
             names.append(str(name))
     data = np.array(datain)
     image_names = np.load(path + "/insights/image_names.npy")
     logging.info(names)
     logging.info(np.shape(data))
-    quantitative_evaluation(savepath, data, names)
+    if "groundtruth" in names:
+        quantitative_evaluation(savepath, data, names)
+    else:
+        logging.info("No Groundtruth given, therefore the quantitative performance can not be evaluated")
     visual_assesment(path, data, names)

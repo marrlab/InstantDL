@@ -51,7 +51,8 @@ def import_images(import_dir, files, new_file_ending):
 	logging.info("Checking dimensions:")
 	if np.shape(data)[-1] == 1:
 		data = data[...,0]
-	logging.info("Shape of data imported is:", np.shape(data))
+	logging.info("Shape of data imported is:")
+	logging.info(np.shape(data))
 	return data, names
 
 def calcerrormap(prediction, groundtruth):
