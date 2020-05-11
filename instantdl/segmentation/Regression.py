@@ -131,10 +131,10 @@ class Regression(object):
             self.pretrained_weights = None
         if data_dimensions == 3:
             logging.info("Using 3D UNet")
-            model = UNetBuilder.unet3D(self.pretrained_weights, network_input_size, num_channels_label,self.num_classes, self.loss_function, Dropout_On = True)
+            model = UNetBuilder.unet3D(self.pretrained_weights, network_input_size[-1], num_channels_label, self.num_classes, self.loss_function, Dropout_On = True)
         else:
             logging.info("Using 2D UNet")
-            model = UNetBuilder.unet2D(self.pretrained_weights,network_input_size, num_channels_label,self.num_classes, self.loss_function, Dropout_On = True)
+            model = UNetBuilder.unet2D(self.pretrained_weights, network_input_size[-1], num_channels_label, self.num_classes, self.loss_function, Dropout_On = True)
 
         logging.info(model.summary())
         return model
@@ -176,7 +176,7 @@ class Regression(object):
         '''
         test_image_files = os.listdir(os.path.join(self.path + "/test/image"))
         num_test_img = int(len(os.listdir(self.path + "/test/image")))
-        logging.info("Testing on", num_test_img, "test files")
+        #logging.info("Testing on", num_test_img, "test files")
 
         '''
         Initialize the testset generator
@@ -184,7 +184,7 @@ class Regression(object):
         testGene = testGenerator(Training_Input_shape, self.path, num_channels, test_image_files, self.use_algorithm)
         logging.info('finished testGene')
         results = model.predict_generator(testGene, steps=num_test_img, use_multiprocessing=False, verbose=1)
-        logging.info("results", np.shape(results))
+        #logging.info("results"), np.shape(results))
         logging.info('finished model.predict_generator')
 
 
@@ -223,7 +223,7 @@ class Regression(object):
             else:
                 uncertainty_weights = self.pretrained_weights
             model = UNetBuilder.unet3D(uncertainty_weights,
-                                               network_input_size,
+                                               network_input_size[-1],
                                                num_channels_label,
                                                loss_function = self.loss_function,
                                                num_classes = self.num_classes,
@@ -235,7 +235,7 @@ class Regression(object):
             else:
                 uncertainty_weights = self.pretrained_weights
             model = UNetBuilder.unet2D(uncertainty_weights,
-                                               network_input_size,
+                                               network_input_size[-1],
                                                num_channels_label,
                                                loss_function = self.loss_function,
                                                num_classes = self.num_classes,
@@ -287,15 +287,16 @@ class Regression(object):
                                                                         num_channels,
                                                                         Input_image_shape)
 
-        self.uncertainty_prediction(    results, 
-                                        checkpoint_filepath, 
-                                        network_input_size, 
-                                        Training_Input_shape, 
-                                        num_channels, 
-                                        test_image_files, 
-                                        num_test_img,
-                                        data_dimensions ,  
-                                        num_channels_label, 
-                                        Input_image_shape)
+        if self.calculate_uncertainty == True:
+            self.uncertainty_prediction(    results,
+                                            checkpoint_filepath,
+                                            network_input_size,
+                                            Training_Input_shape,
+                                            num_channels,
+                                            test_image_files,
+                                            num_test_img,
+                                            data_dimensions ,
+                                            num_channels_label,
+                                            Input_image_shape)
         model = None
     

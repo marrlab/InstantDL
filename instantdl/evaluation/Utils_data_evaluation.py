@@ -51,7 +51,8 @@ def import_images(import_dir, files, new_file_ending):
 	logging.info("Checking dimensions:")
 	if np.shape(data)[-1] == 1:
 		data = data[...,0]
-	logging.info("Shape of data imported is:", np.shape(data))
+	logging.info("Shape of data imported is:")
+	logging.info(np.shape(data))
 	return data, names
 
 def calcerrormap(prediction, groundtruth):
@@ -143,7 +144,7 @@ def prepare_data_for_evaluation(root_dir, max_images):
 	os.makedirs(root_dir + "/insights/", exist_ok=True)
 	np.save(root_dir + "/insights/" + "image", image)
 	np.save(root_dir + "/insights/" + "prediction", predictions)
-	if len(groundtruth) > 1:
+	if os.path.isdir(test_dir + "/groundtruth/") and len(groundtruth) > 1:
 		np.save(root_dir + "/insights/" + "groundtruth", groundtruth)
 		np.save(root_dir + "/insights/" + "abs_errormap", abs_errormap_norm)
 		np.save(root_dir + "/insights/" + "rel_errormap", rel_errormap_norm)

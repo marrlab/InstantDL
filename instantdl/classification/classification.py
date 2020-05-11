@@ -246,12 +246,13 @@ class Classification(object):
                                                                                 Training_Input_shape, 
                                                                                 num_channels)
 
-        self.uncertainty_prediction(    results, 
-                                        checkpoint_filepath, 
-                                        network_input_size, 
-                                        Training_Input_shape, 
-                                        num_channels, 
-                                        test_image_files, 
-                                        num_test_img)
+        if self.calculate_uncertainty == True:
+            self.uncertainty_prediction(    results,
+                                            checkpoint_filepath,
+                                            network_input_size,
+                                            Training_Input_shape,
+                                            num_channels,
+                                            test_image_files,
+                                            num_test_img)
         model = None
     

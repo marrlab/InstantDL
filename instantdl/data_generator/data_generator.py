@@ -262,7 +262,6 @@ def testGenerator(Input_image_shape, path, num_channels, test_image_files, use_a
                         X = np.concatenate([X, imp], axis = -1)
                     else:
                         X = imp
-            logging.info("Test %s" % (np.shape(X),))
             yield X
 
 def saveResult(path, test_image_files, results, Input_image_shape):
