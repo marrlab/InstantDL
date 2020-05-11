@@ -15,6 +15,7 @@ plt.rcParams["font.family"] = "Computer Modern Roman"
 import copy
 from matplotlib.colorbar import Colorbar
 from skimage.color import rgb2gray, gray2rgb
+import logging
 
 from instantdl.evaluation.Utils_data_evaluation import prepare_data_for_evaluation
 

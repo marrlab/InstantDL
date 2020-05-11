@@ -131,10 +131,10 @@ class Regression(object):
             self.pretrained_weights = None
         if data_dimensions == 3:
             logging.info("Using 3D UNet")
-            model = UNetBuilder.unet3D(self.pretrained_weights, network_input_size, num_channels_label,self.num_classes, self.loss_function, Dropout_On = True)
+            model = UNetBuilder.unet3D(self.pretrained_weights, network_input_size[-1], num_channels_label, self.num_classes, self.loss_function, Dropout_On = True)
         else:
             logging.info("Using 2D UNet")
-            model = UNetBuilder.unet2D(self.pretrained_weights,network_input_size, num_channels_label,self.num_classes, self.loss_function, Dropout_On = True)
+            model = UNetBuilder.unet2D(self.pretrained_weights, network_input_size[-1], num_channels_label, self.num_classes, self.loss_function, Dropout_On = True)
 
         logging.info(model.summary())
         return model
@@ -223,7 +223,7 @@ class Regression(object):
             else:
                 uncertainty_weights = self.pretrained_weights
             model = UNetBuilder.unet3D(uncertainty_weights,
-                                               network_input_size,
+                                               network_input_size[-1],
                                                num_channels_label,
                                                loss_function = self.loss_function,
                                                num_classes = self.num_classes,
@@ -235,7 +235,7 @@ class Regression(object):
             else:
                 uncertainty_weights = self.pretrained_weights
             model = UNetBuilder.unet2D(uncertainty_weights,
-                                               network_input_size,
+                                               network_input_size[-1],
                                                num_channels_label,
                                                loss_function = self.loss_function,
                                                num_classes = self.num_classes,

@@ -20,9 +20,9 @@ class UNetBuilder(object):
     Padding has bee set to "same"
     '''
 
-    def unet2D(pretrained_weights,input_size, num_channels,num_classes, loss_function, Dropout_On, base_n_filters = 32):
+    def unet2D(pretrained_weights, num_channels_input, num_channels_label, num_classes, loss_function, Dropout_On, base_n_filters = 32):
         logging.info("started UNet")
-        inputs = Input(input_size)
+        inputs = Input(shape = (None, None, num_channels_input))
         conv1 = Conv2D(base_n_filters, 3, padding='same', kernel_initializer='he_normal')(inputs)
         conv1 = BatchNormalization()(conv1)
         conv1 = LeakyReLU(alpha=0.2)(conv1)
@@ -111,7 +111,7 @@ class UNetBuilder(object):
         if num_classes > 1:
             conv10 = Conv2D(num_classes, (1), activation='softmax')(conv9)  # MultiClass segmentation with one-hot encoded image
         else:
-            conv10 = Conv2D(num_channels, 1, activation='sigmoid')(conv9)  # Simple segmentation with only one label
+            conv10 = Conv2D(num_channels_label, 1, activation='sigmoid')(conv9)  # Simple segmentation with only one label
 
         model2D = Model(inputs=inputs, outputs=conv10)
         logging.info("shape input UNet %s" % np.shape(inputs))
@@ -130,9 +130,9 @@ class UNetBuilder(object):
 
         return model2D
 
-    def unet3D(pretrained_weights, input_size, num_channels,num_classes, loss_function, Dropout_On, base_n_filters=32):
+    def unet3D(pretrained_weights, num_channels_input, num_channels_label, num_classes, loss_function, Dropout_On, base_n_filters=32):
         logging.info("started UNet")
-        inputs = Input(input_size)
+        inputs = Input(shape=(None, None, None, num_channels_input))
         conv1 = Conv3D(base_n_filters, 3, padding='same', kernel_initializer='he_normal')(inputs)
         conv1 = BatchNormalization()(conv1)
         conv1 = LeakyReLU(alpha=0.2)(conv1)
@@ -225,7 +225,7 @@ class UNetBuilder(object):
         if num_classes > 1:
             conv10 = Conv3D(num_classes, (1), activation='softmax')(conv9)  # Changed activiation from Relu to linear
         else:
-            conv10 = Conv3D(num_channels, 1, activation='sigmoid')(conv9)  # Changed activiation from Relu to linear
+            conv10 = Conv3D(num_channels_label, 1, activation='sigmoid')(conv9)  # Changed activiation from Relu to linear
 
         model3D = Model(inputs=inputs, outputs=conv10)
         logging.info("shape input UNet %s" % np.shape(inputs))

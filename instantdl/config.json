@@ -1,6 +1,6 @@
 {
-	"use_algorithm": "Classification",
-	"path": "examples/data/Classification",
+	"use_algorithm": "SemanticSegmentation",
+	"path": "examples/data/SemanticSegmentation",
 	"pretrained_weights_path": false,
 	"batchsize": 1,
 	"Iterations_Over_Dataset": 1,
@@ -22,7 +22,7 @@
 		            "binarize_mask": false
 	},
 	"loss_function": "binary_crossentropy",
-	"num_classes": 2,
+	"num_classes": 1,
 	"Image_size": null,
 	"calculate_uncertainty": true,
 	"evaluation": true
