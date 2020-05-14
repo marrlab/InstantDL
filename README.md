@@ -132,16 +132,9 @@ you can find example of different configs in the example folders
 
 <img src="docs/Figure1.jpeg" alt="Training Steps" width="500" class="center"/>
 
-## Run examples:
+## Example:
 
 One example of each task of semantic segmentation, instance segmentation, regression and classification is in the [instantdl/examples](instantdl/examples) folder.
-
-To run them only the corresponding config.json file from the example folder must be copied into the configs folder and renamed to "config.json".
-
-Then the main.py can be executed and the example will run with the provided data. 
-
-Please dont expect to achieve competitive results on these datasets, as they are very small and only for illustration purposes.
-
 
 ## Uncertainty estimation
 
@@ -158,7 +151,7 @@ We are happy about any contributions. For any suggested changes, please send a p
 
 If you use InstantDL in a project, please cite
 
-COMING SOON
+*COMING SOON*
 
 ## TODO
 
