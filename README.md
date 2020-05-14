@@ -113,7 +113,7 @@ you can find example of different configs in the example folders
 10. For pixel-wise regression, semantic segmentation or classification, InstantDL will calculate the uncertainty for each image. Therefore Monte Carlo dropout is used to evaluate 20 different models. The uncertainty estimation is saved to the project directory.
 11. Experiment settings are automatically saved to a logbook in order to simplify experiment monitoring.
 
-<img src="docs/Figure1.jpeg" alt="Training Steps" width="700" class="center"/>
+<img src="docs/Figure1.jpeg" alt="Training Steps" width="500" class="center"/>
 
 ## Run examples:
 
