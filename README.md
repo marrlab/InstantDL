@@ -34,12 +34,11 @@ For running the code, you need to have Python 3.7 or higher installed. In additi
 }
 ```
 
-
-
 ## How to use the code
 
+There are three ways to use the code which are explained here:
 
-### With instalation
+### 1. With instalation
 
 In case you have installed the package, you can run the code by calling the pipeline by:
 
@@ -63,6 +62,24 @@ pipeline = GetPipeLine(use_algorithm,
 pipeline.run()
 ```
 This simply runs the Deep Learning. 
+
+### 2. Without instalation
+
+You can simply download the code. Inside the folder `instantdl`, there is a json file called `config.json` which will be used to set parameters. After this the pipeline is started by executing the main.py file, meaning:
+
+```bash
+python main.py --config ./config.json
+```
+
+Predictins from the testset will be saved after training to the Results folder which will automatically be created. 
+
+From there evaluations using jupyter-notebooks from the Evaluation folder can be used for visual and statistical assessment. Therefore only the path in the jupyter-notebook files has to be adapted. 
+
+### 3. Docker
+
+For Docker instalation, please refer to the [docker](docker) folder.
+
+## Training Parameters
 
 Possible setting for the inputs are
 
