@@ -7,6 +7,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import datetime
 import csv
+import logging
 def get_auc(path, y_test, y_score, n_classes):
     '''
     calculates the area uncer curve and saves the AUC-curve to the insights folder
@@ -74,6 +75,7 @@ def load_data(path):
     Groundtruth = []
     Sigmoid_output = []
     Sigmoid_max_output = []
+    os.makedirs(path + '/insights/', exist_ok = True)
     with open(path + '/insights/Predictions_and_Results_Table.csv', 'w') as writeFile:
         writer = csv.writer(writeFile)
         writer.writerow(['filename', 'prediciton', 'groundtruth'])
