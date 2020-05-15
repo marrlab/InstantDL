@@ -1,7 +1,7 @@
 {
 	"use_algorithm": "Classification",
 	"path": "data/Matek",
-	"pretrained_weights_path": false,
+	"pretrained_weights_path": "data/Matek/logs/pretrained_weights_Matek_sm_images.hdf5",
 	"batchsize": 1,
 	"Iterations_Over_Dataset": 0,
 	"data_gen_args": {
