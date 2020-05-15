@@ -35,7 +35,7 @@ def get_auc(path, y_test, y_score, n_classes):
     plt.ylabel('True Positive Rate')
     plt.title('Receiver operating characteristic example')
     plt.legend(loc='center left', bbox_to_anchor=(1, 0.5))
-    plt.savefig(path + "/insights/Confusion Matrix.png")
+    plt.savefig(path + "/insights/AUC.png")
     return roc_auc
 
 def get_confusion_matrix(path, Groundtruth, Results):
@@ -60,7 +60,7 @@ def get_confusion_matrix(path, Groundtruth, Results):
     plt.ylabel('True Class', fontsize=15)
     plt.xlabel('Predicted Class', fontsize=15)
     plt.tight_layout()
-    plt.savefig("./" + path + "/insights/Confusion_Matrix.png")
+    plt.savefig("./" + path + "/insights/Confusion_Matrix.png") #TODO Plot cuts legend when saving
 
 def load_data(path):
     '''
