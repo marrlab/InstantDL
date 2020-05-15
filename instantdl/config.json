@@ -1,6 +1,6 @@
 {
-	"use_algorithm": "SemanticSegmentation",
-	"path": "examples/data/SemanticSegmentation",
+	"use_algorithm": "Classification",
+	"path": "examples/data/Classification",
 	"pretrained_weights_path": false,
 	"batchsize": 1,
 	"Iterations_Over_Dataset": 0,
@@ -25,5 +25,5 @@
 	"num_classes": 1,
 	"Image_size": null,
 	"calculate_uncertainty": true,
-	"evaluation": true
+	"evaluation": false
 }
