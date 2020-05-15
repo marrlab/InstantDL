@@ -210,7 +210,7 @@ class Classification(object):
             average_MC_Pred.append(np.argmax(bincount))
         average_MC_Pred = np.array(average_MC_Pred)
         combined_certainty = np.mean(-1 * np.sum(resultsMCD * np.log(resultsMCD + 10e-6), axis=-1), axis = 0)
-        combined_certainty /= np.log(self.num_classes) # normalize to values between 0 and 1
+        combined_certainty = combined_certainty/ np.log(self.num_classes) # normalize to values between 0 and 1
         saveResult_classification_uncertainty(  self.path,
                                                 test_image_files,
                                                 results,
