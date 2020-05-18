@@ -2,20 +2,19 @@
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"/..
 
-rm -rf ${DIR}/build/docker
+rm -rf ${DIR}/docker/build
 
-mkdir -p ${DIR}/build/docker
-mkdir -p ${DIR}/build/docker/classification
-mkdir -p ${DIR}/build/docker/data_generator
-mkdir -p ${DIR}/build/docker/segmentation
-mkdir -p ${DIR}/build/docker/evaluation
-mkdir -p ${DIR}/build/docker/examples
+mkdir -p ${DIR}/docker/build
+mkdir -p ${DIR}/docker/build/classification
+mkdir -p ${DIR}/docker/build/data_generator
+mkdir -p ${DIR}/docker/build/segmentation
+mkdir -p ${DIR}/docker/build/evaluation
 
-cp ${DIR}/Dockerfile ${DIR}/build/docker
-cp ${DIR}/*.py ${DIR}/build/docker
-cp ${DIR}/config.json ${DIR}/build/docker
+cp ${DIR}/docker/Dockerfile ${DIR}/docker/build
+cp ${DIR}/instantdl/*.py ${DIR}/docker/build
+cp ${DIR}/instantdl/config.json ${DIR}/docker/build # you need to pass the right config file
 
-cp ${DIR}/classification/*.py ${DIR}/build/docker/classification
-cp ${DIR}/data_generator/*.py ${DIR}/build/docker/data_generator
-cp ${DIR}/segmentation/*.py ${DIR}/build/docker/segmentation
-cp ${DIR}/evaluation/*.py ${DIR}/build/docker/evaluation
+cp ${DIR}/instantdl/classification/*.py ${DIR}/docker/build/classification
+cp ${DIR}/instantdl/data_generator/*.py ${DIR}/docker/build/data_generator
+cp ${DIR}/instantdl/segmentation/*.py ${DIR}/docker/build/segmentation
+cp ${DIR}/instantdl/evaluation/*.py ${DIR}/docker/build/evaluation
