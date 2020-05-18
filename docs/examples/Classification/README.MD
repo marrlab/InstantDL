@@ -73,6 +73,9 @@ pipeline = GetPipeLine( use_algorithm = "Classification",
 
 pipeline.run()
 ```
+The pipeline will start training on the images in the train folder and once its finished evaluate the trained model on the images in the test folder.
+If the uncertainty calculation is desired it will evaluate 20 trained models to obtain an uncertainty score. This might take some time. Once InstantDL is finished it will output a .csv file containing the results to the result folder.
+The performance can be evaluated if evaluation is set to True, then InstantDL will save evaluations such as the area under curve and a confusion matrix as well as common error metrics to the insights folder.
 
 As you can see, it is very straightforward to use the pipeline and there is no need for more programming.
 

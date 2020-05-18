@@ -79,13 +79,18 @@ pipeline = GetPipeLine( use_algorithm = "InstanceSegmentation",
                         loss_function= "mse",
                         num_classes= 1,
                         image_size= None,
-                        calculate_uncertainty= False,
+                        calculate_uncertainty= True,
                         evaluation= True
 )
 
 pipeline.run()
 ```
+The pipeline will start training on the images in the train folder and once its finished evaluate the trained model on the images in the test folder.
 For instance segmentation uncertainty estimation is not supported.
+Once InstantDL is finished it will output as png files visualizing the result and .npy files containing the predicted masks to the results to the result folder.
+The performance can be evaluated if evaluation is set to True, then InstantDL will save evaluations such as the mean squared error to the insights folder as a .txt file and print visualizations of the segmentation to the evaluation folder.
+
+
 
 As you can see, it is very straightforward to use the pipeline and there is no need for more programming.
 
