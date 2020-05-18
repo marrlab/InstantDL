@@ -48,4 +48,4 @@ ENV INSTANT_DL_CONFIG /data/config.json
 ENV NUM_WORKER 4
 
 # Run InstantDL code
-CMD ["python", "main.py", "--config", "/data/config.json"]
+CMD ["python", "instantdl/main.py", "--config", "/data/config.json"]
