@@ -36,7 +36,7 @@ RUN python setup.py install
 
 # compile in a version label so we always can find the source in git
 ARG VERSION=unspecified
-LABEL InstantDL.version=$VERSION
+LABEL instantdl.version=$VERSION
 
 # Make port 80 available to the world outside this container
 EXPOSE 80
