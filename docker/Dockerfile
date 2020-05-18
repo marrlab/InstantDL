@@ -44,8 +44,8 @@ EXPOSE 80
 # Define environment variable
 # @TODO: add GPU and cudatoolkit
 ENV PYTHONUNBUFFERED TRUE
-ENV INSTANT_DL_CONFIG /app/config.json
+ENV INSTANT_DL_CONFIG /data/config.json
 ENV NUM_WORKER 4
 
 # Run InstantDL code
-CMD ["python", "main.py"]
+CMD ["python", "main.py", "--config", "/data/config.json"]

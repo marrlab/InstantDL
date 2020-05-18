@@ -14,14 +14,54 @@ sudo docker build --tag=instantdl:0.0.1 build
 
 ## Prepration the data folder
 
-For runnig the docker, you need to create the data folder as exaplined in the [examples](../docs/examples)
+For runnig the docker, first you need to create the data folder as exaplined in the [examples](../docs/examples). In case, you would like to pretrained weights as well, first create a folder called `logs` under the data folder and simply put the `.hdf5` file in the folders. After that, set all the parameters according to the documentation EXCEPT `path` and `pretrained_weights_path`, and save the parameters as  `config.json` in the data folder.
+
+__IMPORTANT NOTE__: For the config file, in the json file, these parameters `data` and `pretrained_weights_path` should BE ALWAYS: 
+
+```json
+{
+    ...
+	"path": "/data/",
+	"pretrained_weights_path": "/data/logs/pretrained_weights_Lung_SemanticSegmentation.hdf5",
+    ...
+}
+```
+
+The reason for this is that the folder will be mounted to the docker with the address `/data/`
+
+## Data Folder Structure
+
+This is a folder structure of the data folder:
+
+```
+PATH_TO_DATA
+    ├── train                    
+    │   ├── image
+    │   │    ├── 000003-num1.png
+    │   │    ├── .
+    │   │    └── 059994-num1.png     
+    │   └── groundtruth  
+    │        └── groundtruth.csv
+    │
+    ├── test                    
+    │  ├── image
+    │  │    ├── 000002-num1.png
+    │  │    ├── .
+    │  │    └── 009994-num1.png     
+    │  └── groundtruth  
+    │       └── groundtruth.csv
+    ├── logs                    
+    │  └── weights.hdf5
+    |
+    |
+    └── config.json
+```
 
 ## Run Docker container
 
 ```bash
-docker run -d --name instantdl -p 8000:80 -v <Path_to_Data_Folder>:/app/data
+docker run -v PATH_TO_DATA/:/data -it instantdl:0.0.1 /bin/bash
 ```
-
 For example you would like to run the classifiction example. 
 
 ## GPU support
@@ -49,3 +89,4 @@ docker system prune -a
 ## TODO
 
 - [x] add cuda and gpu
+- [x] add how to create data
