@@ -1,5 +1,7 @@
 In the following, we are trying to solve a nuclei detection regression problem with the pipeline. For using instance segmentation the groundtruth masks, which each contain one segmentation mask for one instance the folder setup is a little more compliated.
 For each image one folder with the name of the image, but without the file ending) needs to be created in the train or test folder. In this folder an image and mask forlder is created containing the image and corresponding masks.
+The jupyter-notebook called "PrepareDataforMaskRCNN.ipynb" located in the docs/preprocessing folder might help you to set up this folder structure if you already have sorted the images into a train and test folder (similar to the semantic segmentaiton setup).
+
 ```
 path
 ├── train
