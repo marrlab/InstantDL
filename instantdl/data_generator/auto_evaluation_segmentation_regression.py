@@ -235,7 +235,7 @@ def visual_assesment(path, data, names):
                 data[index, ...] = normalize(data[index, ...])
 
     names_out = copy.deepcopy(names)
-    report_dir = "./" + path + "/evaluation/"
+    report_dir = path + "/evaluation/"
     logging.info("Length of data")
     logging.info(len(data))
     if len(np.shape(data[0])) == 3 or len(np.shape(data[0])) == 4 and np.shape(data[0])[-1] == 3:
