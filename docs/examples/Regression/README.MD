@@ -1,3 +1,5 @@
+# Regression Example
+
 In the following, we are trying to solve a in-silico staining from brightfield images to nuclear envelope staining regression problem with the pipeline.
 Each image and its corrsponding groundtruth must have the same name and should be put in the train or test folder.
 The jupyter-notebook called "CreateFolderstrucutre_and_SplitTrainTestset.ipynb" located in the docs/preprocessing folder might help you to set up this folder structure and crate a random train and test set split.

@@ -1,3 +1,5 @@
+# Classification Example
+
 In the following, we are trying to solve a simple MNIST classification problem with the pipeline. For simplification, we only solve a binary classification for distinguishing between `1` and `9`. First, the dataset and the groundtruth should be provided. The data folder should look like this:
 
 ```
