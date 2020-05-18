@@ -1,7 +1,7 @@
 {
-	"use_algorithm": "Classification",
-	"path": "data/Matek",
-	"pretrained_weights_path": "data/Matek/logs/pretrained_weights_Matek_sm_images.hdf5",
+	"use_algorithm": "SemanticSegmentation",
+	"path": "/Users/dominik.waibel/Desktop/ICBPipeline/docs/examples/SemanticSegmentation/",
+	"pretrained_weights_path": "/Users/dominik.waibel/Desktop/ICBPipeline/docs/examples/SemanticSegmentation/logs/pretrained_weights_Lung_SemanticSegmentation.hdf5",
 	"batchsize": 1,
 	"iterations_over_dataset": 0,
 	"data_gen_args": {
@@ -22,8 +22,8 @@
 		            "binarize_mask": false
 	},
 	"loss_function": "binary_crossentropy",
-	"num_classes": 15,
+	"num_classes": 1,
 	"image_size": null,
-	"calculate_uncertainty": true,
+	"calculate_uncertainty": false,
 	"evaluation": true
 }

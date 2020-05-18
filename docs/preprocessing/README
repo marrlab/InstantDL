@@ -8,6 +8,3 @@ Executing this notebook can help you set up the correct folder structure for sem
 ## PrepareDataforMaskRCNN
 Executing this notebook can help you set up the correct folder structure for instance  segmentation experiments. It automatically creates folders and copies the data to these based on the folder setup of the semantic segmentation setup.
 For the MaskRCNN each object needs to have an individual groundtruth segmentation, therefore segmentation masks from the semantic segmentation are split into indiviudal objects.
-
-## SplitTrainTestset
-Executing this notebook can help you to perform a split between a training and testset.
