@@ -14,7 +14,7 @@ sudo docker build --tag=instantdl:0.0.1 build
 
 ## Prepration the data folder
 
-For runnig the docker, you need to create the data folder
+For runnig the docker, you need to create the data folder as exaplined in the [examples](../docs/examples)
 
 ## Run Docker container
 
