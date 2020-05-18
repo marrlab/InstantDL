@@ -2,7 +2,7 @@
 # Dockerfile for the Face Detection Service
 
 # Use an official Python runtime as a parent image
-FROM continuumio/miniconda3
+FROM tensorflow/tensorflow:1.14.0-gpu-py3
 
 # Set the working directory to /app
 WORKDIR /app
@@ -17,21 +17,22 @@ RUN apt-get install -y build-essential
 RUN apt-get install -y procps vim
 
 # Install any needed packages specified in requirements.txt
-RUN conda install -c anaconda h5py=2.9.0
-RUN conda install -c anaconda hdf5=1.10.4
-RUN conda install -c anaconda imageio=2.6.1
-RUN conda install -c anaconda tensorflow=1.14.0
-RUN conda install -c anaconda keras=2.2.4
-RUN conda install -c anaconda matplotlib=3.1.1
-RUN conda install -c anaconda numpy=1.16.4
-RUN conda install -c anaconda pandas=1.0.3
-RUN conda install -c anaconda scikit-image=0.15.0
-RUN conda install -c anaconda scikit-learn=0.21.3
-RUN conda install -c anaconda scipy=1.3.0
+RUN pip install h5py==2.9.0
+#RUN pip install hdf5==1.10.4
+RUN pip install imageio==2.6.1
+RUN pip install keras==2.2.4
+RUN pip install matplotlib==3.1.1
+RUN pip install numpy==1.16.4
+RUN pip install pandas==1.0.3
+RUN pip install scikit-image==0.15.0
+RUN pip install scikit-learn==0.21.3
+RUN pip install scipy==1.3.0
 
 # Copy the current directory contents into the container at /app
 COPY . /app
 RUN pwd
+
+RUN python setup.py install
 
 # compile in a version label so we always can find the source in git
 ARG VERSION=unspecified

@@ -4,17 +4,19 @@ DIR=$(pwd)
 
 rm -rf ${DIR}/build
 
-mkdir -p ${DIR}/build
-mkdir -p ${DIR}/build/classification
-mkdir -p ${DIR}/build/data_generator
-mkdir -p ${DIR}/build/segmentation
-mkdir -p ${DIR}/build/evaluation
+mkdir -p ${DIR}/build/instantdl
+#mkdir -p ${DIR}/build/instantdl/classification
+#mkdir -p ${DIR}/build/instantdl/data_generator
+#mkdir -p ${DIR}/build/instantdl/segmentation
+#mkdir -p ${DIR}/build/instantdl/evaluation
 
 cp ${DIR}/docker/Dockerfile ${DIR}/build
-cp ${DIR}/instantdl/*.py ${DIR}/build
-cp ${DIR}/instantdl/config.json ${DIR}/build # you need to pass the right config file
+cp ${DIR}/setup.py ${DIR}/build/setup.py
+cp ${DIR}/README.md ${DIR}/build/README.md
 
-cp ${DIR}/instantdl/classification/*.py ${DIR}/build/classification
-cp ${DIR}/instantdl/data_generator/*.py ${DIR}/build/data_generator
-cp ${DIR}/instantdl/segmentation/*.py ${DIR}/build/segmentation
-cp ${DIR}/instantdl/evaluation/*.py ${DIR}/build/evaluation
+cp -r ${DIR}/instantdl/* ${DIR}/build/instantdl
+
+#cp ${DIR}/instantdl/classification/*.py ${DIR}/build/instantdl/classification
+#cp ${DIR}/instantdl/data_generator/*.py ${DIR}/build/instantdl/data_generator
+#cp ${DIR}/instantdl/segmentation/*.py ${DIR}/build/instantdl/segmentation
+#cp ${DIR}/instantdl/evaluation/*.py ${DIR}/build/instantdl/evaluation
