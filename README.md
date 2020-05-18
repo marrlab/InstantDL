@@ -79,6 +79,90 @@ From there evaluations using jupyter-notebooks from the Evaluation folder can be
 
 For Docker instalation, please refer to the [docker](docker) folder.
 
+## Simple Example
+
+In the following, we are trying to solve a simple MNIST classification problem with the pipeline. For simplification, we only solve a binary classification for distinguishing between `1` and `9`. First, the dataset and the groundtruth should be provided. The data folder should look like this:
+
+```
+path
+├── train                    
+│   ├── image
+│   │    ├── 000003-num1.png
+│   │    ├── 000004-num9.png
+│   │    ├── 000006-num1.png
+│   │    ├── .
+│   │    ├── .
+│   │    ├── .
+│   │    └── 059994-num1.png     
+│   └── groundtruth  
+│        └── groundtruth.csv
+│
+└── test                    
+   ├── image
+   │    ├── 000002-num1.png
+   │    ├── 000005-num1.png
+   │    ├── 000007-num9.png
+   │    ├── .
+   │    ├── .
+   │    ├── .
+   │    └── 009994-num1.png     
+   └── groundtruth  
+        └── groundtruth.csv
+```
+
+And the `groundtruth.csv` should look like this:
+
+| filename        |   groundtruth   |
+| ------          |    ------       |
+| 015312-num9.png	|        1        | 
+| 012725-num1.png	|        0        |
+|      . 	      |         .       |
+|      . 	      |         .       |
+|      . 	      |         .       |
+
+After that the data is provided in the desired shape, you can simply use the code with this small snippet:
+
+```python
+from instantdl import GetPipeLine
+
+pipeline = GetPipeLine( use_algorithm = "Classification",	
+                        path= "examples/data/Classification",
+	                     pretrained_weights_path= "examples/data/Classification/logs/pretrained_weights_Classification.hdf5",
+                        batchsize= 2,
+                        Iterations_Over_Dataset= 0,
+                        data_gen_args= {
+                              save_augmented_images: False,
+                              resample_images: False,
+                              std_normalization: False,
+                              feature_scaling: False,
+                              horizontal_flip: False,
+                              vertical_flip: False,
+                              poission_noise: 1,
+                              rotation_range: 20,
+                              zoom_range: False,
+                              contrast_range: 1,
+                              brightness_range: 1,
+                              gamma_shift: 0,
+                              threshold_background_image: False,
+                              threshold_background_groundtruth: False,
+                              binarize_mask: False
+                        },
+                        loss_function= "binary_crossentropy",
+                        num_classes= 2,
+                        Image_size= None,
+                        calculate_uncertainty= False,
+                        evaluation= True
+)
+
+pipeline.run()
+```
+
+As you can see, it is very straightforward to use the pipeline and there is no need for more programming.
+
+## More Examples
+
+One example of each task of semantic segmentation, instance segmentation, regression and classification is in the [docs/examples](docs/examples) folder.
+
 ## Training Parameters
 
 Possible setting for the inputs are
@@ -130,18 +214,18 @@ you can find example of different configs in the example folders
 10. For pixel-wise regression, semantic segmentation or classification, InstantDL will calculate the uncertainty for each image. Therefore Monte Carlo dropout is used to evaluate 20 different models. The uncertainty estimation is saved to the project directory.
 11. Experiment settings are automatically saved to a logbook in order to simplify experiment monitoring.
 
-<img src="docs/Figure1.jpeg" alt="Training Steps" width="500" class="center"/>
+<p align="center">
+  <img width="500"  src="docs/Figure1.jpeg">
+</p>
 
-## Example:
-
-One example of each task of semantic segmentation, instance segmentation, regression and classification is in the [instantdl/examples](instantdl/examples) folder.
 
 ## Uncertainty estimation
 
 Uncertainty estimation using Monte Carlo Dropout is implemented when using semantic segmentation, regression and classification. During evaluation on the testset it evaluates 20 different models by using dropout during interference and calculate the model uncertainty on the test set as suggested by [Gal et al.](https://arxiv.org/abs/1506.02142) and implemented in [this method](https://openreview.net/pdf?id=Sk_P2Q9sG) and for classification [in this gitrepo](https://github.com/RobRomijnders/bayes_nn). The uncertainty is saved as separate numpy files when using regression and semantic segmentation tasks and as .csv file when using classification. Figure 2 shows how the uncertainty estimation using regression and a classification task works. For regression and semantic segmentation the pipeline saves an uncertainty map to the project folder, areas with high uncertainty are visible (Figure 2.B). For classification the certainty measure is printed to the results file. Numbers close to zero are considered certain, higher numbers uncertain. Uncertainty estimation opens new level of interpretability of results.
 
-<img src="docs/Figure2.jpeg" alt="architecture" width="700" class="center"/>
-
+<p align="center">
+   <img src="docs/Figure2.jpeg" alt="architecture" width="700" class="center"/>
+</p>
 
 ## Contributing
 
