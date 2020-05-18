@@ -59,10 +59,19 @@ PATH_TO_DATA
 
 ## Run Docker container
 
+Runnig the code with GPU
+
 ```bash
-docker run -v PATH_TO_DATA/:/data -it instantdl:0.0.1 /bin/bash
+docker run --gpus all -v PATH_TO_DATA/:/data -it instantdl:0.0.1 /bin/bash
 ```
-For example you would like to run the classifiction example. 
+
+Starting the docker containter terminal
+
+```bash
+docker run --gpus all -v PATH_TO_DATA/:/data -it instantdl:0.0.1 /bin/bash
+```
+
+In case you do not have GPU, you can omit the `--gpus all`.
 
 ## GPU support
 
