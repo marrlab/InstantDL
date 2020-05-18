@@ -13,11 +13,11 @@ class InstanceSegmentation(object):
                     path, 
                     pretrained_weights, 
                     batchsize, 
-                    Iterations_Over_Dataset, 
+                    iterations_over_dataset, 
                     data_gen_args, 
                     loss_function, 
                     num_classes, 
-                    Image_size, 
+                    image_size, 
                     calculate_uncertainty,
                     evaluation):
 
@@ -26,11 +26,11 @@ class InstanceSegmentation(object):
         self.path = path
         self.pretrained_weights = pretrained_weights
         self.batchsize = batchsize
-        self.Iterations_Over_Dataset = Iterations_Over_Dataset
+        self.iterations_over_dataset = iterations_over_dataset
         self.data_gen_args = data_gen_args
         self.loss_function = loss_function
         self.num_classes = num_classes
-        self.Image_size = Image_size
+        self.image_size = image_size
         self.calculate_uncertainty = calculate_uncertainty
         self.evaluation = evaluation
     
@@ -111,9 +111,9 @@ class InstanceSegmentation(object):
             model.load_weights(weights_path, by_name=True)
         tensorboard = TensorBoard(log_dir="logs/" + self.path + "/" + format(time.time()))  # , update_freq='batch')
         custom_callbacks = [EarlyStopping(monitor='val_loss', min_delta=0, patience=20, verbose=0, mode='auto'), tensorboard]
-        if self.Iterations_Over_Dataset > 0:
+        if self.iterations_over_dataset > 0:
             print("Start train")
-            train(model, dataset, trainsubset, VAL_IMAGE_IDS, self.Iterations_Over_Dataset, custom_callbacks)
+            train(model, dataset, trainsubset, VAL_IMAGE_IDS, self.iterations_over_dataset, custom_callbacks)
 
 
         print("Testing with weights:", weights_path)

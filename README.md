@@ -52,11 +52,11 @@ pipeline = GetPipeLine(use_algorithm,
                     path, 
                     pretrained_weights, 
                     batchsize, 
-                    Iterations_Over_Dataset, 
+                    iterations_over_dataset, 
                     data_gen_args, 
                     loss_function, 
                     num_classes, 
-                    Image_size, 
+                    image_size, 
                     calculate_uncertainty,
                     evaluation)
 pipeline.run()
@@ -126,10 +126,10 @@ After that the data is provided in the desired shape, you can simply use the cod
 from instantdl import GetPipeLine
 
 pipeline = GetPipeLine( use_algorithm = "Classification",	
-                        path= "examples/data/Classification",
+                        path= "examples/Classification",
 	                     pretrained_weights_path= "examples/data/Classification/logs/pretrained_weights_Classification.hdf5",
                         batchsize= 2,
-                        Iterations_Over_Dataset= 0,
+                        iterations_over_dataset= 0,
                         data_gen_args= {
                               save_augmented_images: False,
                               resample_images: False,
@@ -149,7 +149,7 @@ pipeline = GetPipeLine( use_algorithm = "Classification",
                         },
                         loss_function= "binary_crossentropy",
                         num_classes= 2,
-                        Image_size= None,
+                        image_size= None,
                         calculate_uncertainty= False,
                         evaluation= True
 )
@@ -172,7 +172,7 @@ Possible setting for the inputs are
 - `use_pretrained_weights`:  Set to `True` if you want to use pretrained weights
 - `pretrained_weights_path`: Set a relative file path from your project directory with the filename here. 
 - `batchsize`:   Set the batchsize depeding on your GPU capabilities
-- `Iterations_Over_Dataset`:  Set how many iterations over the dataset should be taken for learning. It might stop automatically if no improvement on the validation set was measured after 25 epochs
+- `iterations_over_dataset`:  Set how many iterations over the dataset should be taken for learning. It might stop automatically if no improvement on the validation set was measured after 25 epochs
 - `data_gen_args` : a dictionary including these parameters:
    -  `save_augmented_images`:  false, # true or false
    -  `resample_images`:  false, # true or false
@@ -193,7 +193,7 @@ Possible setting for the inputs are
    -  `binarize_mask`:  false # true or false
 - `loss_function`:   MSE, MAE, dice loss, binary cross entropy, categorical cross entropy ,
 - `num_classes`: Number of classes (should be 1 for binary segmenation tasks)
-- `Image_size`: `null` or tuple with dimensions of desired image size in format (x-dim, y-dim, (z-dim), channels)
+- `image_size`: `null` or tuple with dimensions of desired image size in format (x-dim, y-dim, (z-dim), channels)
 - `calculate_uncertainty`:  false # true or false
 - `evaluation`  false # true or false
 

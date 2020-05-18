@@ -6,11 +6,11 @@ class Classification(object):
                     path, 
                     pretrained_weights, 
                     batchsize, 
-                    Iterations_Over_Dataset, 
+                    iterations_over_dataset, 
                     data_gen_args, 
                     loss_function, 
                     num_classes, 
-                    Image_size, 
+                    image_size, 
                     calculate_uncertainty,
                     evaluation):
 
@@ -19,11 +19,11 @@ class Classification(object):
         self.path = path
         self.pretrained_weights = pretrained_weights
         self.batchsize = batchsize
-        self.Iterations_Over_Dataset = Iterations_Over_Dataset
+        self.iterations_over_dataset = iterations_over_dataset
         self.data_gen_args = data_gen_args
         self.loss_function = loss_function
         self.num_classes = num_classes
-        self.Image_size = Image_size
+        self.image_size = image_size
         self.calculate_uncertainty = calculate_uncertainty
         self.evaluation = evaluation
     
@@ -32,11 +32,11 @@ class Classification(object):
         Get the number of input images and their shape
         If the last image dimension,. which should contain the channel information (1 or 3) is not existing e.g. for (512,512) add a 1 as the channel number.
         '''
-        if self.Image_size == None:
+        if self.image_size == None:
             Training_Input_shape, num_channels, _ = get_input_image_sizes(self.path, self.use_algorithm)
         else:
-            Training_Input_shape = self.Image_size
-            num_channels = int(self.Image_size[-1])
+            Training_Input_shape = self.image_size
+            num_channels = int(self.image_size[-1])
 
         Folders = ["image", "image1", "image2", "image3", "image4", "image5", "image6", "image7"]
 
@@ -54,7 +54,7 @@ class Classification(object):
 
         steps_per_epoch = int(len(train_image_files)/self.batchsize)
 
-        self.epochs = self.Iterations_Over_Dataset
+        self.epochs = self.iterations_over_dataset
         logging.info("Making:", steps_per_epoch, "steps per Epoch")
         return [Training_Input_shape, num_channels, network_input_size, 
                         data_path, train_image_files, val_image_files, steps_per_epoch]

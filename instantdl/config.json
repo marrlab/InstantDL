@@ -3,7 +3,7 @@
 	"path": "data/Matek",
 	"pretrained_weights_path": "data/Matek/logs/pretrained_weights_Matek_sm_images.hdf5",
 	"batchsize": 1,
-	"Iterations_Over_Dataset": 0,
+	"iterations_over_dataset": 0,
 	"data_gen_args": {
 			"save_augmented_images": false,
 		            "resample_images": false,
@@ -23,7 +23,7 @@
 	},
 	"loss_function": "binary_crossentropy",
 	"num_classes": 15,
-	"Image_size": null,
+	"image_size": null,
 	"calculate_uncertainty": true,
 	"evaluation": true
 }

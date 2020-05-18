@@ -3,7 +3,7 @@
 	"path": "examples/data/SemanticSegmentation",
 	"pretrained_weights_path": "examples/data/InstanceSegmentation/logs/pretrained_weights_Lung_SemanticSegmentation.hdf5",
 	"batchsize": 1,
-	"Iterations_Over_Dataset": 200,
+	"iterations_over_dataset": 200,
 	"data_gen_args": {
 			"save_augmented_images": false,
 		            "resample_images": false,
@@ -23,7 +23,7 @@
 	},
 	"loss_function": "binary_crossentropy",
 	"num_classes": 1,
-	"Image_size": null,
+	"image_size": null,
 	"calculate_uncertainty": false,
 	"evaluation": true
 }

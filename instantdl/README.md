@@ -53,7 +53,7 @@ Possible setting in the config.json file are:
 "use_pretrained_weights": false, # Set to true if you want to use pretrained weights
 "pretrained_weights_path": false, # Set a relative file path from your project directory with the filename here. 
 "batchsize": 2, # Set the batchsize depeding on your GPU capabilities
-"Iterations_Over_Dataset": 200, # Set how many iterations over the dataset should be taken for learning. 
+"iterations_over_dataset": 200, # Set how many iterations over the dataset should be taken for learning. 
 It might stop automatically if no improvement on the validation set was measured after 25 epochs
 
 Set data augmentation parameters here
@@ -78,7 +78,7 @@ Set data augmentation parameters here
 Set parameters training here. Number of classes should be 1 using binary segmenation tasks
 "loss_function": "mse",
 "num_classes": 1, # Number of classes should be 1 for binary segmenation tasks
-"Image_size": null, # null or tuple with dimensions of desired image size in format (x-dim, y-dim, (z-dim), channels)
+"image_size": null, # null or tuple with dimensions of desired image size in format (x-dim, y-dim, (z-dim), channels)
 "calculate_uncertainty": false # true or false
 ```
 

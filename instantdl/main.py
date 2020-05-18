@@ -11,11 +11,11 @@ def start_learning( use_algorithm,
                     path, 
                     pretrained_weights, 
                     batchsize, 
-                    Iterations_Over_Dataset, 
+                    iterations_over_dataset, 
                     data_gen_args, 
                     loss_function, 
                     num_classes, 
-                    Image_size, 
+                    image_size, 
                     calculate_uncertainty,
                     evaluation):
 
@@ -27,11 +27,11 @@ def start_learning( use_algorithm,
                     path, 
                     pretrained_weights, 
                     batchsize, 
-                    Iterations_Over_Dataset, 
+                    iterations_over_dataset, 
                     data_gen_args, 
                     loss_function, 
                     num_classes, 
-                    Image_size, 
+                    image_size, 
                     calculate_uncertainty,
                     evaluation)
                     
@@ -60,11 +60,11 @@ if __name__ == "__main__":
     path = configs["path"]
     pretrained_weights_path = configs["pretrained_weights_path"]
     batchsize = configs["batchsize"]
-    Iterations_Over_Dataset = configs["Iterations_Over_Dataset"]
+    iterations_over_dataset = configs["iterations_over_dataset"]
     data_gen_args = configs["data_gen_args"]
     loss_function = configs["loss_function"]
     num_classes = configs["num_classes"]
-    Image_size = configs["Image_size"]
+    image_size = configs["image_size"]
     calculate_uncertainty = configs["calculate_uncertainty"]
     evaluation = configs["evaluation"]
     
@@ -80,9 +80,9 @@ if __name__ == "__main__":
     if not isinstance(batchsize, int):
         logging.warning("Batchsize has not been set. Setting batchsize = 1")
         batchsize = 1
-    if not isinstance(Iterations_Over_Dataset, int):
+    if not isinstance(iterations_over_dataset, int):
         logging.warning("Epochs has not been set. Setting epochs = 500 and using early stopping")
-        Iterations_Over_Dataset = 500
+        iterations_over_dataset = 500
 
     if os.path.isfile((pretrained_weights_path)):
         pretrained_weights = (pretrained_weights_path)
@@ -93,10 +93,10 @@ if __name__ == "__main__":
                     path,
                     pretrained_weights,
                     batchsize,
-                    Iterations_Over_Dataset,
+                    iterations_over_dataset,
                     data_gen_args,
                     loss_function,
                     num_classes,
-                    Image_size,
+                    image_size,
                     calculate_uncertainty,
                     evaluation)
