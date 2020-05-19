@@ -123,11 +123,11 @@ class Classification(object):
         '''
         Early_Stopping = EarlyStopping(monitor='val_loss', patience=25, mode='auto', verbose=0)
         datasetname = self.path.rsplit("/",1)[1]
-        checkpoint_filepath = (self.path + "/logs" + "/pretrained_weights_" + datasetname + ".hdf5") #.{epoch:02d}.hdf5")
+        checkpoint_filepath = (self.path + "/logs" + "/pretrained_weights" + datasetname + ".hdf5") #.{epoch:02d}.hdf5")
         os.makedirs("./" + (self.path + "/logs"), exist_ok=True)
         model_checkpoint = ModelCheckpoint(checkpoint_filepath, monitor=('val_loss'), verbose=1, save_best_only=True)
 
-        tensorboard = TensorBoard(log_dir="logs/" + self.path + "/" + format(time.time())) #, update_freq='batch')
+        tensorboard = TensorBoard(log_dir = self.path + "logs/" + "/" + format(time.time())) #, update_freq='batch')
         logging.info("Tensorboard log is created at: logs/  it can be opend using tensorboard --logdir=logs for a terminal in the InstantDL folder")
 
         #################################################if self.use_algorithm == "Classification":

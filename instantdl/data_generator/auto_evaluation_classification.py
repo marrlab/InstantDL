@@ -34,7 +34,7 @@ def get_auc(path, y_test, y_score, n_classes):
     plt.xlabel('False Positive Rate')
     plt.ylabel('True Positive Rate')
     plt.title('Receiver operating characteristic example')
-    plt.legend(loc='center left', bbox_to_anchor=(1, 0.5))
+    plt.legend(loc='bottom right')
     plt.savefig(path + "/insights/AUC.png")
     return roc_auc
 
@@ -46,8 +46,8 @@ def get_confusion_matrix(path, Groundtruth, Results):
     :return: safe confusion matrix to insight folder
     '''
     confusion_matr = confusion_matrix(Groundtruth, Results)
-    normalized_confustion_matrix = confusion_matr.astype('float') / confusion_matr.sum(axis=1)[:, np.newaxis]
-    logging.info("The confusion matrix is: \n", confusion_matrix)
+    normalized_confustion_matrix = confusion_matr.astype('float') / (confusion_matr.sum(axis=1)[:, np.newaxis]+10e-10)
+#    logging.info("The confusion matrix is: \n", confusion_matrix)
     cmap = plt.cm.Blues
     title = 'Confusion matrix'
     fig, ax = plt.subplots()
@@ -60,7 +60,7 @@ def get_confusion_matrix(path, Groundtruth, Results):
     plt.ylabel('True Class', fontsize=15)
     plt.xlabel('Predicted Class', fontsize=15)
     plt.tight_layout()
-    plt.savefig("./" + path + "/insights/Confusion_Matrix.png") #TODO Plot cuts legend when saving
+    plt.savefig(path + "/insights/Confusion_Matrix.png") #TODO Plot cuts legend when saving
 
 def load_data(path):
     '''
@@ -106,7 +106,7 @@ def classification_evaluation(path):
     logging.info("The accuracy score is:", accuracy)
     n_classes = len(np.unique(Groundtruth))
     GT = to_categorical(Groundtruth)
-    os.makedirs(("./" + path + "/insights/"), exist_ok=True)
+    os.makedirs((path + "/insights/"), exist_ok=True)
     roc_auc = get_auc(path, GT, Sigmoid_output, int(n_classes))
     weigted_roc_auc = 0
     for index, i in enumerate(np.unique(Groundtruth)):
@@ -115,13 +115,10 @@ def classification_evaluation(path):
     weigted_roc_auc /= len(Groundtruth)
     logging.info("The weigted roc auc is:", weigted_roc_auc)
     get_confusion_matrix(path, Groundtruth, Results)
-
-    f = open("./" + path + '/insights/Evaluation_results.txt', 'a')
+    f = open(path + '/insights/Evaluation_results.txt', 'a')
     f.write('\n')
     f.write('\n' + "Evaluated at: " + str(datetime.datetime.now())[:16])
     f.write('\n' + "Accuracy : " + str(accuracy))
     for i in range(len(roc_auc)):
         f.write('\n' + "Area under curve class " + str(i) + ": " + str(roc_auc[i]))
     f.close()
-
-
