@@ -79,7 +79,7 @@ def save_2Dimages(data, names, z_index, path_name, image_name):
         elif names[img] == "uncertainty":
             plts = plt.title(names[img] + str(np.mean(image)), size = 50)
             max_val = np.max(np.abs(image))
-            pltcbunc = plt.title("uncertainty \n"+ "Average:" +str(np.mean(image))[0:4], size = 50)
+            pltcbunc = plt.title("uncertainty \n"+ "Average:" +str(np.mean(image)/255.)[0:4], size = 50)
             pltcbunc = plt.imshow(np.max(image)-rgb2gray(image), cmap='Greys', vmin = -max_val, vmax = max_val)
         else:
             plts = plt.imshow(rgb2gray(image), cmap='Greys')
@@ -144,7 +144,7 @@ def save_3Dimages(data, names, z_index, path_name, image_name):
                                   color='0.5')
         elif names[img] == "uncertainty":
             max_val = np.max(np.abs(x_image))
-            pltcbunc = plt.title("uncertainty \n" + "Average:" + str(np.mean(image))[0:4], size=50)
+            pltcbunc = plt.title("uncertainty \n" + "Average:" + str(np.mean(image)/255.)[0:8], size=50)
             pltcunc = plt.imshow(rgb2gray(x_image), cmap='Greys', vmin=-max_val, vmax=max_val)
             pltcunc = plt.subplot(grid[2, img])
             pltcunc = plt.plot(np.arange(np.shape(z_image)[1]), [np.shape(z_image)[0] / 2] * np.shape(z_image)[1],
