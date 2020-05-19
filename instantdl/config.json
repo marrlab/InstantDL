@@ -1,9 +1,9 @@
 {
-	"use_algorithm": "Classification",
-	"path": "/Users/dominik.waibel/Desktop/InstantDL/docs/examples/Classification/",
+	"use_algorithm": "SemanticSegmentation",
+	"path": "/Users/dominik.waibel/Desktop/InstantDL/docs/examples/SemanticSegmentation/",
 	"pretrained_weights_path": false,
 	"batchsize": 1,
-	"iterations_over_dataset": 2,
+	"iterations_over_dataset": 0,
 	"data_gen_args": {
 			"save_augmented_images": false,
 		            "resample_images": false,
@@ -21,9 +21,9 @@
 		            "threshold_background_groundtruth": false,
 		            "binarize_mask": false
 	},
-	"loss_function": "categorical_crossentropy",
-	"num_classes": 15,
+	"loss_function": "mse",
+	"num_classes": 1,
 	"image_size": null,
-	"calculate_uncertainty": false,
+	"calculate_uncertainty": true,
 	"evaluation": true
 }

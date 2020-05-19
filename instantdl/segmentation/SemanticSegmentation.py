@@ -152,13 +152,14 @@ class SemanticSegmentation(object):
         os.makedirs("./" + (self.path + "/logs"), exist_ok=True)
         model_checkpoint = ModelCheckpoint(checkpoint_filepath, monitor=('val_loss'), verbose=1, save_best_only=True)
 
-        tensorboard = TensorBoard(log_dir="logs/" + self.path + "/" + format(time.time())) #, update_freq='batch')
-        logging.info("Tensorboard log is created at: logs/  it can be opend using tensorboard --logdir=logs for a terminal in the InstantDL folder")
+        tensorboard = TensorBoard(log_dir=self.path + "logs/" + "/" + format(time.time()))  # , update_freq='batch')
+        logging.info("Tensorboard log is created at: logs/  it can be opend using tensorboard --logdir=logs for a terminal in the Project folder")
         callbacks_list = [model_checkpoint, tensorboard, Early_Stopping]
 
         '''
         Train the model given the initialized model and the data from the data generator
         '''
+        assert self.num_classes == 1
         model.fit_generator(TrainingDataGenerator,
                                 steps_per_epoch=steps_per_epoch,
                                 validation_data=ValidationDataGenerator,
@@ -249,7 +250,6 @@ class SemanticSegmentation(object):
                                                               verbose=1))
         resultsMCD = np.array(resultsMCD)
         epistemic_uncertainty = np.mean(resultsMCD**2, axis = 0) - np.mean(resultsMCD, axis = 0)**2
-        epistemic_uncertainty = epistemic_uncertainty/20
         saveResult(self.path + "/uncertainty/", test_image_files, epistemic_uncertainty, Input_image_shape)
         if self.evaluation == True:
             segmentation_regression_evaluation(self.path)

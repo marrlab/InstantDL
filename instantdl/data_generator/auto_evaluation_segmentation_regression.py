@@ -6,7 +6,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 plt.rcParams["font.family"] = "Computer Modern Roman"
 from scipy.stats import pearsonr
-from scipy.spatial.distance import jaccard
 from mpl_toolkits.axes_grid1 import make_axes_locatable
 import os
 import numpy as np
@@ -16,23 +15,40 @@ import copy
 from matplotlib.colorbar import Colorbar
 from skimage.color import rgb2gray, gray2rgb
 import logging
-
+from sklearn.metrics import jaccard_score
+from scipy.stats.stats import pearsonr
+from sklearn.metrics import roc_curve, auc
 from instantdl.evaluation.Utils_data_evaluation import prepare_data_for_evaluation
+from skimage import filters
+import datetime
 
 def threshold(img):
     img[img < np.mean(img)] = 0
     return img
 
 def binarize(data):
-    data_mean = np.mean(data)
-    data[data <= data_mean] = 0
-    data[data > data_mean] = 1
+    threshold = filters.threshold_otsu(data)
+    data[data <= threshold] = 0
+    data[data > threshold] = 1
     return data
 
 def normalize(data):
-    data_min = np.min(data)
-    data_max = np.max(data)
-    return (data - data_min) / (data_max - data_min)
+	'''
+	:param data: data to be normalized0
+	:return: normalize data between 0 and 1
+	'''
+	mindata = np.min(data)
+	maxdata = np.max(data)
+	data = (data - mindata) / (maxdata - mindata)
+	data = np.nan_to_num(data)
+	return data
+
+def AUC(pred, gt):
+    ground_truth_labels = gt.flatten() # we want to make them into vectors
+    score_value = pred.flatten() # we want to make them into vectors
+    fpr, tpr, _ = roc_curve(ground_truth_labels,score_value)
+    roc_auc = auc(fpr,tpr)
+    return roc_auc
 
 def getPearson(gt, pred):
     pearson_all = np.zeros(np.shape(gt)[0])
@@ -189,31 +205,24 @@ def quantitative_evaluation(path, data, names):
                                          where=groundtruth_norm != 0))
 
     groundtruth_binary = binarize(data[names.index("groundtruth")])
-    prediction_binary = binarize(data[names.index("groundtruth")])
+    prediction_binary = binarize(data[names.index("prediction")])
     groundtruth_norm = normalize(data[names.index("groundtruth")])
-    prediction_norm = normalize(data[names.index("groundtruth")])
-
-    from sklearn.metrics import mutual_info_score
-    from sklearn.metrics import accuracy_score, adjusted_rand_score, auc, roc_auc_score
+    prediction_norm = normalize(data[names.index("prediction")])
     Pearson, Pearson_all = getPearson(data[names.index("prediction")], data[names.index("groundtruth")])
 
     logging.info("Metriccs:")
-    logging.info("The accuracy on the normalized dataset is: ",
-          1 - np.mean(np.square(groundtruth_norm - prediction_norm)) / (groundtruth_norm.size))
-    logging.info("The median relative error on the normalized dataset is: ", np.median(rel_errormap_norm) * 100, "%")
-    logging.info("The mean absolute error on the normalized dataset is: ", np.mean(data[names.index("abs_errormap")]))
-    logging.info("The Pearson coefficient is: ", np.median(1-Pearson))
-    logging.info("The Jaccard index is: ", jaccard(prediction_binary.flatten(), groundtruth_binary.flatten()))
-    logging.info("The AUC is:", roc_auc_score(prediction_binary.flatten(), groundtruth_binary.flatten()))
+    logging.info("The mean absolute error on the normalized dataset is: " + str(np.abs(np.mean(data[names.index("abs_errormap")]))))
+    logging.info("The Pearson coefficient is: " + str(np.abs(Pearson)))
+    logging.info("The Jaccard index is: " + str(jaccard_score(prediction_binary.flatten(), groundtruth_binary.flatten())))
+    #logging.info("The AUC is:", AUC(prediction_binary.flatten(), groundtruth_binary.flatten()))
     # logging.info("The Information score is: ", mutual_info_score(np.concatenate(np.concatenate(prediction_norm)), np.concatenate(np.concatenate(groundtruth_norm))))
     # logging.info("The rand score is:" , adjusted_rand_score(np.concatenate(np.concatenate(groundtruth_norm)), np.concatenate(np.concatenate(prediction_norm))))
-    f = open(path + '/Error analysis.txt', 'w')
-    f.write('\n' + "The median relative error on the normalized dataset is: " + str(
-        np.median(rel_errormap_norm)) + " percent")
+    f = open(path + '/Evaluation_results.txt', 'a')
+    f.write('\n' + "Evaluated at: " + str(datetime.datetime.now())[:16])
     f.write('\n' + "The mean absolute error on the normalized dataset is: " + str(np.abs(np.mean(data[names.index("abs_errormap")]))))
-    f.write('\n' + "The Pearson coefficient is: " + str(1-np.abs(Pearson)))
-    f.write('\n' + "The Jaccard index is: " + str(jaccard(prediction_binary.flatten(), groundtruth_binary.flatten())))
-    f.write('\n' + "The AUC is:" + str(roc_auc_score(prediction_binary.flatten(), groundtruth_binary.flatten())))
+    f.write('\n' + "The Pearson coefficient is: " + str(np.abs(Pearson)))
+    f.write('\n' + "The Jaccard index is: " + str(jaccard_score(prediction_binary.flatten(), groundtruth_binary.flatten())))
+    #f.write('\n' + "The AUC is:" + str(AUC(prediction_binary.flatten(), groundtruth_binary.flatten())))
     f.close()
 
 def visual_assesment(path, data, names):
@@ -223,12 +232,12 @@ def visual_assesment(path, data, names):
     os.makedirs(path + "/evaluation/", exist_ok=True)
 
     # Threshold the uncertainty map to obtain more meaningful images
-    if "uncertainty" in names:
-        data[names.index("uncertainty")] = threshold(data[names.index("uncertainty")])
+    #if "uncertainty" in names:
+    #    data[names.index("uncertainty")] = threshold(data[names.index("uncertainty")])
 
     for index, image in enumerate(data):
         if names[index] not in ["abs_errormap"]:
-            if names[index] not in ["abs_errormap"]:
+            if names[index] not in ["uncertainty"]:
                 logging.info(index)
                 logging.info(np.mean(np.mean(image)))
                 logging.info(np.shape(image))

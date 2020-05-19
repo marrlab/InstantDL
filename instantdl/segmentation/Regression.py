@@ -249,7 +249,6 @@ class Regression(object):
                                                               verbose=1))
         resultsMCD = np.array(resultsMCD)
         epistemic_uncertainty = np.mean(resultsMCD**2, axis = 0) - np.mean(resultsMCD, axis = 0)**2
-        epistemic_uncertainty = epistemic_uncertainty/20
         saveResult(self.path + "/uncertainty/", test_image_files, epistemic_uncertainty, Input_image_shape)
         if self.evaluation == True:
             segmentation_regression_evaluation(self.path)

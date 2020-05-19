@@ -23,7 +23,9 @@ def normalize(data):
 	'''
 	mindata = np.min(data)
 	maxdata = np.max(data)
-	return (data - mindata) / (maxdata - mindata)
+	data = (data - mindata) / (maxdata - mindata)
+	data = np.nan_to_num(data)
+	return data
 
 def import_images(import_dir, files, new_file_ending):
 	'''
@@ -150,7 +152,7 @@ def prepare_data_for_evaluation(root_dir, max_images):
 		np.save(root_dir + "/insights/" + "rel_errormap", rel_errormap_norm)
 	np.save(root_dir + "/insights/" + "image_names", image_fnames)
 	if os.path.isdir(root_dir + "uncertainty"):
-		np.save(root_dir + "/insights/" + "uncertainty", normalize(uncertainty))
+		np.save(root_dir + "/insights/" + "uncertainty", uncertainty/255.)
 	if os.path.isdir(test_dir + "image1"):
 		logging.info("Two")
 		np.save(root_dir + "/insights/" + "image1", image1)
