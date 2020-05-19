@@ -152,8 +152,8 @@ class Regression(object):
         os.makedirs("./" + (self.path + "/logs"), exist_ok=True)
         model_checkpoint = ModelCheckpoint(checkpoint_filepath, monitor=('val_loss'), verbose=1, save_best_only=True)
 
-        tensorboard = TensorBoard(log_dir="logs/" + self.path + "/" + format(time.time())) #, update_freq='batch')
-        logging.info("Tensorboard log is created at: logs/  it can be opend using tensorboard --logdir=logs for a terminal in the InstantDL folder")
+        tensorboard = TensorBoard(log_dir = self.path + "logs/" + "/" + format(time.time())) #, update_freq='batch')
+        logging.info("Tensorboard log is created at: logs/  it can be opend using tensorboard --logdir=logs for a terminal in the Project folder")
         callbacks_list = [model_checkpoint, tensorboard, Early_Stopping]
 
         '''

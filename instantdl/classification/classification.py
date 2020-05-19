@@ -128,7 +128,7 @@ class Classification(object):
         model_checkpoint = ModelCheckpoint(checkpoint_filepath, monitor=('val_loss'), verbose=1, save_best_only=True)
 
         tensorboard = TensorBoard(log_dir = self.path + "logs/" + "/" + format(time.time())) #, update_freq='batch')
-        logging.info("Tensorboard log is created at: logs/  it can be opend using tensorboard --logdir=logs for a terminal in the InstantDL folder")
+        logging.info("Tensorboard log is created at: logs/  it can be opend using tensorboard --logdir=logs for a terminal in the Project folder")
 
         #################################################if self.use_algorithm == "Classification":
         callbacks_list = [model_checkpoint, tensorboard, Early_Stopping]
