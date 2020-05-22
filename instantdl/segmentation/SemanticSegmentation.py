@@ -249,7 +249,10 @@ class SemanticSegmentation(object):
                                                               use_multiprocessing=False,
                                                               verbose=1))
         resultsMCD = np.array(resultsMCD)
+        # Implementation following: https://github.com/ykwon0407/UQ_BNN
+        aleatoric_uncertainty = np.mean(resultsMCD * (1 - resultsMCD), axis=0)
         epistemic_uncertainty = np.mean(resultsMCD**2, axis = 0) - np.mean(resultsMCD, axis = 0)**2
+        saveUncertainty(self.path + "/insights/", test_image_files, epistemic_uncertainty, aleatoric_uncertainty)
         saveResult(self.path + "/uncertainty/", test_image_files, epistemic_uncertainty, Input_image_shape)
         if self.evaluation == True:
             segmentation_regression_evaluation(self.path)

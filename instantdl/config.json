@@ -1,7 +1,7 @@
 {
 	"use_algorithm": "SemanticSegmentation",
-	"path": "/Users/dominik.waibel/Desktop/InstantDL/docs/examples/SemanticSegmentation/",
-	"pretrained_weights_path": false,
+	"path": "/Users/dominik.waibel/Desktop/InstantDL/docs/examples/dsb/",
+	"pretrained_weights_path": "/Users/dominik.waibel/Desktop/InstantDL/docs/examples/dsb/pretrained_weights_combined_data_mse.hdf5",
 	"batchsize": 1,
 	"iterations_over_dataset": 0,
 	"data_gen_args": {
