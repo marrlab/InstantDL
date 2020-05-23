@@ -241,8 +241,8 @@ If you use InstantDL in a project, please cite
 - [x] adding documentation
 - [x] adding example
 - [x] add docker
-- [ ] add docker documentation
-- [ ] add docker for gpu and cuda toolkit
+- [x] add docker documentation
+- [x] add docker for gpu and cuda toolkit
 - [x] add objects instead of the main functions
 - [ ] add tests
 - [ ] add thresholding for semantic segmentation

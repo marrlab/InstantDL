@@ -11,7 +11,6 @@ Here you can find the information about the folders in the code:
 - [data_generator](data_generator)
 - [evaluation](evaluation)
 - [metrics](metrics)
-- [preprocessing](preprocessing)
 - [segmentation](segmentation)
 
 ## Dependencies
