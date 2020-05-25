@@ -251,7 +251,8 @@ class Regression(object):
         aleatoric_uncertainty = np.mean(resultsMCD * (1 - resultsMCD), axis=0)
         epistemic_uncertainty = np.mean(resultsMCD**2, axis = 0) - np.mean(resultsMCD, axis = 0)**2
         saveUncertainty(self.path + "/insights/", test_image_files, epistemic_uncertainty, aleatoric_uncertainty)
-        saveResult(self.path + "/uncertainty/", test_image_files, epistemic_uncertainty, Input_image_shape)
+        uncertainty = epistemic_uncertainty + aleatoric_uncertainty
+        saveResult(self.path + "/uncertainty/", test_image_files, uncertainty, Input_image_shape)
         if self.evaluation == True:
             segmentation_regression_evaluation(self.path)
 

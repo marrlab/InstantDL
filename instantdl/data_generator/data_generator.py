@@ -278,9 +278,9 @@ def saveUncertainty(path, test_image_files, epi_uncertainty, ali_uncertainty):
     os.makedirs(path, exist_ok=True)
     with open(path + 'uncertainty.csv', 'w') as writeFile:
         writer = csv.writer(writeFile)
-        writer.writerow(['filename', 'mean epistemic uncertainty', 'median epistemic uncertainty', 'mean aleatoric uncertainty', 'median aleatoric uncertainty'])
+        writer.writerow(['filename', 'summed uncertainty', 'mean epistemic uncertainty', 'median epistemic uncertainty', 'mean aleatoric uncertainty', 'median aleatoric uncertainty'])
         for i in range(0, len(epi_uncertainty)-1):
-            writer.writerow([test_image_files[i], np.mean(epi_uncertainty[i,...]), np.median(epi_uncertainty[i,...]), np.mean(ali_uncertainty[i,...]), np.median(ali_uncertainty[i,...])])
+            writer.writerow([test_image_files[i], np.mean(epi_uncertainty[i,...])+np.mean(ali_uncertainty[i,...]), np.mean(epi_uncertainty[i,...]), np.median(epi_uncertainty[i,...]), np.mean(ali_uncertainty[i,...]), np.median(ali_uncertainty[i,...])])
 
 
 def saveResult(path, test_image_files, results, Input_image_shape):
