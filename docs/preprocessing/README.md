@@ -1,6 +1,6 @@
 # Preprocessing
 
-In this folder, you can find the information regarding the preperation the experiments for the use with jupyter-notebook.
+In this folder, you can find the information regarding the preparation of the experiments for use with jupyter-notebook.
 
 ## CreateFolderstrucutre_and_SplitTrainTestset.ipynb
 

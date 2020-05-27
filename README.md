@@ -38,7 +38,7 @@ The code automatically checks if the GPU exists. In case it won't find GPU, it w
 
 There are three ways to use the code which are explained here:
 
-### 1. With instalation
+### 1. With installation
 
 In case you have installed the package, you can run the code by calling the pipeline by:
 
@@ -61,9 +61,9 @@ pipeline = GetPipeLine(use_algorithm,
                     evaluation)
 pipeline.run()
 ```
-This simply runs the Deep Learning. 
+This simply runs the Deep Learning pipeline. 
 
-### 2. Without instalation
+### 2. Without installation
 
 You can simply download the code. Inside the folder `instantdl`, there is a json file called `config.json` which will be used to set parameters. After this the pipeline is started by executing the main.py file, meaning:
 
@@ -71,13 +71,13 @@ You can simply download the code. Inside the folder `instantdl`, there is a json
 python main.py --config ./config.json
 ```
 
-Predictins from the testset will be saved after training to the Results folder which will automatically be created. 
+Prediction from the test set will be saved after training to the Results folder which will automatically be created. 
 
 From there evaluations using jupyter-notebooks from the Evaluation folder can be used for visual and statistical assessment. Therefore only the path in the jupyter-notebook files has to be adapted. 
 
 ### 3. Docker
 
-For Docker instalation, please refer to the [docker](docker) folder.
+For Docker installation, please refer to the [docker](docker) folder.
 
 ## Simple Example
 
@@ -120,7 +120,7 @@ And the `groundtruth.csv` should look like this:
 |      . 	      |         .       |
 |      . 	      |         .       |
 
-After that the data is provided in the desired shape, you can simply use the code with this small snippet:
+After the data has been provided in the desired shape,, you can simply use the code with this small snippet:
 
 ```python
 from instantdl import GetPipeLine
@@ -165,12 +165,12 @@ One example of each task of semantic segmentation, instance segmentation, regres
 
 ## Training Parameters
 
-Possible setting for the inputs are
+Possible settings for the inputs are
 
 - `use_algorithm`: You can choose between "Regression", "SemanticSegmentation", "Instance Segmentation" or "Classification"
 - `path`: the path to your project directory here
 - `use_pretrained_weights`:  Set to `True` if you want to use pretrained weights
-- `pretrained_weights_path`: Set a relative file path from your project directory with the filename here. 
+- `pretrained_weights_path`: Set a relative file path from your project directory with the filename here
 - `batchsize`:   Set the batchsize depeding on your GPU capabilities
 - `iterations_over_dataset`:  Set how many iterations over the dataset should be taken for learning. It might stop automatically if no improvement on the validation set was measured after 25 epochs
 - `data_gen_args` : a dictionary including these parameters:
@@ -198,7 +198,7 @@ Possible setting for the inputs are
 - `evaluation`  false # true or false
 
 
-you can find example of different configs in the example folders
+you can find examples of different configs in the example folders
 
 ## Training steps:
 
@@ -221,7 +221,7 @@ you can find example of different configs in the example folders
 
 ## Uncertainty estimation
 
-Uncertainty estimation using Monte Carlo Dropout is implemented when using semantic segmentation, regression and classification. During evaluation on the testset it evaluates 20 different models by using dropout during interference and calculate the model uncertainty on the test set as suggested by [Gal et al.](https://arxiv.org/abs/1506.02142) and implemented in [this method](https://openreview.net/pdf?id=Sk_P2Q9sG) and for classification [in this gitrepo](https://github.com/RobRomijnders/bayes_nn). The uncertainty is saved as separate numpy files when using regression and semantic segmentation tasks and as .csv file when using classification. Figure 2 shows how the uncertainty estimation using regression and a classification task works. For regression and semantic segmentation the pipeline saves an uncertainty map to the project folder, areas with high uncertainty are visible (Figure 2.B). For classification the certainty measure is printed to the results file. Numbers close to zero are considered certain, higher numbers uncertain. Uncertainty estimation opens new level of interpretability of results.
+Uncertainty estimation using Monte Carlo Dropout is implemented when using semantic segmentation, regression and classification. During evaluation on the testset it evaluates 20 different models by using dropout during inference and calculates the model uncertainty on the test set as suggested by [Gal et al.](https://arxiv.org/abs/1506.02142) and implemented in [this method](https://openreview.net/pdf?id=Sk_P2Q9sG) and for classification [in this gitrepo](https://github.com/RobRomijnders/bayes_nn). The uncertainty is saved as separate numpy files when using regression and semantic segmentation tasks and as a .csv file when using classification. Figure 2 shows how the uncertainty estimation using regression and a classification task works. For regression and semantic segmentation the pipeline saves an uncertainty map to the project folder, where areas with high uncertainty are visible (Figure 2.B). For classification the certainty measure is printed to the results file. Numbers close to zero are considered certain, higher numbers uncertain. Uncertainty estimation opens new level of interpretability of results.
 
 <p align="center">
    <img src="docs/Figure2.jpeg" alt="architecture" width="700" class="center"/>
@@ -251,4 +251,4 @@ If you use InstantDL in a project, please cite
 - [ ] add versions
 - [ ] create automatically train and test set
 - [ ] add all loss fuctions
-- [ ] add instalation on pip and conda
+- [ ] add installation on pip and conda
