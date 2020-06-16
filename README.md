@@ -227,6 +227,13 @@ Uncertainty estimation using Monte Carlo Dropout is implemented when using seman
    <img src="docs/Figure2.jpeg" alt="architecture" width="700" class="center"/>
 </p>
 
+
+## Use with google colaboratory
+You can use InstantDL with google colab if you are happy to upload your data to your google drive. For this the InstantDL folder with your project data needs to be uploaded into your google drive.
+There the file 'InstantDL_google_colab.ipynb' whic is in the instantdl folder must be opened with google-colab ('open with').
+In this notebook you will find all the explanations and the code to execute the pipeline.
+
+
 ## Contributing
 
 We are happy about any contributions. For any suggested changes, please send a pull request.
