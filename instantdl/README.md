@@ -15,7 +15,7 @@ Here you can find the information about the folders in the code:
 
 ## Dependencies
 
-For running the code, you need to have Python 3.7 or higher installed. In addition, these are the main dependencies:
+For running the code, you need to have Python 3.6 or higher installed. In addition, these are the main dependencies:
 
 ```json
 {
@@ -34,6 +34,7 @@ For running the code, you need to have Python 3.7 or higher installed. In additi
    "tensorboard":"1.14.0",
    "tensorflow":"1.14.0",
    "tensorflow-gpu":"1.14.0"
+   "pandas":"1.0.3"
 }
 ```
 
