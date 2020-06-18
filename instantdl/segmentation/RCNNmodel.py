@@ -25,6 +25,7 @@ import keras.models as KM
 
 import instantdl.segmentation.utilsRCNN as utils
 from instantdl.segmentation.RCNNSettings import RCNNConfig
+from instantdl.data_generator.data_augmentation import data_augentation
 # Requires TensorFlow 1.3+ and Keras 2.0.8+.
 from distutils.version import LooseVersion
 assert LooseVersion(tf.__version__) >= LooseVersion("1.3")
@@ -1244,7 +1245,6 @@ def load_image_gt(dataset, config, image_id, augment=False, augmentation=None,
     image_shape = image.shape
     mask_shape = mask.shape
     #TODO: Insert Augmentations
-    from data_generator.data_augmentation import data_augentation
     image, mask = data_augentation(image, mask, RCNNConfig.data_gen_args, os.path.join("./", "RCNN_augmentations/"))
 
     assert image.shape == image_shape, "Augmentation shouldn't change image size"
