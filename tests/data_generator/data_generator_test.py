@@ -21,7 +21,7 @@ def test_import_image():
 def test_image_generator():
     os.makedirs("./testimages/", exist_ok=True)
     imsave("./testimages/image.jpg", np.zeros((128,128,3)))
-    imsave("./testimages/image1.jpg", 1.*np.ones((128, 128, 3)))
+    imsave("./testimages/image1.jpg", 255.*np.ones((128, 128, 3)))
     assert np.shape(
         image_generator((128, 128, 3), 2, 3, ["image.jpg", "image1.jpg"], "/", "./testimages/", 0., 255., "Segmentation")) == (2, 128, 128, 3)
     assert np.max(
@@ -32,8 +32,8 @@ def test_image_generator():
 def test_saveResult():
     os.makedirs("./testimages/", exist_ok=True)
     image = np.zeros((1,128,128,3))
-    image[:10:50,10:50,:] = 1.
+    image[:10:50,10:50,:] = 255.
     saveResult("./testimages/", ["result_image"], image, (128,128,3))
     assert np.shape(imread("./testimages/result_image_predict.tif")) == (128,128,3)
     assert np.min(imread("./testimages/result_image_predict.tif")) == 0.
-    assert np.max(imread("./testimages/result_image_predict.tif")) == 255.
+    assert np.max(imread("./testimages/result_image_predict.tif")) == 1.

@@ -12,7 +12,7 @@ For installing the package, you should download the repository and run
 python setup.py install
 ```
 
-For running the code, you need to have Python 3.7 or higher installed. In addition, these are the main dependencies:
+For running the code, you need to have Python 3.6 or higher installed. In addition, these are the main dependencies:
 
 ```yaml
 - cudatoolkit: 10.1.243 # in case of GPU exastnace
