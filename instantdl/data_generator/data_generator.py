@@ -295,7 +295,7 @@ def saveResult(path, test_image_files, results, Input_image_shape):
     
     return: None
     '''
-    results = results * 255
+    results = results * 255.
     logging.info("Save result")
     os.makedirs(path, exist_ok=True)
     logging.info("shape npyfile %s" % (np.shape(results),))
