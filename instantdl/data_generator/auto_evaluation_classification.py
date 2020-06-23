@@ -1,5 +1,6 @@
 import numpy as np
 import os
+import sklearn
 from sklearn.metrics import accuracy_score, confusion_matrix, roc_curve, roc_auc_score, auc
 import numpy as np
 from keras.utils import to_categorical
