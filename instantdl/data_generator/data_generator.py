@@ -73,9 +73,9 @@ def import_image(path_name):
 
 def image_generator(    Training_Input_shape, batchsize, num_channels, 
                         train_image_file, folder_name, data_path, 
-                        X_min, X_max, use_algorithm):
+                        X_min, X_max):
     '''
-    This function normalizes the improted images, resizes them and create batches
+    This function normalizes the imported images, resizes them and create batches
 
     Args:
         Training_Input_shape: The dimensions of one image used for training. Can be set in the config.json file
@@ -86,8 +86,6 @@ def image_generator(    Training_Input_shape, batchsize, num_channels,
         data_path: the project directory
         X_min: the minimum pixel value of this dataset
         X_max: the maximum pixel value of this dataset
-        use_algorithm: the selected network (UNet, ResNet50 or MRCNN)
-    
     return: 
         X: a batch of image data with dimensions (batchsize, x-dim, y-dim, [z-dim], channels)
     '''
