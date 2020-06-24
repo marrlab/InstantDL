@@ -267,7 +267,7 @@ The main publication will be added soon.
 - [x] add docker for gpu and cuda toolkit
 - [x] add objects instead of the main functions
 - [x] add google colab
-- [ ] add tests
+- [ ] add tests  
 - [ ] add thresholding for semantic segmentation
 - [ ] add versions
 - [ ] create automatically train and test set
