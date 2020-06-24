@@ -2,7 +2,7 @@
 
 InstantDL enables experts and non-experts to use state-of-the art deep learning methods on biomedical image data. InstantDL offers the four most common tasks in medical image processing: Semantic segmentation, instance segmentation, pixel-wise regression and classification
 
-
+This repository is 
 
 ## Installation
 
@@ -239,9 +239,23 @@ We are happy about any contributions. For any suggested changes, please send a p
 
 ## Citation
 
-If you use InstantDL in a project, please cite
+If you use InstantDL in a project, you can cite the preprint on bioRxiv
 
-*COMING SOON*
+```
+@article {Waibel2020.06.22.164103,
+	author = {Waibel, Dominik Jens Elias and Shetab Boushehri, Sayedali and Marr, Carsten},
+	title = {InstantDL - An easy-to-use deep learning pipeline for image segmentation and classification},
+	elocation-id = {2020.06.22.164103},
+	year = {2020},
+	doi = {10.1101/2020.06.22.164103},
+	publisher = {Cold Spring Harbor Laboratory},
+	URL = {https://www.biorxiv.org/content/early/2020/06/23/2020.06.22.164103},
+	eprint = {https://www.biorxiv.org/content/early/2020/06/23/2020.06.22.164103.full.pdf},
+	journal = {bioRxiv}
+}
+```
+
+The main publication will be added soon.
 
 ## TODO
 
