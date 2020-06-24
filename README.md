@@ -226,6 +226,8 @@ Uncertainty estimation using Monte Carlo Dropout is implemented when using seman
    <img src="docs/Figure2.jpeg" alt="architecture" width="700" class="center"/>
 </p>
 
+## Prediction only
+If you have a pretraind model and only want to predict your testdata with the weights saved in a .h5 or .hdf5 file, you can set the "iterations_over_dataset" = 0 and the "pretrained_weights_path" to your weights file.
 
 ## Use with google colaboratory
 You can use InstantDL with google colab. For this the InstantDL folder with your project data needs to be uploaded into your google drive. There, the file 'InstantDL_google_colab.ipynb' which is in the instantdl folder must be opened with google-colab ('open with'). In this notebook you will find all the explanations and the code to execute the pipeline.
