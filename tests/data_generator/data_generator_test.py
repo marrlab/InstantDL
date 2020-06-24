@@ -39,6 +39,7 @@ def test_saveResult():
     assert np.min(imread("./data_generator/testimages/result_image_predict.tif")) == 0.
     assert np.max(imread("./data_generator/testimages/result_image_predict.tif")) == 1.
 
+
 def test_saveResult_classification():
     results = np.ones((3,2))
     saveResult_classification("./data_generator/testimages/", ["image.jpg", "image1.jpg"], results)
@@ -49,6 +50,26 @@ def test_saveResult_classification():
     assert res["filename"].values[1] == "image1.jpg"
     assert res["Probability for each possible outcome"].values[0] == "[1. 1.]"
     assert res["Probability for each possible outcome"].values[1] == "[1. 1.]"
+
+def test_saveResult_classification_uncertainty():
+    results = np.ones((3, 2))
+    MCprediction = np.ones((3, 2))
+    combined_uncertainty = np.ones((3, 1))
+    saveResult_classification("./data_generator/testimages/", ["image.jpg", "image1.jpg"], results)
+
+    saveResult_classification_uncertainty("./data_generator/testimages/", ["image.jpg", "image1.jpg"], results,
+                                          MCprediction, combined_uncertainty)
+    res = pd.read_csv("./data_generator/testimages/results/results.csv")
+    assert res["prediciton"].values[0] == 0
+    assert res["prediciton"].values[1] == 0
+    assert res["filename"].values[0] == "image.jpg"
+    assert res["filename"].values[1] == "image1.jpg"
+    assert res["Probability for each possible outcome"].values[0] == "[1. 1.]"
+    assert res["Probability for each possible outcome"].values[1] == "[1. 1.]"
+    assert res["Certertainty: 0 is certain, high is uncertain"].values[0] == "[1.]"
+    assert res["Certertainty: 0 is certain, high is uncertain"].values[1] == "[1.]"
+    assert res["MC Prediction"].values[0] == "[1. 1.]"
+    assert res["MC Prediction"].values[1] == "[1. 1.]"
 
 def test_saveUncertainty():
     epi_uncertainty = np.zeros((1,128,128,1))
