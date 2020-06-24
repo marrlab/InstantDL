@@ -2,8 +2,6 @@
 
 InstantDL enables experts and non-experts to use state-of-the art deep learning methods on biomedical image data. InstantDL offers the four most common tasks in medical image processing: Semantic segmentation, instance segmentation, pixel-wise regression and classification
 
-This repository is 
-
 ## Installation
 
 For installing the package, you should download the repository and run
