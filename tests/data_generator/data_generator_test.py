@@ -30,6 +30,45 @@ def test_image_generator():
     assert np.min(
         image_generator((128, 128, 3), 2, 3, ["image.jpg", "image1.jpg"], "/", "./data_generator/testimages/", 0., 255., "Segmentation")) == 0.
 
+def test_training_data_generator():
+    os.makedirs("./data_generator/testimages/train/image/", exist_ok=True)
+    os.makedirs("./data_generator/testimages/train/groundtruth/", exist_ok=True)
+    X_true = np.ones((128,128,3))
+    Y_true = 255.*np.ones((128,128,3))
+    imsave("./data_generator/testimages/train/image/image.jpg", X_true)
+    imsave("./data_generator/testimages/train/groundtruth/image.jpg", Y_true)
+    imsave("./data_generator/testimages/train/image/image1.jpg", X_true)
+    imsave("./data_generator/testimages/train/groundtruth/image1.jpg", Y_true)
+    imsave("./data_generator/testimages/train/image/image2.jpg", X_true)
+    imsave("./data_generator/testimages/train/groundtruth/image2.jpg", Y_true)
+    generator = training_data_generator((3,128,128,3), 1, 3, 1, ["image.jpg","image1.jpg", "image2.jpg"],
+                                   {}, 3,"./data_generator/testimages/train/", "Regression")
+    assert ((next(generator)[0])== X_true).all
+    assert ((next(generator)[1])== Y_true).all
+    assert ((next(generator)[0])== X_true).all
+    assert ((next(generator)[1])== Y_true).all
+
+def test_training_data_generator_classification():
+    os.makedirs("./data_generator/testimages_classification/train/image/", exist_ok=True)
+    os.makedirs("./data_generator/testimages_classification/train/groundtruth/", exist_ok=True)
+    X_true = np.zeros((128, 128, 3))
+    imsave("./data_generator/testimages_classification/train/image/image.jpg", X_true)
+    imsave("./data_generator/testimages_classification/train/image/image1.jpg", X_true)
+    imsave("./data_generator/testimages_classification/train/image/image2.jpg", X_true)
+    labels = {"filename": ['image.jpg', 'iamge1.jpg', 'image2.jpg'], 'groundtruth': [0, 1, 2]}
+    gt = pd.DataFrame(labels, columns=['filename', 'groundtruth'])
+    gt.to_csv("./data_generator/testimages_classification/train/groundtruth/groundtruth.csv")
+    class_generator = training_data_generator_classification((3,128,128,3), 1, 3, 3,
+                                                             ["image.jpg","image1.jpg", "image2.jpg"],  {},
+                                                             "./data_generator/testimages_classification/train/", "Classification")
+    assert ((next(class_generator)[0])== X_true).all
+    assert ((next(class_generator)[1])== [1.,0.,0.,]).all
+    assert ((next(class_generator)[0])== X_true).all
+    assert ((next(class_generator)[1])== [1.,0.,0.,]).all
+
+#def test_testGenerator(Input_image_shape, path, num_channels, test_image_files, use_algorithm)
+#    testGenerator(Input_image_shape, path, num_channels, test_image_files, use_algorithm)
+
 def test_saveResult():
     os.makedirs("./data_generator/testimages/", exist_ok=True)
     image = np.zeros((1,128,128,2))

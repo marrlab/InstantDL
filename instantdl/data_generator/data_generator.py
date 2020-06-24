@@ -161,7 +161,6 @@ def training_data_generator(Training_Input_shape, batchsize, num_channels,
                         X = image_generator(Training_Input_shape, batchsize, num_channels, 
                         train_image_file, folder_name, data_path, X_min[index], X_max[index], use_algorithm)
             X_train, Y = data_augentation(X, Y, data_gen_args, data_path + str(train_image_file))
-            
             yield (X_train, Y)
 
 

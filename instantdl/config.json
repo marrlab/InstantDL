@@ -1,9 +1,9 @@
 {
-	"use_algorithm": "Classification",
-	"path": "/Users/dominik.waibel/Desktop/InstantDL/docs/examples/Classification/",
+	"use_algorithm": "Regression",
+	"path": "/Users/dominik.waibel/Desktop/InstantDL/docs/examples/Regression/",
 	"pretrained_weights_path": false,
 	"batchsize": 1,
-	"iterations_over_dataset": 0,
+	"iterations_over_dataset": 1,
 	"data_gen_args": {
 			"save_augmented_images": false,
 		            "resample_images": false,
