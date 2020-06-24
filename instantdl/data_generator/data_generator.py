@@ -73,7 +73,7 @@ def import_image(path_name):
 
 def image_generator(    Training_Input_shape, batchsize, num_channels, 
                         train_image_file, folder_name, data_path, 
-                        X_min, X_max):
+                        X_min, X_max, use_algorithm):
     '''
     This function normalizes the imported images, resizes them and create batches
 
@@ -330,7 +330,7 @@ def saveResult_classification(path, test_image_files, results):
     os.makedirs("./" + (save_path), exist_ok=True)
     with open(save_path + 'results.csv', 'w') as writeFile:
         writer = csv.writer(writeFile)
-        writer.writerow(['filename', 'prediciton', 'Probability for each possible outcome'])
+        writer.writerow(['filename', 'prediction', 'Probability for each possible outcome'])
         for i in range(0, len(results)-1):
             writer.writerow([test_image_files[i], np.argmax(results[i,...]), results[i,...]])
 
@@ -393,7 +393,7 @@ def training_validation_data_split(data_path):
 
 def get_input_image_sizes(path, use_algorithm):
     '''
-    Get the size of the input iamges and check dimensions
+    Get the size of the input images and check dimensions
 
     Args:
         path: path to project directory
