@@ -254,7 +254,7 @@ def testGenerator(Input_image_shape, path, num_channels, test_image_files, use_a
             for index, folder_name in enumerate(Folder_Names):
                 if os.path.isdir(test_path + folder_name) == True:
                     imp = image_generator(Input_image_shape, batchsize, num_channels, 
-                                    test_file, folder_name, test_path, 0, 255, use_algorithm)
+                                    test_file, folder_name, test_path, X_min[index], X_max[index], use_algorithm)
                     if index > 0 :
                         X = np.concatenate([X, imp], axis = -1)
                     else:
