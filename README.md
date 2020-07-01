@@ -13,8 +13,8 @@ python setup.py install
 For running the code, you need to have Python 3.6 or higher installed. In addition, these are the main dependencies:
 
 ```yaml
-- cudatoolkit: 10.1.243 # in case of GPU exastnace
-- cudnn: 7.6.5 # in case of GPU exastnace
+- cudatoolkit: 10.1.243 # in case of GPU existance
+- cudnn: 7.6.5 # in case of GPU existance
 - h5py: 2.9.0
 - hdf5: 1.10.4
 - imageio: 2.6.1
