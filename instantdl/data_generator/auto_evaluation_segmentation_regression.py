@@ -44,6 +44,10 @@ def normalize(data):
 	return data
 
 def AUC(pred, gt):
+    '''
+    :param data: groundtruth and prediction
+    :return: area under curve correlation
+    '''
     ground_truth_labels = gt.flatten() # we want to make them into vectors
     score_value = pred.flatten() # we want to make them into vectors
     fpr, tpr, _ = roc_curve(ground_truth_labels,score_value)
@@ -51,14 +55,17 @@ def AUC(pred, gt):
     return roc_auc
 
 def getPearson(gt, pred):
-    pearson_all = np.zeros(np.shape(gt)[0])
+    '''
+    :param data: groundtruth and prediction
+    :return: pearson correlation
+    '''
+    pearson_all = [np.zeros(np.shape(gt)[0])]
     for index in range(len(pearson_all)):
-
         gtp = np.array(gt[index].flatten())
         predp = np.array(pred[index].flatten())
-        pearson_all[index], pvalue = pearsonr(gtp,predp)
-
-    pearson = np.median(pearson_all)
+        pearson_all[index] = np.mean(np.corrcoef(gtp, predp))
+        print(pearson_all)
+    pearson = np.mean(pearson_all)
     return pearson, pearson_all
 
 def save_2Dimages(data, names, z_index, path_name, image_name):
