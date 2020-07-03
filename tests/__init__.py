@@ -1,1 +1,1 @@
-"""Unit tests for instantdl."""
+"""Unit tests for instantdl"""
