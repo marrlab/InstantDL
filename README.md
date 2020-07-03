@@ -119,7 +119,7 @@ And the `groundtruth.csv` should look like this:
 |      . 	      |         .       |
 |      . 	      |         .       |
 
-After the data has been provided in the desired shape,, you can simply use the code with this small snippet:
+After the data has been provided in the desired shape, you can simply use the code with this small snippet:
 
 ```python
 from instantdl import GetPipeLine
@@ -148,7 +148,7 @@ pipeline = GetPipeLine( use_algorithm = "Classification",
                         },
                         loss_function= "binary_crossentropy",
                         num_classes= 2,
-                        image_size= None,
+                        image_size= [128,128,3],
                         calculate_uncertainty= False,
                         evaluation= True
 )
