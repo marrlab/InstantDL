@@ -57,29 +57,30 @@ Possible setting in the config.json file are:
 It might stop automatically if no improvement on the validation set was measured after 25 epochs
 
 Set data augmentation parameters here
-"save_augmented_images": false, / true or false
-"resample_images": false, / true or false
-"std_normalization": false, / true or false
-"feature_scaling": false, / true or false
-"horizontal_flip": false, / true or false
-"vertical_flip": false, / true or false
-"poission_noise": false, / false or float
-"rotation_range": false, / false or float (degrees)
-"zoom_range": false, / false or float (magnification)
-"contrast_range": false, / false or float
-"brightness_range": false, / false or float
-"gamma_shift": false, / false or float (gamma shift parameter)
-"threshold_background_image": false, / true or false
-"threshold_background_groundtruth": false, / true or false
-"gaussian_blur_image": false, / true or float
-"gaussian_blur_label": false, / true or  false
-"binarize_mask": false / true or false
+"save_augmented_images": false, # true or false
+"resample_images": false, # true or false
+"std_normalization": false, # true or false
+"feature_scaling": false, # true or false
+"horizontal_flip": false, # true or false
+"vertical_flip": false, # true or false
+"poission_noise": false, # false or float
+"rotation_range": false, # false or float (degrees)
+"zoom_range": false, # false or float (magnification)
+"contrast_range": false, # false or float
+"brightness_range": false, # false or float
+"gamma_shift": false, # false or float (gamma shift parameter)
+"threshold_background_image": false, # true or false
+"threshold_background_groundtruth": false, # true or false
+"gaussian_blur_image": false, # true or float
+"gaussian_blur_label": false, # true or  # true or false
+"binarize_mask": false # true or false
 
 Set parameters training here. Number of classes should be 1 using binary segmenation tasks
 "loss_function": "mse",
-"num_classes": 1, / Number of classes should be 1 for binary segmenation tasks
-"image_size": null, / null or tuple with dimensions of desired image size in format [x-dim, y-dim, (z-dim), channels], e.g. [128,128,3]
-"calculate_uncertainty": false / true or false
+"num_classes": 1, # Number of classes should be 1 for binary segmenation tasks
+"image_size": null, # null or tuple with dimensions of desired image size in format [x-dim, y-dim, (z-dim), channels],
+e.g. [128,128,3]
+"calculate_uncertainty": false # true or false
 ```
 
 For running the code, you can simply run it using:
