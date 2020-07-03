@@ -16,9 +16,9 @@ def test_write_logbook():
     file = open("./data_generator/testimages/logbook.txt", "r")
     file.readline()
     file.readline()
-    file.readline()
-    assert str(file.readline()) == 'With lossfunction : categorical_crossentropyfor: 2epochs\n'
-    assert file.readline() == "The augmentations are: {'save_augmented_images': False, 'resample_images': False, 'std_normalization': True, 'feature_scaling': False, 'horizontal_flip': True}"
+    #file.readline()
+    assert str(file.readline()) == 'With lossfunction: categorical_crossentropy for : 2 epochs\n'
+    assert file.readline() == "The augmentations are: {'save_augmented_images': False, 'resample_images': False, 'std_normalization': True, 'feature_scaling': False, 'horizontal_flip': True}\n"
     os.remove("./data_generator/testimages/logbook.txt")
 
 
