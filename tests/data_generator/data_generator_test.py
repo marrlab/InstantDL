@@ -128,5 +128,5 @@ def test_get_input_image_sizes():
     assert (Input_image_shape == ([128,128,3])).all()
 
     # Delete all folders:
-    shutil.rmtree("./data_generator/testimages")
-    shutil.rmtree("./data_generator/testimages_classification")
+    #shutil.rmtree("./data_generator/testimages")
+    #shutil.rmtree("./data_generator/testimages_classification")

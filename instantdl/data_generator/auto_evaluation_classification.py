@@ -9,6 +9,7 @@ import matplotlib.pyplot as plt
 import datetime
 import csv
 import logging
+
 def get_auc(path, y_test, y_score, n_classes):
     '''
     calculates the area uncer curve and saves the AUC-curve to the insights folder

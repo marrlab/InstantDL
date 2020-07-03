@@ -353,7 +353,7 @@ def saveResult_classification_uncertainty(path, test_image_files, results,
     os.makedirs("./" + (save_path), exist_ok=True)
     with open(save_path + 'results.csv', 'w') as writeFile:
         writer = csv.writer(writeFile)
-        writer.writerow(['filename', 'prediciton', 'Probability for each possible outcome', 
+        writer.writerow(['filename', 'prediction', 'Probability for each possible outcome',
                                     'MC Prediction', 'Certertainty: 0 is certain, high is uncertain'])
         for i in range(0, len(results)-1):
             writer.writerow([test_image_files[i], np.argmax(results[i,...]), \
