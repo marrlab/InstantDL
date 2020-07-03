@@ -1,5 +1,6 @@
 import numpy as np
 import os
+import sklearn
 from sklearn.metrics import accuracy_score, confusion_matrix, roc_curve, roc_auc_score, auc
 import numpy as np
 from keras.utils import to_categorical
@@ -8,6 +9,7 @@ import matplotlib.pyplot as plt
 import datetime
 import csv
 import logging
+
 def get_auc(path, y_test, y_score, n_classes):
     '''
     calculates the area uncer curve and saves the AUC-curve to the insights folder
@@ -78,17 +80,17 @@ def load_data(path):
     os.makedirs(path + '/insights/', exist_ok = True)
     with open(path + '/insights/Predictions_and_Results_Table.csv', 'w') as writeFile:
         writer = csv.writer(writeFile)
-        writer.writerow(['filename', 'prediciton', 'groundtruth'])
+        writer.writerow(['filename', 'prediction', 'groundtruth'])
         for i in range(len(Results_in)):
             loc = Groundtruth_in.loc[Groundtruth_in['filename'] == Results_in["filename"][i]]
             if str(loc['filename'].values)[2:-2] == Results_in["filename"][i]:
-                Results.append(Results_in["prediciton"][i])
+                Results.append(Results_in["prediction"][i])
                 Groundtruth.append((loc["groundtruth"]).values.astype(int))
                 Sigmoid_output_i = Results_in["Probability for each possible outcome"][i]
                 Sigmoid_max_output.append(max(Sigmoid_output_i))
                 Sigmoid_output_i = np.array((Sigmoid_output_i)[1:-1].split())
                 Sigmoid_output.append(Sigmoid_output_i)
-                writer.writerow([Results_in["filename"][i], Results_in["prediciton"][i], (loc["groundtruth"].values)])
+                writer.writerow([Results_in["filename"][i], Results_in["prediction"][i], (loc["groundtruth"].values)])
     Groundtruth = np.array(Groundtruth)
     Results = np.array(Results)
     Sigmoid_output = np.array(Sigmoid_output)

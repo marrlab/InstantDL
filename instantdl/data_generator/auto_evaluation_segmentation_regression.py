@@ -1,12 +1,8 @@
 '''Import the dependencies'''
 import matplotlib.pyplot as plt
 plt.rcParams["font.family"] = "Computer Modern Roman"
-import os, fnmatch
-import numpy as np
 import matplotlib.pyplot as plt
 plt.rcParams["font.family"] = "Computer Modern Roman"
-from scipy.stats import pearsonr
-from mpl_toolkits.axes_grid1 import make_axes_locatable
 import os
 import numpy as np
 import matplotlib.pyplot as plt
@@ -16,7 +12,6 @@ from matplotlib.colorbar import Colorbar
 from skimage.color import rgb2gray, gray2rgb
 import logging
 from sklearn.metrics import jaccard_score
-from scipy.stats.stats import pearsonr
 from sklearn.metrics import roc_curve, auc
 from instantdl.evaluation.Utils_data_evaluation import prepare_data_for_evaluation
 from skimage import filters
@@ -44,6 +39,10 @@ def normalize(data):
 	return data
 
 def AUC(pred, gt):
+    '''
+    :param data: groundtruth and prediction
+    :return: Area under curve
+    '''
     ground_truth_labels = gt.flatten() # we want to make them into vectors
     score_value = pred.flatten() # we want to make them into vectors
     fpr, tpr, _ = roc_curve(ground_truth_labels,score_value)
@@ -51,14 +50,17 @@ def AUC(pred, gt):
     return roc_auc
 
 def getPearson(gt, pred):
-    pearson_all = np.zeros(np.shape(gt)[0])
+    '''
+    :param data: groundtruth and prediction
+    :return: pearson correlation
+    '''
+    pearson_all = [np.zeros(np.shape(gt)[0])]
     for index in range(len(pearson_all)):
-
         gtp = np.array(gt[index].flatten())
         predp = np.array(pred[index].flatten())
-        pearson_all[index], pvalue = pearsonr(gtp,predp)
-
-    pearson = np.median(pearson_all)
+        pearson_all[index] = np.mean(np.corrcoef(gtp, predp))
+        print(pearson_all)
+    pearson = np.mean(pearson_all)
     return pearson, pearson_all
 
 def save_2Dimages(data, names, z_index, path_name, image_name):

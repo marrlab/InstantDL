@@ -48,8 +48,8 @@ def plot2images(image, mask, path, title):
 
 def write_logbook(path, epochs, loss, data_gen_args):
     f = open(path + '/Logbook.txt', 'a')
-    f.write('\n')
     f.write('\n' + "Run started at: " + str(datetime.datetime.now())[:16])
-    f.write('\n' + "With lossfunction : " + str(loss) + "for: " + str(epochs) + "epochs")
+    f.write('\n' + "With lossfunction: " + str(loss) + " for : " + str(epochs) + " epochs")
     f.write('\n' + "The augmentations are: " + str(data_gen_args))
+    f.write('\n')
     f.close()

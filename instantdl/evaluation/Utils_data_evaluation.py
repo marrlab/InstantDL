@@ -4,11 +4,9 @@ Utils for data evaluation
 Written by Dominik Waibel
 """
 
-import os, fnmatch
 import numpy as np
 import matplotlib.pyplot as plt
 plt.rcParams["font.family"] = "Computer Modern Roman"
-import glob
 from skimage import io
 from skimage.io import imread
 from skimage.color import gray2rgb, rgb2gray
