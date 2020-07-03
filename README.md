@@ -192,7 +192,8 @@ Possible settings for the inputs are
    -  `binarize_mask`:  false # true or false
 - `loss_function`:   MSE, MAE, dice loss, binary cross entropy, categorical cross entropy ,
 - `num_classes`: Number of classes (should be 1 for binary segmenation tasks)
-- `image_size`: `null` or tuple with dimensions of desired image size in format (x-dim, y-dim, (z-dim), channels)
+- `image_size`: `null` or tuple with dimensions of desired image size in format [x-dim, y-dim, (z-dim), channels],
+e.g.: [128,128,3]
 - `calculate_uncertainty`:  false # true or false
 - `evaluation`  false # true or false
 
