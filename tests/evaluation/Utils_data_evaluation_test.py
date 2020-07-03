@@ -6,7 +6,8 @@ Written by Dominik Waibel
 
 from instantdl.evaluation.Utils_data_evaluation import *
 import copy
-from skimage.io import imsave, imread
+from skimage.io import imsave
+import shutil
 
 def test_normalize():
     img = np.ones((10,10))
@@ -24,3 +25,9 @@ def test_import_images():
     imsave("./data_generator/testimages/train/image/image2.jpg", X_true)
     data, names = import_images("./data_generator/testimages/train/image/", ["image", "image1", "image2"], ".jpg")
     assert (data == (255*np.ones((3,128,128,3)))).all()
+
+    # Delete created test data
+    if os.path.exists("./data_generator/testimages") and os.path.isdir("./data_generator/testimages"):
+        shutil.rmtree("./data_generator/testimages")
+    if os.path.exists("./data_generator/testimages_classification") and os.path.isdir("./data_generator/testimages_classification"):
+        shutil.rmtree("./data_generator/testimages_classification")

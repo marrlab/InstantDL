@@ -18,7 +18,6 @@ def test_get_auc():
     print(auc)
     assert auc == [1.0, 0.5]
 
-
 def test_load_data():
     os.makedirs("./data_generator/testimages_classification/test/groundtruth/", exist_ok=True)
     labels = {"filename": ['image.jpg', 'image1.jpg', 'image2.jpg'], 'groundtruth': [0, 1, 1]}
@@ -40,4 +39,9 @@ def test_load_data():
     assert Sigmoid_output[0] == ['0.8']
     assert Sigmoid_output[1] == ['1.0']
     assert Sigmoid_output[2] == ['0.2']
-    shutil.rmtree("./data_generator/testimages_classification")
+
+    # Delete created test data
+    if os.path.exists("./data_generator/testimages") and os.path.isdir("./data_generator/testimages"):
+        shutil.rmtree("./data_generator/testimages")
+    if os.path.exists("./data_generator/testimages_classification") and os.path.isdir("./data_generator/testimages_classification"):
+        shutil.rmtree("./data_generator/testimages_classification")
