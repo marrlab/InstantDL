@@ -84,8 +84,8 @@ def test_saveResult_classification():
     results = np.ones((3,2))
     saveResult_classification("./data_generator/testimages/", ["image.jpg", "image1.jpg"], results)
     res = pd.read_csv("./data_generator/testimages/results/results.csv")
-    assert res["prediciton"].values[0] == 0
-    assert res["prediciton"].values[1] == 0
+    assert res["prediction"].values[0] == 0
+    assert res["prediction"].values[1] == 0
     assert res["filename"].values[0] == "image.jpg"
     assert res["filename"].values[1] == "image1.jpg"
     assert res["Probability for each possible outcome"].values[0] == "[1. 1.]"
@@ -100,8 +100,8 @@ def test_saveResult_classification_uncertainty():
     saveResult_classification_uncertainty("./data_generator/testimages/", ["image.jpg", "image1.jpg"], results,
                                           MCprediction, combined_uncertainty)
     res = pd.read_csv("./data_generator/testimages/results/results.csv")
-    assert res["prediciton"].values[0] == 0
-    assert res["prediciton"].values[1] == 0
+    assert res["prediction"].values[0] == 0
+    assert res["prediction"].values[1] == 0
     assert res["filename"].values[0] == "image.jpg"
     assert res["filename"].values[1] == "image1.jpg"
     assert res["Probability for each possible outcome"].values[0] == "[1. 1.]"
