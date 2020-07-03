@@ -1,10 +1,10 @@
-import pytest
-import numpy as np
+"""
+InstantDL
+Utils for data evaluation
+Written by Dominik Waibel
+"""
+
 from instantdl.data_generator.auto_evaluation_segmentation_regression import *
-from skimage.io import imsave, imread
-import os
-import pandas as pd
-import shutil
 
 def test_threshold():
     img = np.ones((10,10))
@@ -39,11 +39,11 @@ def test_AUC():
     assert auc_res == 0.9897959183673469
 
 def test_getPearson():
-    pred = np.ones((10, 10))
+    pred = np.ones((10, 10)) * 0.8
     np.fill_diagonal(pred, .8)
     gt = np.ones((10, 10))
     np.fill_diagonal(gt, 0)
     gt = gt[np.newaxis, ...]
     pred = pred[np.newaxis, ...]
-    pearson, _ = getPearson(gt, pred)
-    assert pearson == 1.0
+    pearson, pearson_all = getPearson(gt, pred)
+    assert pearson == 0.49999999999999994

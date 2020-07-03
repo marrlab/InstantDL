@@ -1,7 +1,10 @@
-import pytest
-import numpy as np
+"""
+InstantDL
+Utils for data evaluation
+Written by Dominik Waibel
+"""
+
 from instantdl.data_generator.auto_evaluation_classification import *
-from skimage.io import imsave, imread
 import os
 import pandas as pd
 import shutil

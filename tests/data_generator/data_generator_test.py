@@ -1,10 +1,13 @@
-import pytest
-import numpy as np
+"""
+InstantDL
+Utils for data evaluation
+Written by Dominik Waibel
+"""
+
 from instantdl.data_generator.data_generator import *
 from skimage.io import imsave, imread
 import os
 import pandas as pd
-import shutil
 
 def test_get_min_max():
     os.makedirs("./data_generator/testimages/", exist_ok=True)
