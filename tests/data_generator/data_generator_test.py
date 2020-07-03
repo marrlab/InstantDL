@@ -4,6 +4,7 @@ from instantdl.data_generator.data_generator import *
 from skimage.io import imsave, imread
 import os
 import pandas as pd
+import shutil
 
 def test_get_min_max():
     os.makedirs("./data_generator/testimages/", exist_ok=True)
@@ -125,3 +126,7 @@ def test_get_input_image_sizes():
     assert Training_Input_shape == (128,128,3)
     assert num_channels == 3
     assert (Input_image_shape == ([128,128,3])).all()
+
+    # Delete all folders:
+    shutil.rmtree("./data_generator/testimages")
+    shutil.rmtree("./data_generator/testimages_classification")
