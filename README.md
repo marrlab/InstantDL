@@ -2,7 +2,7 @@
 
 InstantDL enables experts and non-experts to use state-of-the art deep learning methods on biomedical image data. InstantDL offers the four most common tasks in medical image processing: Semantic segmentation, instance segmentation, pixel-wise regression and classification
 
-
+[![Build Status](https://travis-ci.com/marrlab/InstantDL.svg?branch=develop-test)](https://travis-ci.com/marrlab/InstantDL)
 
 ## Installation
 
