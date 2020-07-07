@@ -81,6 +81,7 @@ class Regression(object):
         logging.info("Making: %s steps per Epoch" % steps_per_epoch)
         return [Training_Input_shape, num_channels, network_input_size, Input_image_shape,
                         data_path, train_image_files, val_image_files, steps_per_epoch, data_dimensions,val_image_files]
+        #TODO: Returning val_image_files twice
 
 
 
