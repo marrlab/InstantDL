@@ -44,7 +44,7 @@ def test_2DRegression():
     if os.path.exists(os.getcwd()+"/tests/segmentation/testimages") and os.path.isdir(os.getcwd()+"/tests/segmentation/testimages"):
         shutil.rmtree(os.getcwd()+"/tests/segmentation/testimages")
 
-def test_3DRegression():
+'''def test_3DRegression():
     os.makedirs(os.getcwd() + "/tests/segmentation/testimages/train/image/", exist_ok=True)
     os.makedirs(os.getcwd() + "/tests/segmentation/testimages/train/groundtruth/", exist_ok=True)
     os.makedirs(os.getcwd() + "/tests/segmentation/testimages/test/image/", exist_ok=True)
@@ -78,3 +78,4 @@ def test_3DRegression():
     #Delete created test data
     if os.path.exists(os.getcwd()+"/tests/segmentation/testimages") and os.path.isdir(os.getcwd()+"/tests/segmentation/testimages"):
         shutil.rmtree(os.getcwd()+"/tests/segmentation/testimages")
+'''
