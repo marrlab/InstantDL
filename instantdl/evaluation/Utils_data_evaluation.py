@@ -118,8 +118,8 @@ def prepare_data_for_evaluation(root_dir, max_images):
 			prediction = np.sum(np.where(prediction == 1, 1, 0), axis = -1)
 			prediction[prediction > 1] = 1
 			predictions.append(resize(prediction, (256,256)))
-		logging.info("pred", np.shape(predictions))
-		logging.info("gt", np.shape(groundtruth))
+		logging.info("pred %s" % np.shape(predictions))
+		logging.info("gt %s" % np.shape(groundtruth))
 		abs_errormap_norm, rel_errormap_norm = calcerrormap(predictions, groundtruth)
 
 	else:
@@ -127,17 +127,17 @@ def prepare_data_for_evaluation(root_dir, max_images):
 		if max_images is not None:
 			image_files = image_files[0: max_images]
 		image, image_fnames = import_images(test_dir + "/image/", image_files, None)
-		predictions, predictions_fnames = import_images(results_dir, image_files, "_predict.tif")
+		predictions, _ = import_images(results_dir, image_files, "_predict.tif")
 		if os.path.isdir(test_dir + "/groundtruth/"):
-			groundtruth, groundtruth_fnames = import_images(test_dir + "/groundtruth/", image_files, None)
+			groundtruth, _ = import_images(test_dir + "/groundtruth/", image_files, None)
 		image, image_fnames = import_images(test_dir + "/image/", image_files, None)
 		if os.path.isdir(test_dir + "image2"):
-			image2, image2_fnames = import_images(test_dir + "image2", image_files, None)
-			image1, image1_fnames = import_images(test_dir + "image1", image_files, None)
+			image2, _ = import_images(test_dir + "image2", image_files, None)
+			image1, _ = import_images(test_dir + "image1", image_files, None)
 		elif os.path.isdir(test_dir + "image1"):
-			image1, image1_fnames = import_images(test_dir + "image1", image_files, None)
+			image1, _ = import_images(test_dir + "image1", image_files, None)
 	if os.path.isdir(root_dir + "uncertainty"): 
-		uncertainty, uncertainty_fnames = import_images(root_dir + "uncertainty", image_files, "_predict.tif")
+		uncertainty, _ = import_images(root_dir + "uncertainty", image_files, "_predict.tif")
 	if os.path.isdir(test_dir + "/groundtruth/"):
 		abs_errormap_norm, rel_errormap_norm = calcerrormap(predictions, groundtruth)
 
