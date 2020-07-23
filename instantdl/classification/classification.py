@@ -10,7 +10,7 @@ class Classification(object):
                     data_gen_args, 
                     loss_function, 
                     num_classes, 
-                    image_size, 
+                    image_size,
                     calculate_uncertainty,
                     evaluation):
 
@@ -116,7 +116,7 @@ class Classification(object):
 
     def train_model(self, model,TrainingDataGenerator,ValidationDataGenerator , steps_per_epoch, val_image_files ):
         '''
-        Set Model callbacks such as: 
+        Set Model callbacks such as:
         - Early stopping (after the validation loss has not improved for 25 epochs
         - Checkpoints: Save model after each epoch if the validation loss has improved 
         - Tensorboard: Monitor training live with tensorboard. Start tensorboard in terminal with: tensorboard --logdir=/path_to/logs 

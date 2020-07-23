@@ -291,7 +291,7 @@ def ResNet50(input_shape,
             weights = layer.get_weights()
             if weights:
                 if np.array_equal(weights[0], pre[0]):
-                    logging.info('not loaded', layer.name)
+                    logging.info('not loaded %s' % layer.name)
                 else:
-                    logging.info('loaded', layer.name)
+                    logging.info('loaded %s' % layer.name)
     return model
