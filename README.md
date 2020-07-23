@@ -17,8 +17,8 @@ python setup.py install
 For running the code, you need to have Python 3.6 or higher installed. In addition, these are the main dependencies:
 
 ```yaml
-- cudatoolkit: 10.1.243 # in case of GPU exastnace
-- cudnn: 7.6.5 # in case of GPU exastnace
+- cudatoolkit: 10.1.243 # in case of GPU existance
+- cudnn: 7.6.5 # in case of GPU existance
 - h5py: 2.9.0
 - hdf5: 1.10.4
 - imageio: 2.6.1
@@ -123,7 +123,7 @@ And the `groundtruth.csv` should look like this:
 |      . 	      |         .       |
 |      . 	      |         .       |
 
-After the data has been provided in the desired shape,, you can simply use the code with this small snippet:
+After the data has been provided in the desired shape, you can simply use the code with this small snippet:
 
 ```python
 from instantdl import GetPipeLine
@@ -152,7 +152,7 @@ pipeline = GetPipeLine( use_algorithm = "Classification",
                         },
                         loss_function= "binary_crossentropy",
                         num_classes= 2,
-                        image_size= None,
+                        image_size= [128,128,3],
                         calculate_uncertainty= False,
                         evaluation= True
 )
@@ -196,7 +196,8 @@ Possible settings for the inputs are
    -  `binarize_mask`:  false # true or false
 - `loss_function`:   MSE, MAE, dice loss, binary cross entropy, categorical cross entropy ,
 - `num_classes`: Number of classes (should be 1 for binary segmenation tasks)
-- `image_size`: `null` or tuple with dimensions of desired image size in format (x-dim, y-dim, (z-dim), channels)
+- `image_size`: `null` or tuple with dimensions of desired image size in format [x-dim, y-dim, (z-dim), channels],
+e.g.: [128,128,3]
 - `calculate_uncertainty`:  false # true or false
 - `evaluation`  false # true or false
 
@@ -230,9 +231,12 @@ Uncertainty estimation using Monte Carlo Dropout is implemented when using seman
    <img src="docs/Figure2.jpeg" alt="architecture" width="700" class="center"/>
 </p>
 
+## Prediction only
+If you have a pretraind model and only want to predict your testdata with the weights saved in a .h5 or .hdf5 file, you can set the "iterations_over_dataset" = 0 and the "pretrained_weights_path" to your weights file.
 
-## Use with google colaboratory
-You can use InstantDL with google colab. For this the InstantDL folder with your project data needs to be uploaded into your google drive. There, the file 'InstantDL_google_colab.ipynb' which is in the instantdl folder must be opened with google-colab ('open with'). In this notebook you will find all the explanations and the code to execute the pipeline.
+## Use with Google Colaboratory
+
+You can use InstantDL with Google Colab. For this the InstantDL folder with your project data needs to be uploaded into your google drive. There, the file [InstantDL_google_colab.ipynb](docs/google_colab/InstantDL_google_colab.ipynb) which is in the instantdl folder must be opened with Google Colab ('open with'). In this notebook you will find all the explanations and the code to execute the pipeline.
 
 
 ## Contributing
@@ -268,9 +272,11 @@ The main publication will be added soon.
 - [x] add docker documentation
 - [x] add docker for gpu and cuda toolkit
 - [x] add objects instead of the main functions
-- [ ] add tests
+- [x] add google colab
+- [ ] add tests  
 - [ ] add thresholding for semantic segmentation
 - [ ] add versions
 - [ ] create automatically train and test set
 - [ ] add all loss fuctions
 - [ ] add installation on pip and conda
+
