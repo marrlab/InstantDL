@@ -1,12 +1,8 @@
 '''Import the dependencies'''
 import matplotlib.pyplot as plt
 plt.rcParams["font.family"] = "Computer Modern Roman"
-import os, fnmatch
-import numpy as np
 import matplotlib.pyplot as plt
 plt.rcParams["font.family"] = "Computer Modern Roman"
-from scipy.stats import pearsonr
-from mpl_toolkits.axes_grid1 import make_axes_locatable
 import os
 import numpy as np
 import matplotlib.pyplot as plt
@@ -16,7 +12,6 @@ from matplotlib.colorbar import Colorbar
 from skimage.color import rgb2gray, gray2rgb
 import logging
 from sklearn.metrics import jaccard_score
-from scipy.stats.stats import pearsonr
 from sklearn.metrics import roc_curve, auc
 from instantdl.evaluation.Utils_data_evaluation import prepare_data_for_evaluation
 from skimage import filters
@@ -46,7 +41,7 @@ def normalize(data):
 def AUC(pred, gt):
     '''
     :param data: groundtruth and prediction
-    :return: area under curve correlation
+    :return: Area under curve
     '''
     ground_truth_labels = gt.flatten() # we want to make them into vectors
     score_value = pred.flatten() # we want to make them into vectors

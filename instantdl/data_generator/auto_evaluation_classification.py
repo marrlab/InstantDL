@@ -1,5 +1,6 @@
 import numpy as np
 import os
+import sklearn
 from sklearn.metrics import accuracy_score, confusion_matrix, roc_curve, roc_auc_score, auc
 import numpy as np
 from keras.utils import to_categorical
@@ -8,6 +9,7 @@ import matplotlib.pyplot as plt
 import datetime
 import csv
 import logging
+
 def get_auc(path, y_test, y_score, n_classes):
     '''
     calculates the area uncer curve and saves the AUC-curve to the insights folder

@@ -75,7 +75,7 @@ def image_generator(    Training_Input_shape, batchsize, num_channels,
                         train_image_file, folder_name, data_path, 
                         X_min, X_max, use_algorithm):
     '''
-    This function normalizes the improted images, resizes them and create batches
+    This function normalizes the imported images, resizes them and create batches
 
     Args:
         Training_Input_shape: The dimensions of one image used for training. Can be set in the config.json file
@@ -86,8 +86,6 @@ def image_generator(    Training_Input_shape, batchsize, num_channels,
         data_path: the project directory
         X_min: the minimum pixel value of this dataset
         X_max: the maximum pixel value of this dataset
-        use_algorithm: the selected network (UNet, ResNet50 or MRCNN)
-    
     return: 
         X: a batch of image data with dimensions (batchsize, x-dim, y-dim, [z-dim], channels)
     '''
@@ -163,7 +161,7 @@ def training_data_generator(Training_Input_shape, batchsize, num_channels,
                         X = image_generator(Training_Input_shape, batchsize, num_channels, 
                         train_image_file, folder_name, data_path, X_min[index], X_max[index], use_algorithm)
             X_train, Y = data_augentation(X, Y, data_gen_args, data_path + str(train_image_file))
-            
+            print(np.shape(X_train))
             yield (X_train, Y)
 
 
@@ -257,7 +255,7 @@ def testGenerator(Input_image_shape, path, num_channels, test_image_files, use_a
             for index, folder_name in enumerate(Folder_Names):
                 if os.path.isdir(test_path + folder_name) == True:
                     imp = image_generator(Input_image_shape, batchsize, num_channels, 
-                                    test_file, folder_name, test_path, 0, 255, use_algorithm)
+                                    test_file, folder_name, test_path, X_min[index], X_max[index], use_algorithm)
                     if index > 0 :
                         X = np.concatenate([X, imp], axis = -1)
                     else:
@@ -297,7 +295,7 @@ def saveResult(path, test_image_files, results, Input_image_shape):
     
     return: None
     '''
-    results = results * 255
+    results = results * 255.
     logging.info("Save result")
     os.makedirs(path, exist_ok=True)
     logging.info("shape npyfile %s" % (np.shape(results),))
@@ -329,7 +327,7 @@ def saveResult_classification(path, test_image_files, results):
     '''
     logging.info("Save result")
     save_path = (path + '/results/')
-    os.makedirs("./" + (save_path), exist_ok=True)
+    os.makedirs(os.getcwd() + (save_path), exist_ok=True)
     with open(save_path + 'results.csv', 'w') as writeFile:
         writer = csv.writer(writeFile)
         writer.writerow(['filename', 'prediction', 'Probability for each possible outcome'])
@@ -353,7 +351,7 @@ def saveResult_classification_uncertainty(path, test_image_files, results,
     '''
     logging.info("Save result")
     save_path = (path + '/results/')
-    os.makedirs("./" + (save_path), exist_ok=True)
+    os.makedirs(os.getcwd() + (save_path), exist_ok=True)
     with open(save_path + 'results.csv', 'w') as writeFile:
         writer = csv.writer(writeFile)
         writer.writerow(['filename', 'prediction', 'Probability for each possible outcome',
@@ -395,7 +393,7 @@ def training_validation_data_split(data_path):
 
 def get_input_image_sizes(path, use_algorithm):
     '''
-    Get the size of the input iamges and check dimensions
+    Get the size of the input images and check dimensions
 
     Args:
         path: path to project directory

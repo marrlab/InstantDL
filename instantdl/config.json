@@ -1,9 +1,9 @@
 {
-	"use_algorithm": "SemanticSegmentation",
-	"path": "/Users/dominik.waibel/Desktop/InstantDL/docs/examples/dsb/",
-	"pretrained_weights_path": "/Users/dominik.waibel/Desktop/InstantDL/docs/examples/dsb/pretrained_weights_combined_data_mse.hdf5",
+	"use_algorithm": "Regression",
+	"path": "/Users/dominik.waibel/Desktop/InstantDL/docs/examples/Regression/",
+	"pretrained_weights_path": false,
 	"batchsize": 1,
-	"iterations_over_dataset": 0,
+	"iterations_over_dataset": 1,
 	"data_gen_args": {
 			"save_augmented_images": false,
 		            "resample_images": false,
@@ -23,7 +23,7 @@
 	},
 	"loss_function": "mse",
 	"num_classes": 1,
-	"image_size": null,
+	"image_size": false,
 	"calculate_uncertainty": true,
 	"evaluation": true
 }

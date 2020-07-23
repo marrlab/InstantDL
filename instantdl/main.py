@@ -23,18 +23,18 @@ def start_learning( use_algorithm,
     logging.info(use_algorithm)
     
     
-    pipeline = GetPipeLine( use_algorithm,
-                    path, 
-                    pretrained_weights, 
-                    batchsize, 
-                    iterations_over_dataset, 
-                    data_gen_args, 
-                    loss_function, 
-                    num_classes, 
-                    image_size, 
-                    calculate_uncertainty,
-                    evaluation)
-                    
+    pipeline = GetPipeLine(use_algorithm,
+                           path,
+                           pretrained_weights,
+                           batchsize,
+                           iterations_over_dataset,
+                           data_gen_args,
+                           loss_function,
+                           num_classes,
+                           image_size,
+                           calculate_uncertainty,
+                           evaluation)
+
     pipeline.run()
     K.clear_session()
 

@@ -33,7 +33,7 @@ For running the code, you need to have Python 3.6 or higher installed. In additi
    "scipy":"1.3.0",
    "tensorboard":"1.14.0",
    "tensorflow":"1.14.0",
-   "tensorflow-gpu":"1.14.0"
+   "tensorflow-gpu":"1.14.0",
    "pandas":"1.0.3"
 }
 ```

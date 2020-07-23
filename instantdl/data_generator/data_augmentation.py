@@ -107,8 +107,6 @@ def data_augentation(X, Y, data_gen_args, data_path_file_name):
         Y = Y[..., start_heigth_shift: int(size - int(size * height_shift / 100)), :]
         Y = np.nan_to_num(sk.transform.resize(Y, shape_Y))
 
-    '''Zoom to a random position in the image within the zoom range of zoom_range'''
-
     if "zoom_range" in data_gen_args and data_gen_args["zoom_range"] > 0 & random.choice([True, False]) == True:
         """ Zooms the image and groundtruth to a random magnification in the zoom range and to a random position in the image by a 50% chance
         # Arguments
@@ -223,7 +221,7 @@ def data_augentation(X, Y, data_gen_args, data_path_file_name):
         """
         data_path, file_name = os.path.split(data_path_file_name)
         Aug_path = (data_path + '/Augmentations/' )
-        os.makedirs("./" + (Aug_path), exist_ok=True)
+        os.makedirs(os.getcwd() + (Aug_path), exist_ok=True)
         title = file_name.split("'")[1]
         title = os.path.splitext(title)[0]
         #datacomb = np.concatenate((X, Y), axis=2).astype("uint8")

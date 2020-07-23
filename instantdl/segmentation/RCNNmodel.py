@@ -1245,7 +1245,7 @@ def load_image_gt(dataset, config, image_id, augment=False, augmentation=None,
     image_shape = image.shape
     mask_shape = mask.shape
     #TODO: Insert Augmentations
-    image, mask = data_augentation(image, mask, RCNNConfig.data_gen_args, os.path.join("./", "RCNN_augmentations/"))
+    image, mask = data_augentation(image, mask, RCNNConfig.data_gen_args, os.path.join(os.getcwd(), "RCNN_augmentations/"))
 
     assert image.shape == image_shape, "Augmentation shouldn't change image size"
     assert mask.shape == mask_shape, "Augmentation shouldn't change mask size"

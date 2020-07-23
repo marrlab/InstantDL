@@ -10,7 +10,7 @@ class Classification(object):
                     data_gen_args, 
                     loss_function, 
                     num_classes, 
-                    image_size, 
+                    image_size,
                     calculate_uncertainty,
                     evaluation):
 
@@ -116,7 +116,7 @@ class Classification(object):
 
     def train_model(self, model,TrainingDataGenerator,ValidationDataGenerator , steps_per_epoch, val_image_files ):
         '''
-        Set Model callbacks such as: 
+        Set Model callbacks such as:
         - Early stopping (after the validation loss has not improved for 25 epochs
         - Checkpoints: Save model after each epoch if the validation loss has improved 
         - Tensorboard: Monitor training live with tensorboard. Start tensorboard in terminal with: tensorboard --logdir=/path_to/logs 
@@ -124,7 +124,7 @@ class Classification(object):
         Early_Stopping = EarlyStopping(monitor='val_loss', patience=25, mode='auto', verbose=0)
         datasetname = self.path.rsplit("/",1)[1]
         checkpoint_filepath = (self.path + "/logs" + "/pretrained_weights" + datasetname + ".hdf5") #.{epoch:02d}.hdf5")
-        os.makedirs("./" + (self.path + "/logs"), exist_ok=True)
+        os.makedirs(os.getcwd() + (self.path + "/logs"), exist_ok=True)
         model_checkpoint = ModelCheckpoint(checkpoint_filepath, monitor=('val_loss'), verbose=1, save_best_only=True)
 
         tensorboard = TensorBoard(log_dir = self.path + "logs/" + "/" + format(time.time())) #, update_freq='batch')
