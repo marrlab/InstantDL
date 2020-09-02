@@ -195,6 +195,7 @@ Possible settings for the inputs are
    -  `gaussian_blur_label`:  false, # true or  # true or false
    -  `binarize_mask`:  false # true or false
 - `loss_function`:   MSE, MAE, dice loss, binary cross entropy, categorical cross entropy ,
+	             malis loss: to use malis loss, the package should be installed as https://github.com/HelmholtzAI-Consultants-Munich/Malis-Loss, and the batch size should be set as 1.
 - `num_classes`: Number of classes (should be 1 for binary segmenation tasks)
 - `image_size`: `null` or tuple with dimensions of desired image size in format [x-dim, y-dim, (z-dim), channels],
 e.g.: [128,128,3]
