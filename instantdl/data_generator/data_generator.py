@@ -19,6 +19,9 @@ from keras.utils import to_categorical
 from skimage.color import gray2rgb
 import warnings
 
+from skimage import morphology
+from skimage.measure import label
+
 def get_min_max(data_path, folder_name, image_files):
     '''
     This function gets the minimum and maximum pixel values for the folder
@@ -111,7 +114,7 @@ def image_generator(    Training_Input_shape, batchsize, num_channels,
 
 def training_data_generator(Training_Input_shape, batchsize, num_channels, 
                             num_channels_label, train_image_files, 
-                            data_gen_args, data_dimensions,data_path, use_algorithm):
+                            data_gen_args, data_dimensions,data_path, use_algorithm, loss_function):
     '''
     Generate the data for training and return images and groundtruth 
     for regression and segmentation
@@ -161,6 +164,10 @@ def training_data_generator(Training_Input_shape, batchsize, num_channels,
                         X = image_generator(Training_Input_shape, batchsize, num_channels, 
                         train_image_file, folder_name, data_path, X_min[index], X_max[index], use_algorithm)
             X_train, Y = data_augentation(X, Y, data_gen_args, data_path + str(train_image_file))
+            
+            if loss_function == "malis loss":
+                Y = morphology.remove_small_objects(label(Y[0]),8)
+                Y = Y[np.newaxis,...]
             print(np.shape(X_train))
             yield (X_train, Y)
 

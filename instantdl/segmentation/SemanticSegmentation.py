@@ -7,6 +7,8 @@ In this file the functions are started to train and test the networks
 
 from instantdl.utils import *
 from instantdl.segmentation.UNet_models import UNetBuilder
+import numpy as np
+import itertools as it
 
 class SemanticSegmentation(object):
     def __init__(self, 
@@ -110,7 +112,8 @@ class SemanticSegmentation(object):
                                                             self.data_gen_args,
                                                             data_dimensions,
                                                             data_path,
-                                                            self.use_algorithm)
+                                                            self.use_algorithm,
+                                                            self.loss_function)
         ValidationDataGenerator = training_data_generator(Training_Input_shape,
                                                               self.batchsize, num_channels,
                                                               num_channels_label,
@@ -118,7 +121,8 @@ class SemanticSegmentation(object):
                                                               self.data_gen_args,
                                                               data_dimensions,
                                                               data_path,
-                                                              self.use_algorithm)
+                                                              self.use_algorithm,
+                                                              self.loss_function)
         return TrainingDataGenerator, ValidationDataGenerator,num_channels_label
     
     def load_model(self, network_input_size,data_dimensions,num_channels_label ):
@@ -131,10 +135,10 @@ class SemanticSegmentation(object):
             self.pretrained_weights = None
         if data_dimensions == 3:
             logging.info("Using 3D UNet")
-            model = UNetBuilder.unet3D(self.pretrained_weights, network_input_size[-1], num_channels_label, self.num_classes, self.loss_function, Dropout_On = True)
+            model = UNetBuilder.unet3D(self.pretrained_weights, network_input_size, num_channels_label, self.num_classes, self.loss_function, Dropout_On = True)
         else:
             logging.info("Using 2D UNet")
-            model = UNetBuilder.unet2D(self.pretrained_weights, network_input_size[-1], num_channels_label, self.num_classes, self.loss_function, Dropout_On = True)
+            model = UNetBuilder.unet2D(self.pretrained_weights, network_input_size, num_channels_label, self.num_classes, self.loss_function, Dropout_On = True)
 
         logging.info(model.summary())
         return model
@@ -154,7 +158,7 @@ class SemanticSegmentation(object):
 
         tensorboard = TensorBoard(log_dir=self.path + "logs/" + "/" + format(time.time()))  # , update_freq='batch')
         logging.info("Tensorboard log is created at: logs/  it can be opend using tensorboard --logdir=logs for a terminal in the Project folder")
-        callbacks_list = [model_checkpoint, tensorboard, Early_Stopping]
+        callbacks_list = [model_checkpoint, Early_Stopping]
 
         '''
         Train the model given the initialized model and the data from the data generator
@@ -171,7 +175,7 @@ class SemanticSegmentation(object):
         logging.info('finished Model.fit_generator')
         return model, checkpoint_filepath
 
-    def test_set_evaluation(self, model, Training_Input_shape, num_channels,Input_image_shape):
+    def test_set_evaluation(self, model, Training_Input_shape, num_channels,Input_image_shape, ValidationDataGenerator):
         '''
         Get the names of the test images for model evaluation
         '''
@@ -188,7 +192,49 @@ class SemanticSegmentation(object):
         #logging.info("results"), np.shape(results))
         logging.info('finished model.predict_generator')
 
-
+        if self.loss_function == 'malis loss':
+            logging.info('Use Malis loss')
+            import malis as m
+            import itertools as it
+            #from scipy.ndimage.morphology import binary_fill_holes
+            
+            Valgene = list(it.islice(ValidationDataGenerator, 10))
+            pred = []
+            gt = []
+            
+            if len(Training_Input_shape[:-1]) == 2:
+                for i in range(len(Valgene)):
+                    pred.append(model.predict(Valgene[i][0]))
+                    gt.append(Valgene[i][1][0,:,:,0])
+            if len(Training_Input_shape[:-1]) == 3:
+                for i in range(len(Valgene)):
+                    pred.append(model.predict(Valgene[i][0]))
+                    gt.append(Valgene[i][1][0,:,:,:,0])
+            
+            opt_threshold, result, output_seg = find_threshold(pred, gt, len(Training_Input_shape[:-1]))
+            print('Optimal threshold:',opt_threshold)
+            
+            if len(Training_Input_shape[:-1]) == 2:
+                nhood = m.mknhood3d(1)[:-1]
+                final_seg = []
+                for patch in range(results.shape[0]):
+                    aff = np.transpose(np.expand_dims(np.where(results[patch]<opt_threshold,0,1),axis=0),(3,1,2,0)) #(C,H,W,batch)
+                    seg = m.affgraph_to_seg(aff.astype(np.int32),nhood)[0]
+                    seg = np.where(seg==0,0,1)
+                    #seg = binary_fill_holes(seg).astype(int)  # fill small holes in the isntances
+                    final_seg.append(seg)
+            if len(Training_Input_shape[:-1]) == 3:
+                nhood = m.mknhood3d(1)
+                final_seg = []
+                for patch in range(results.shape[0]):
+                    aff = np.transpose(np.where(results[patch]<opt_threshold,0,1),(3,0,1,2)) #(C,H,W,D)
+                    seg = m.affgraph_to_seg(aff.astype(np.int32),nhood)[0]
+                    seg = np.where(seg==0,0,1)
+                    #seg = binary_fill_holes(seg).astype(int)  # fill small holes in the isntances
+                    final_seg.append(seg)
+                    
+            results = np.array(final_seg)
+            
         '''
         Save the models prediction on the testset by printing the predictions 
         as images to the results folder in the project path
@@ -224,7 +270,7 @@ class SemanticSegmentation(object):
             else:
                 uncertainty_weights = self.pretrained_weights
             model = UNetBuilder.unet3D(uncertainty_weights,
-                                               network_input_size[-1],
+                                               network_input_size,
                                                num_channels_label,
                                                loss_function = self.loss_function,
                                                num_classes = self.num_classes,
@@ -236,7 +282,7 @@ class SemanticSegmentation(object):
             else:
                 uncertainty_weights = self.pretrained_weights
             model = UNetBuilder.unet2D(uncertainty_weights,
-                                               network_input_size[-1],
+                                               network_input_size,
                                                num_channels_label,
                                                loss_function = self.loss_function,
                                                num_classes = self.num_classes,
@@ -278,7 +324,7 @@ class SemanticSegmentation(object):
                                                                             train_image_files, 
                                                                             data_dimensions, 
                                                                             val_image_files)
-
+        
         model = self.load_model( network_input_size,data_dimensions,num_channels_label)
 
         model, checkpoint_filepath = self.train_model(  model,
@@ -290,7 +336,8 @@ class SemanticSegmentation(object):
         results,test_image_files, num_test_img = self.test_set_evaluation( model, 
                                                                         Training_Input_shape, 
                                                                         num_channels,
-                                                                        Input_image_shape)
+                                                                        Input_image_shape,
+                                                                        ValidationDataGenerator)
 
         if self.calculate_uncertainty == True:
             self.uncertainty_prediction(    results,
