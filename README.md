@@ -283,4 +283,4 @@ The main publication will be added soon.
 - [ ] create automatically train and test set
 - [ ] add all loss fuctions
 - [ ] add installation on pip and conda
-
+- [ ] add grad-cam
