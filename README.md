@@ -1,3 +1,7 @@
+![InstandDL Logo](docs/Instand_DL_farbig_RGB.png)
+
+--------------------------------------------------------------------------------
+
 # InstandDL: An easy and convenient deep learning pipeline for image segmentation and classification
 
 
