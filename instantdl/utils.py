@@ -7,7 +7,7 @@ from instantdl.data_generator.data_generator import *
 from instantdl.data_generator.auto_evaluation_classification import classification_evaluation
 from instantdl.data_generator.auto_evaluation_segmentation_regression import segmentation_regression_evaluation
 from instantdl.segmentation.UNet_models import UNetBuilder
-from instantdl.segmentation.malis_helper import find_threshold
+from instantdl.segmentation.malis_helper import find_threshold,object_segmentation
 from keras.callbacks import ModelCheckpoint, TensorBoard, EarlyStopping
 import time
 import tensorflow as tf

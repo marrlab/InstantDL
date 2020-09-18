@@ -196,7 +196,7 @@ class SemanticSegmentation(object):
             logging.info('Use Malis loss')
             import malis as m
             import itertools as it
-            #from scipy.ndimage.morphology import binary_fill_holes
+            from scipy.ndimage.morphology import binary_fill_holes
             
             Valgene = list(it.islice(ValidationDataGenerator, 10))
             pred = []
@@ -221,7 +221,7 @@ class SemanticSegmentation(object):
                     aff = np.transpose(np.expand_dims(np.where(results[patch]<opt_threshold,0,1),axis=0),(3,1,2,0)) #(C,H,W,batch)
                     seg = m.affgraph_to_seg(aff.astype(np.int32),nhood)[0]
                     seg = np.where(seg==0,0,1)
-                    #seg = binary_fill_holes(seg).astype(int)  # fill small holes in the isntances
+                    seg = binary_fill_holes(seg).astype(int)  # fill small holes in the isntances
                     final_seg.append(seg)
             if len(Training_Input_shape[:-1]) == 3:
                 nhood = m.mknhood3d(1)
@@ -230,7 +230,7 @@ class SemanticSegmentation(object):
                     aff = np.transpose(np.where(results[patch]<opt_threshold,0,1),(3,0,1,2)) #(C,H,W,D)
                     seg = m.affgraph_to_seg(aff.astype(np.int32),nhood)[0]
                     seg = np.where(seg==0,0,1)
-                    #seg = binary_fill_holes(seg).astype(int)  # fill small holes in the isntances
+                    seg = binary_fill_holes(seg).astype(int)  # fill small holes in the isntances
                     final_seg.append(seg)
                     
             results = np.array(final_seg)

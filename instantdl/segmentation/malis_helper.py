@@ -73,7 +73,7 @@ def find_threshold(pred_aff, gt, dimension):
         output_seg: list
            List of segmentation images with the optimal threshold
     """
-    #from scipy.ndimage.morphology import binary_fill_holes
+    from scipy.ndimage.morphology import binary_fill_holes
     import numpy as np
     import malis as m
 
@@ -91,7 +91,7 @@ def find_threshold(pred_aff, gt, dimension):
                 aff = np.transpose(np.expand_dims(np.where(pred_aff[patch][0]<threshold,0,1),axis=0),(3,1,2,0))
                 seg = m.affgraph_to_seg(aff.astype(np.int32),nhood)[0]     # obtain segmentation from predicted affinity graphs
                 seg = np.where(seg==0,0,1)
-                #seg = binary_fill_holes(seg).astype(int)  # fill small holes in the isntances
+                seg = np.expand_dims(binary_fill_holes(seg[:,:,0]).astype(int),axis=-1)  # fill small holes in the isntances
                 final_seg.append(seg)
                 segmalis_dice.append(object_segmentation(seg, gt[patch], dimension))  # could be changed to other indices
                 
@@ -101,7 +101,7 @@ def find_threshold(pred_aff, gt, dimension):
                 aff = np.transpose(np.where(pred_aff[patch][0]<threshold,0,1),(3,0,1,2))  #####
                 seg = m.affgraph_to_seg(aff.astype(np.int32),nhood)[0]     # obtain segmentation from predicted affinity graphs
                 seg = np.where(seg==0,0,1)
-                #seg = binary_fill_holes(seg).astype(int)  # fill small holes in the isntances
+                seg = binary_fill_holes(seg).astype(int)  # fill small holes in the isntances
                 final_seg.append(seg)
                 segmalis_dice.append(object_segmentation(seg, gt[patch], dimension))  # could be changed to other indices
                 

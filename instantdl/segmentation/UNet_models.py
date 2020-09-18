@@ -27,8 +27,9 @@ class UNetBuilder(object):
             loss_function = malis_loss2d
             num_channels_label = 3
             num_classes = 1
-            
-        inputs = Input(shape = (network_input_size[0],network_input_size[1],network_input_size[2]))
+            inputs = Input(shape = (network_input_size[0],network_input_size[1],network_input_size[2]))
+        else:
+            inputs = Input(shape = (None, None, network_input_size[-1]))
         conv1 = Conv2D(base_n_filters, 3, padding='same', kernel_initializer='he_normal')(inputs)
         conv1 = BatchNormalization()(conv1)
         conv1 = LeakyReLU(alpha=0.2)(conv1)
@@ -136,14 +137,16 @@ class UNetBuilder(object):
 
         return model2D
 
-    def unet3D(pretrained_weights, num_channels_input, num_channels_label, num_classes, loss_function, Dropout_On, base_n_filters=32):
+    def unet3D(pretrained_weights, network_input_size, num_channels_label, num_classes, loss_function, Dropout_On, base_n_filters=32):
         logging.info("started UNet")
         if loss_function == 'malis loss':
             from malis.malis_keras import malis_loss3d
             loss_function = malis_loss3d
             num_channels_label = 4
             num_classes = 1
-        inputs = Input(shape=(None, None, None, num_channels_input))
+            inputs = Input(shape=(network_input_size[0],network_input_size[1],network_input_size[2],network_input_size[3]))
+        else:
+            inputs = Input(shape=(None, None, None, network_input_size[-1]))
         conv1 = Conv3D(base_n_filters, 3, padding='same', kernel_initializer='he_normal')(inputs)
         conv1 = BatchNormalization()(conv1)
         conv1 = LeakyReLU(alpha=0.2)(conv1)

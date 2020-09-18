@@ -166,8 +166,12 @@ def training_data_generator(Training_Input_shape, batchsize, num_channels,
             X_train, Y = data_augentation(X, Y, data_gen_args, data_path + str(train_image_file))
             
             if loss_function == "malis loss":
-                Y = morphology.remove_small_objects(label(Y[0]),8)
-                Y = Y[np.newaxis,...]
+                if data_dimensions == 2:
+                    Y = morphology.remove_small_objects(label(Y[0]),8)
+                    Y = Y[np.newaxis,...]
+                elif data_dimensions == 3:
+                    Y = morphology.remove_small_objects(label(Y[0,:,:,:,0]),8)
+                    Y = Y[np.newaxis,...,np.newaxis]
             print(np.shape(X_train))
             yield (X_train, Y)
 

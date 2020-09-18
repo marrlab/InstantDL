@@ -111,7 +111,8 @@ class Regression(object):
                                                             self.data_gen_args,
                                                             data_dimensions,
                                                             data_path,
-                                                            self.use_algorithm)
+                                                            self.use_algorithm,
+                                                            self.loss_function)
         ValidationDataGenerator = training_data_generator(Training_Input_shape,
                                                               self.batchsize, num_channels,
                                                               num_channels_label,
@@ -119,7 +120,8 @@ class Regression(object):
                                                               self.data_gen_args,
                                                               data_dimensions,
                                                               data_path,
-                                                              self.use_algorithm)
+                                                              self.use_algorithm,
+                                                              self.loss_function)
         return TrainingDataGenerator, ValidationDataGenerator,num_channels_label
     
     def load_model(self, network_input_size,data_dimensions,num_channels_label ):
@@ -132,10 +134,10 @@ class Regression(object):
             self.pretrained_weights = None
         if data_dimensions == 3:
             logging.info("Using 3D UNet")
-            model = UNetBuilder.unet3D(self.pretrained_weights, network_input_size[-1], num_channels_label, self.num_classes, self.loss_function, Dropout_On = True)
+            model = UNetBuilder.unet3D(self.pretrained_weights, network_input_size, num_channels_label, self.num_classes, self.loss_function, Dropout_On = True)
         else:
             logging.info("Using 2D UNet")
-            model = UNetBuilder.unet2D(self.pretrained_weights, network_input_size[-1], num_channels_label, self.num_classes, self.loss_function, Dropout_On = True)
+            model = UNetBuilder.unet2D(self.pretrained_weights, network_input_size, num_channels_label, self.num_classes, self.loss_function, Dropout_On = True)
 
         logging.info(model.summary())
         return model

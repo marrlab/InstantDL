@@ -40,7 +40,10 @@ def test_training_data_generator():
     os.makedirs(os.getcwd()+"/tests/data_generator/testimages/train/image/", exist_ok=True)
     os.makedirs(os.getcwd()+"/tests/data_generator/testimages/train/groundtruth/", exist_ok=True)
     X_true = np.ones((128,128,3))
-    Y_true = 255.*np.ones((128,128,3))
+    #Y_true = 255.*np.ones((128,128,3))
+    Y_true = np.zeros((128,128,1))
+    Y_true[50:60,50:60,:] = 255
+    Y_true[80:90,80:90,:] = 255
     imsave(os.getcwd()+"/tests/data_generator/testimages/train/image/image.jpg", X_true)
     imsave(os.getcwd()+"/tests/data_generator/testimages/train/groundtruth/image.jpg", Y_true)
     imsave(os.getcwd()+"/tests/data_generator/testimages/train/image/image1.jpg", X_true)
@@ -48,11 +51,23 @@ def test_training_data_generator():
     imsave(os.getcwd()+"/tests/data_generator/testimages/train/image/image2.jpg", X_true)
     imsave(os.getcwd()+"/tests/data_generator/testimages/train/groundtruth/image2.jpg", Y_true)
     generator = training_data_generator((3,128,128,3), 1, 3, 1, ["image.jpg","image1.jpg", "image2.jpg"],
-                                   {}, 3,os.getcwd()+"/tests/data_generator/testimages/train/", "Regression")
+                                   {}, 3,os.getcwd()+"/tests/data_generator/testimages/train/", "Regression",'mse')
     assert ((next(generator)[0])== X_true).all
     assert ((next(generator)[1])== Y_true).all
     assert ((next(generator)[0])== X_true).all
     assert ((next(generator)[1])== Y_true).all
+    
+    # test malis loss case
+    Y_malis = np.zeros((128,128,1))
+    Y_malis[50:60,50:60,:] = 1
+    Y_malis[80:90,80:90,:] = 2
+    generator = training_data_generator((128,128,3), 1, 3, 1, ["image.jpg","image1.jpg", "image2.jpg"],
+                                   {}, 2,os.getcwd()+"/tests/data_generator/testimages/train/", "SemanticSegmentation",'malis loss')
+    assert ((next(generator)[0])== X_true).all
+    assert ((next(generator)[1])== Y_malis).all
+    assert ((next(generator)[0])== X_true).all
+    assert ((next(generator)[1])== Y_malis).all
+    
 
 def test_training_data_generator_classification():
     os.makedirs(os.getcwd()+"/tests/data_generator/testimages_classification/train/image/", exist_ok=True)
