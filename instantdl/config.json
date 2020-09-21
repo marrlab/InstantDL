@@ -1,6 +1,6 @@
 {
 	"use_algorithm": "InstanceSegmentation",
-	"path": "/Users/dominik.waibel/Desktop/InstantDL/Lung_Instance_Segmentation/",
+	"path": "./InstantDL/Lung_Instance_Segmentation/",
 	"pretrained_weights_path": false,
 	"batchsize": 1,
 	"iterations_over_dataset": 100,
