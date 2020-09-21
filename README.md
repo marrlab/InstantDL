@@ -1,4 +1,4 @@
-![InstandDL Logo](docs/Instand_DL_farbig_RGB.png)
+![InstandDL Logo](docs/Instand_DL_farbig_RGB.png | width=250)
 
 --------------------------------------------------------------------------------
 
