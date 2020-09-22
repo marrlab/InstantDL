@@ -1,11 +1,9 @@
 <p align="center">
-  <img src="docs/Instand_DL_farbig_RGB.png" style="width:100px" />
+  <img src="docs/Instand_DL_farbig_RGB.png" style="width:400px" />
 </p>
 
---------------------------------------------------------------------------------
 
 # InstandDL: An easy and convenient deep learning pipeline for image segmentation and classification
-
 
 [![Build Status](https://travis-ci.com/marrlab/InstantDL.svg?branch=develop-test)](https://travis-ci.com/marrlab/InstantDL)
 
