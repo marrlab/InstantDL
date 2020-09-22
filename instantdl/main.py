@@ -80,6 +80,6 @@ if __name__ == "__main__":
 
     if "pretrained_weights" in configs:
         if not os.path.isfile((configs["pretrained_weights"])):
-            pretrained_weights = None
+            configs["pretrained_weights"] = None
 
     start_learning( **configs)
