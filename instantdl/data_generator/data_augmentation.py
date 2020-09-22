@@ -220,7 +220,7 @@ def data_augentation(X, Y, data_gen_args, data_path_file_name):
         """
         data_path, file_name = os.path.split(data_path_file_name)
         Aug_path = (data_path + '/Augmentations/' )
-        os.makedirs(os.getcwd() + (Aug_path), exist_ok=True)
+        os.makedirs(Aug_path, exist_ok=True)
         #TODO: Check if the folder and saving really works with the path
         title = file_name.split("'")[1]
         title = os.path.splitext(title)[0]

@@ -9,6 +9,7 @@ from instantdl.utils import *
 
 class InstanceSegmentation(object):
     def __init__(   self,
+                    use_algorithm,
                     path,
                     pretrained_weights = None,
                     batchsize = 2,

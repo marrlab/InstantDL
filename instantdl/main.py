@@ -12,33 +12,12 @@ from instantdl import GetPipeLine
 import logging
 from keras import backend as K
 
-def start_learning( use_algorithm,
-                    path, 
-                    pretrained_weights, 
-                    batchsize, 
-                    iterations_over_dataset, 
-                    data_gen_args, 
-                    loss_function, 
-                    num_classes, 
-                    image_size, 
-                    calculate_uncertainty,
-                    evaluation):
+def start_learning( **configs):
 
     logging.info("Start learning")
-    logging.info(use_algorithm)
-    
-    
-    pipeline = GetPipeLine(use_algorithm,
-                           path,
-                           pretrained_weights,
-                           batchsize,
-                           iterations_over_dataset,
-                           data_gen_args,
-                           loss_function,
-                           num_classes,
-                           image_size,
-                           calculate_uncertainty,
-                           evaluation)
+    logging.info(configs["use_algorithm"])
+
+    pipeline = GetPipeLine(**configs)
 
     pipeline.run()
     K.clear_session()
@@ -71,15 +50,24 @@ if __name__ == "__main__":
                                         'InstanceSegmentation',
                                         'Classification']
 
-    if not isinstance(configs["batchsize"], int):
+    if "batchsize" in configs:
+        if not isinstance(configs["batchsize"], int):
+            logging.warning("Batchsize has not been set. Setting batchsize = 1")
+            batchsize = 2
+    else:
         logging.warning("Batchsize has not been set. Setting batchsize = 1")
-        batchsize = 1
-    if not isinstance(configs["iterations_over_dataset"], int):
-        logging.warning("Epochs has not been set. Setting epochs = 500 and using early stopping")
-        iterations_over_dataset = 500
+        configs["batchsize"] = 2
+
+    if "iterations_over_dataset" in configs:
+        if not isinstance(configs["iterations_over_dataset"], int):
+            logging.warning("Epochs has not been set. Setting epochs = 500 and using early stopping")
+            iterations_over_dataset = 100
 
     if "pretrained_weights" in configs:
-        if not os.path.isfile((configs["pretrained_weights"])):
-            pretrained_weights = None
+        if not isinstance(configs["pretrained_weights"], str):
+            if not os.path.isfile((configs["pretrained_weights"])):
+                configs["pretrained_weights"] = None
+    else:
+        configs["pretrained_weights"] = None
 
     start_learning( **configs)

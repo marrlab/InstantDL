@@ -10,6 +10,7 @@ from instantdl.segmentation.UNet_models import UNetBuilder
 
 class SemanticSegmentation(object):
     def __init__(   self,
+                    use_algorithm,
                     path,
                     pretrained_weights = None,
                     batchsize = 2,
