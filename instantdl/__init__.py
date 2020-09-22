@@ -4,68 +4,18 @@ from instantdl.segmentation.Regression import Regression
 from instantdl.segmentation.InstanceSegmentation import InstanceSegmentation
 from instantdl.segmentation.SemanticSegmentation import SemanticSegmentation
 
-def GetPipeLine(use_algorithm,
-                    path, 
-                    pretrained_weights, 
-                    batchsize, 
-                    iterations_over_dataset, 
-                    data_gen_args, 
-                    loss_function, 
-                    num_classes, 
-                    image_size, 
-                    calculate_uncertainty,
-                    evaluation):
-    if use_algorithm == "Classification":
-        pipeline = Classification(
-                        path, 
-                        pretrained_weights, 
-                        batchsize, 
-                        iterations_over_dataset, 
-                        data_gen_args, 
-                        loss_function, 
-                        num_classes, 
-                        image_size, 
-                        calculate_uncertainty,
-                        evaluation)
+def GetPipeLine(**configs):
+    if configs["use_algorithm"] == "Classification":
+        pipeline = Classification(**configs)
         return pipeline
-    elif use_algorithm == "Regression":
-        pipeline = Regression(
-                        path, 
-                        pretrained_weights, 
-                        batchsize, 
-                        iterations_over_dataset, 
-                        data_gen_args, 
-                        loss_function, 
-                        num_classes, 
-                        image_size, 
-                        calculate_uncertainty,
-                        evaluation)
+    elif configs["use_algorithm"] == "Regression":
+        pipeline = Regression(**configs)
         return pipeline
-    elif use_algorithm == "SemanticSegmentation" :
-        pipeline = SemanticSegmentation(
-                        path, 
-                        pretrained_weights, 
-                        batchsize, 
-                        iterations_over_dataset, 
-                        data_gen_args, 
-                        loss_function, 
-                        num_classes, 
-                        image_size, 
-                        calculate_uncertainty,
-                        evaluation)
+    elif configs["use_algorithm"] == "SemanticSegmentation" :
+        pipeline = SemanticSegmentation(**configs)
         return pipeline
-    elif use_algorithm == "InstanceSegmentation":
-        pipeline = InstanceSegmentation(
-                        path, 
-                        pretrained_weights, 
-                        batchsize, 
-                        iterations_over_dataset, 
-                        data_gen_args, 
-                        loss_function, 
-                        num_classes, 
-                        image_size, 
-                        calculate_uncertainty,
-                        evaluation)
+    elif configs["use_algorithm"] == "InstanceSegmentation":
+        pipeline = InstanceSegmentation(**configs)
         return pipeline
     else: 
         raise KeyError("The use_algorithm should be set correctly")

@@ -3,6 +3,7 @@ import logging
 
 class Classification(object):
     def __init__(   self,
+                    use_algorithm,
                     path,
                     pretrained_weights = None,
                     batchsize = 4,
