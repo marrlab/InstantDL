@@ -121,3 +121,20 @@ Then the main.py can be executed and the example will run with the provided data
 
 Please dont expect to achieve competitive results on these datasets, as they are very small and only for illustration purposes.
 
+## TODO
+
+- [x] making the code modular
+- [x] adding documentation
+- [x] adding example
+- [x] add docker
+- [x] add docker documentation
+- [x] add docker for gpu and cuda toolkit
+- [x] add objects instead of the main functions
+- [x] add google colab
+- [ ] add tests  
+- [ ] add thresholding for semantic segmentation
+- [ ] add versions
+- [ ] create automatically train and test set
+- [ ] add all loss fuctions
+- [ ] add installation on pip and conda
+- [ ] add grad-cam

@@ -266,21 +266,3 @@ If you use InstantDL in a project, you can cite the preprint on bioRxiv
 ```
 
 The main publication will be added soon.
-
-## TODO
-
-- [x] making the code modular
-- [x] adding documentation
-- [x] adding example
-- [x] add docker
-- [x] add docker documentation
-- [x] add docker for gpu and cuda toolkit
-- [x] add objects instead of the main functions
-- [x] add google colab
-- [ ] add tests  
-- [ ] add thresholding for semantic segmentation
-- [ ] add versions
-- [ ] create automatically train and test set
-- [ ] add all loss fuctions
-- [ ] add installation on pip and conda
-- [ ] add grad-cam
