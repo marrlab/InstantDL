@@ -6,14 +6,14 @@ class Classification(object):
                     pretrained_weights = None,
                     batchsize = 4,
                     iterations_over_dataset = 100,
-                    data_gen_args = dict(),
+                    data_gen_args = {},
                     loss_function = "binary_crossentropy",
                     num_classes = 2,
                     image_size = None,
                     calculate_uncertainty = False,
                     evaluation = True):
 
-        self.use_algorithm = "Classification" 
+        self.use_algorithm = "Classification"
         self.path = path
         self.pretrained_weights = pretrained_weights
         self.batchsize = batchsize

@@ -13,7 +13,7 @@ class InstanceSegmentation(object):
                     pretrained_weights = None,
                     batchsize = 2,
                     iterations_over_dataset = 100,
-                    data_gen_args = dict(),
+                    data_gen_args = {},
                     loss_function = "mse",
                     num_classes = 1,
                     image_size = None,
