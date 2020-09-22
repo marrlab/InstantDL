@@ -132,7 +132,7 @@ After the data has been provided in the desired shape, you can simply use the co
 ```python
 from instantdl import GetPipeLine
 
-pipeline = GetPipeLine( use_algorithm = "Classification",	
+pipeline = GetPipeLine( use_algorithm = "Classification",
                         path= "examples/Classification",
 	                     pretrained_weights= "examples/data/Classification/logs/pretrained_weights_Classification.hdf5",
                         batchsize= 2,
@@ -159,6 +159,17 @@ pipeline = GetPipeLine( use_algorithm = "Classification",
                         image_size= [128,128,3],
                         calculate_uncertainty= False,
                         evaluation= True
+)
+
+pipeline.run()
+```
+
+The minimal settings for InstantDL to run with default parameters are:
+```python
+from instantdl import GetPipeLine
+
+pipeline = GetPipeLine( use_algorithm = "Classification",
+                        path= "examples/Classification"
 )
 
 pipeline.run()
