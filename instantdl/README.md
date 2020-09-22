@@ -82,6 +82,12 @@ e.g. [128,128,3]
 "calculate_uncertainty": false # true or false
 ```
 
+The minimal settings for InstantDL to run with default parameters are:
+```json
+"use_algorithm": "Regression", "SemanticSegmentation", "Instance Segmentation" or "Classification"
+"path": "data/Ouncomol_NucEnvelope_3Dnew", #Set the path to your project directory here
+```
+
 For running the code, you can simply run it using:
 
 ```bash
