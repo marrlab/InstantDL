@@ -12,33 +12,13 @@ from instantdl import GetPipeLine
 import logging
 from keras import backend as K
 
-def start_learning( use_algorithm,
-                    path, 
-                    pretrained_weights, 
-                    batchsize, 
-                    iterations_over_dataset, 
-                    data_gen_args, 
-                    loss_function, 
-                    num_classes, 
-                    image_size, 
-                    calculate_uncertainty,
-                    evaluation):
+def start_learning( **configs):
 
     logging.info("Start learning")
-    logging.info(use_algorithm)
+    logging.info(configs["use_algorithm"])
     
     
-    pipeline = GetPipeLine(use_algorithm,
-                           path,
-                           pretrained_weights,
-                           batchsize,
-                           iterations_over_dataset,
-                           data_gen_args,
-                           loss_function,
-                           num_classes,
-                           image_size,
-                           calculate_uncertainty,
-                           evaluation)
+    pipeline = GetPipeLine(**configs)
 
     pipeline.run()
     K.clear_session()
@@ -79,7 +59,10 @@ if __name__ == "__main__":
         iterations_over_dataset = 500
 
     if "pretrained_weights" in configs:
-        if not os.path.isfile((configs["pretrained_weights"])):
-            configs["pretrained_weights"] = None
+        if not isinstance(configs["pretrained_weights"], str):
+            if not os.path.isfile((configs["pretrained_weights"])):
+                configs["pretrained_weights"] = None
+    else:
+        configs["pretrained_weights"] = None
 
     start_learning( **configs)

@@ -1,34 +1,28 @@
 {
-	"use_algorithm": "InstanceSegmentation",
-	"path": "./InstantDL/Lung_Instance_Segmentation/",
-	"pretrained_weights": false,
-	"batchsize": 1,
-	"iterations_over_dataset": 100,
+	"use_algorithm": "Classification",
+	"path": "/Users/dominik.waibel/Desktop/InstantDL/docs/examples/Classification/",
+	"batchsize": 2,
+	"iterations_over_dataset": 1,
 	"data_gen_args": {
-			"save_augmented_images": false,
+			"save_augmented_images": true,
 		            "resample_images": false,
 		            "std_normalization": false,
 		            "feature_scaling": false,
 		            "horizontal_flip": false,
 		            "vertical_flip": false,
-		            "poission_noise": false,
-		            "rotation_range": false,
+		            "poission_noise": 1,
+		            "rotation_range": 20,
 		            "zoom_range": false,
-		            "contrast_range": false,
-		            "brightness_range": false,
-		            "gamma_shift": false,
+		            "contrast_range": 1,
+		            "brightness_range": 1,
+		            "gamma_shift": 0,
 		            "threshold_background_image": false,
 		            "threshold_background_groundtruth": false,
 		            "binarize_mask": false
 	},
-	"loss_function": "mse",
-	"num_classes": 1,
-	"image_size": false,
+	"loss_function": "binary_crossentropy",
+	"num_classes": 2,
+	"image_size": null,
 	"calculate_uncertainty": false,
-	"evaluation": false
+	"evaluation": true
 }
-
-
-
-
-

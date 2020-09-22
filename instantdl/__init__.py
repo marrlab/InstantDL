@@ -15,7 +15,6 @@ def GetPipeLine(use_algorithm,
                     image_size, 
                     calculate_uncertainty,
                     evaluation):
-    
     if use_algorithm == "Classification":
         pipeline = Classification(
                         path, 
