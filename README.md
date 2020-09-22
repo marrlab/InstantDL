@@ -1,4 +1,6 @@
-![InstandDL Logo](docs/Instand_DL_farbig_RGB.png)
+<p align="center">
+  <img src="docs/Instand_DL_farbig_RGB.png" style="width:400px" />
+</p>
 
 --------------------------------------------------------------------------------
 
