@@ -130,7 +130,9 @@ def identity_block(input_tensor, kernel_size, filters, stage, block,
 
 def conv_block(input_tensor, kernel_size, filters, stage, block,
                strides=(2, 2), use_bias=True, train_bn=True):
-    """conv_block is the block that has a conv layer at shortcut
+    """
+    conv_block is the block that has a conv layer at shortcut
+
     # Arguments
         input_tensor: input tensor
         kernel_size: default 3, the kernel size of middle conv layer at main path
@@ -170,7 +172,9 @@ def conv_block(input_tensor, kernel_size, filters, stage, block,
 
 
 def resnet_graph(input_image, architecture, stage5=False, train_bn=True):
-    """Build a ResNet graph.
+    """
+    Build a ResNet graph.
+
         architecture: Can be resnet50 or resnet101
         stage5: Boolean. If False, stage5 of the network is not created
         train_bn: Boolean. Train or freeze Batch Norm layers
@@ -212,7 +216,9 @@ def resnet_graph(input_image, architecture, stage5=False, train_bn=True):
 ############################################################
 
 def apply_box_deltas_graph(boxes, deltas):
-    """Applies the given deltas to the given boxes.
+    """
+    Applies the given deltas to the given boxes.
+
     boxes: [N, (y1, x1, y2, x2)] boxes to update
     deltas: [N, (dy, dx, log(dh), log(dw))] refinements to apply
     """
@@ -831,7 +837,8 @@ class DetectionLayer(KE.Layer):
 ############################################################
 
 def rpn_graph(feature_map, anchors_per_location, anchor_stride):
-    """Builds the computation graph of Region Proposal Network.
+    """
+    Builds the computation graph of Region Proposal Network.
 
     feature_map: backbone features [batch, height, width, depth]
     anchors_per_location: number of anchors per pixel in the feature map
@@ -875,7 +882,8 @@ def rpn_graph(feature_map, anchors_per_location, anchor_stride):
 
 
 def build_rpn_model(anchor_stride, anchors_per_location, depth):
-    """Builds a Keras model of the Region Proposal Network.
+    """
+    Builds a Keras model of the Region Proposal Network.
     It wraps the RPN graph so it can be used multiple times with shared
     weights.
 
@@ -903,7 +911,8 @@ def build_rpn_model(anchor_stride, anchors_per_location, depth):
 def fpn_classifier_graph(rois, feature_maps, image_meta,
                          pool_size, num_classes, train_bn=True,
                          fc_layers_size=1024):
-    """Builds the computation graph of the feature pyramid network classifier
+    """
+    Builds the computation graph of the feature pyramid network classifier
     and regressor heads.
 
     rois: [batch, num_rois, (y1, x1, y2, x2)] Proposal boxes in normalized
@@ -958,7 +967,8 @@ def fpn_classifier_graph(rois, feature_maps, image_meta,
 
 def build_fpn_mask_graph(rois, feature_maps, image_meta,
                          pool_size, num_classes, train_bn=True):
-    """Builds the computation graph of the mask head of Feature Pyramid Network.
+    """
+    Builds the computation graph of the mask head of Feature Pyramid Network.
 
     rois: [batch, num_rois, (y1, x1, y2, x2)] Proposal boxes in normalized
           coordinates.
@@ -1624,7 +1634,8 @@ def generate_random_rois(image_shape, count, gt_class_ids, gt_boxes):
 def data_generator(dataset, config, shuffle=True, augment=False, augmentation=None,
                    random_rois=0, batch_size=1, detection_targets=False,
                    no_augmentation_sources=None):
-    """A generator that returns images and corresponding target class ids,
+    """
+    A generator that returns images and corresponding target class ids,
     bounding box deltas, and masks.
 
     dataset: The Dataset object to pick data from

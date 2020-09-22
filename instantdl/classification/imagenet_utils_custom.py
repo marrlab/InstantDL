@@ -7,8 +7,7 @@ from __future__ import print_function
 import json
 import warnings
 import numpy as np
-
-#from . import get_submodules_from_kwargs
+import logging
 
 _KERAS_BACKEND = None
 _KERAS_LAYERS = None

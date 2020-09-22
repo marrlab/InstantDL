@@ -147,7 +147,7 @@ class SemanticSegmentation(object):
         - Checkpoints: Save model after each epoch if the validation loss has improved 
         - Tensorboard: Monitor training live with tensorboard. Start tensorboard in terminal with: tensorboard --logdir=/path_to/logs 
         '''
-        Early_Stopping = EarlyStopping(monitor='val_loss', patience=25, mode='auto', verbose=0)
+        early_stopping = EarlyStopping(monitor='val_loss', patience=25, mode='auto', verbose=0)
         datasetname = self.path.rsplit("/",1)[1]
         checkpoint_filepath = (self.path + "/logs" + "/pretrained_weights" + datasetname + ".hdf5") #.{epoch:02d}.hdf5")
         os.makedirs(os.getcwd() + (self.path + "/logs"), exist_ok=True)
@@ -155,7 +155,7 @@ class SemanticSegmentation(object):
 
         tensorboard = TensorBoard(log_dir=self.path + "logs/" + "/" + format(time.time()))  # , update_freq='batch')
         logging.info("Tensorboard log is created at: logs/  it can be opend using tensorboard --logdir=logs for a terminal in the Project folder")
-        callbacks_list = [model_checkpoint, tensorboard, Early_Stopping]
+        callbacks_list = [model_checkpoint, tensorboard, early_stopping]
 
         '''
         Train the model given the initialized model and the data from the data generator

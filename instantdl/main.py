@@ -4,6 +4,7 @@ Written by Dominik Waibel and Ali Boushehri
 
 In this file the functions are started to train and test the networks
 '''
+
 from instantdl.utils import *
 from instantdl import GetPipeLine
 

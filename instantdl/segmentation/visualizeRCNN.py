@@ -270,7 +270,8 @@ def draw_rois(image, rois, refined_rois, mask, class_ids, class_names, limit=10)
 
 # TODO: Replace with matplotlib equivalent?
 def draw_box(image, box, color):
-    """Draw 3-pixel width bounding boxes on the given image array.
+    """
+    Draw 3-pixel width bounding boxes on the given image array.
     color: list of 3 int values for RGB.
     """
     y1, x1, y2, x2 = box

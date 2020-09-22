@@ -1,4 +1,6 @@
-'''Import the dependencies'''
+'''
+Import the dependencies
+'''
 import matplotlib.pyplot as plt
 plt.rcParams["font.family"] = "Computer Modern Roman"
 import matplotlib.pyplot as plt

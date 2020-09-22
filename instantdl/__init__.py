@@ -1,4 +1,3 @@
-
 from instantdl.utils import *
 from instantdl.classification.classification import Classification
 from instantdl.segmentation.Regression import Regression
