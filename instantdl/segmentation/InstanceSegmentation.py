@@ -8,31 +8,33 @@ In this file the functions are started to train and test the networks
 from instantdl.utils import *
 
 class InstanceSegmentation(object):
-    def __init__(self, 
-                    use_algorithm,
-                    path, 
-                    pretrained_weights, 
-                    batchsize, 
-                    iterations_over_dataset, 
-                    data_gen_args, 
-                    loss_function, 
-                    num_classes, 
-                    image_size, 
-                    calculate_uncertainty,
-                    evaluation):
+    def __init__(   self,
+                    path,
+                    pretrained_weights = None,
+                    batchsize = 2,
+                    iterations_over_dataset = 100,
+                    data_gen_args = None,
+                    loss_function = "mse",
+                    num_classes = 1,
+                    image_size = None,
+                    calculate_uncertainty = False,
+                    evaluation = True):
 
-        self.use_algorithm = use_algorithm
-        assert self.use_algorithm in ["InstanceSegmentation"]
+        self.use_algorithm = "InstanceSegmentation"
         self.path = path
         self.pretrained_weights = pretrained_weights
         self.batchsize = batchsize
         self.iterations_over_dataset = iterations_over_dataset
-        self.data_gen_args = data_gen_args
         self.loss_function = loss_function
         self.num_classes = num_classes
         self.image_size = image_size
         self.calculate_uncertainty = calculate_uncertainty
         self.evaluation = evaluation
+        
+        if data_gen_args is None:
+            self.data_gen_args = dict()
+        else:
+            self.data_gen_args = data_gen_args
     
 
 

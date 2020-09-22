@@ -1,4 +1,3 @@
-
 from instantdl.utils import *
 from instantdl.classification.classification import Classification
 from instantdl.segmentation.Regression import Regression
@@ -18,7 +17,7 @@ def GetPipeLine(use_algorithm,
                     evaluation):
     
     if use_algorithm == "Classification":
-        pipeline = Classification(use_algorithm,
+        pipeline = Classification(
                         path, 
                         pretrained_weights, 
                         batchsize, 
@@ -31,7 +30,7 @@ def GetPipeLine(use_algorithm,
                         evaluation)
         return pipeline
     elif use_algorithm == "Regression":
-        pipeline = Regression(use_algorithm,
+        pipeline = Regression(
                         path, 
                         pretrained_weights, 
                         batchsize, 
@@ -44,7 +43,7 @@ def GetPipeLine(use_algorithm,
                         evaluation)
         return pipeline
     elif use_algorithm == "SemanticSegmentation" :
-        pipeline = SemanticSegmentation(use_algorithm,
+        pipeline = SemanticSegmentation(
                         path, 
                         pretrained_weights, 
                         batchsize, 
@@ -57,7 +56,7 @@ def GetPipeLine(use_algorithm,
                         evaluation)
         return pipeline
     elif use_algorithm == "InstanceSegmentation":
-        pipeline = InstanceSegmentation(use_algorithm,
+        pipeline = InstanceSegmentation(
                         path, 
                         pretrained_weights, 
                         batchsize, 

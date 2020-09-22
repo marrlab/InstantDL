@@ -1,7 +1,7 @@
 {
 	"use_algorithm": "Regression",
 	"path": "examples/data/Regression",
-	"pretrained_weights_path": "examples/data/Regression/logs/pretrained_weights_NucEnvelope_Regression.hdf5",
+	"pretrained_weights": "examples/data/Regression/logs/pretrained_weights_NucEnvelope_Regression.hdf5",
 	"batchsize": 1,
 	"iterations_over_dataset": 200,
 	"data_gen_args": {
@@ -21,7 +21,7 @@
 		            "threshold_background_groundtruth": false,
 		            "binarize_mask": false
 	},
-	"loss_function": "binary_crossentropy",
+	"loss_function": "mse",
 	"num_classes": 1,
 	"image_size": null,
 	"calculate_uncertainty": false,

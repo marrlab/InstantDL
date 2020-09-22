@@ -1,10 +1,14 @@
 # InstandDL: An easy and convenient deep learning pipeline for image segmentation and classification
 
-
 [![Build Status](https://travis-ci.com/marrlab/InstantDL.svg?branch=develop-test)](https://travis-ci.com/marrlab/InstantDL)
 
-InstantDL enables experts and non-experts to use state-of-the art deep learning methods on biomedical image data. InstantDL offers the four most common tasks in medical image processing: Semantic segmentation, instance segmentation, pixel-wise regression and classification. For more in depth discussion on the methods, as well as comparing the results and bechmarks using this package, please refer to our preprint on bioRxiv: https://doi.org/10.1101/2020.06.22.164103
+InstantDL enables experts and non-experts to use state-of-the art deep learning methods on biomedical image data. InstantDL offers the four most common tasks in medical image processing: Semantic segmentation, instance segmentation, pixel-wise regression and classification. For more in depth discussion on the methods, as well as comparing the results and bechmarks using this package, please refer to our preprint on bioRxiv [here](https://doi.org/10.1101/2020.06.22.164103)
 
+<p align="center">
+  <img src="docs/Instand_DL_farbig_RGB.png"  width="400" />
+</p>
+
+---------------------------------------------------------------------
 
 ## Installation
 
@@ -86,7 +90,7 @@ For Docker installation, please refer to the [docker](docker) folder.
 
 In the following, we are trying to solve a simple MNIST classification problem with the pipeline. For simplification, we only solve a binary classification for distinguishing between `1` and `9`. First, the dataset and the groundtruth should be provided. The data folder should look like this:
 
-```
+```bash
 path
 ├── train                    
 │   ├── image
@@ -173,7 +177,7 @@ Possible settings for the inputs are
 - `use_algorithm`: You can choose between "Regression", "SemanticSegmentation", "Instance Segmentation" or "Classification"
 - `path`: the path to your project directory here
 - `use_pretrained_weights`:  Set to `True` if you want to use pretrained weights
-- `pretrained_weights_path`: Set a relative file path from your project directory with the filename here
+- `pretrained_weights`: Set a relative file path from your project directory with the filename here
 - `batchsize`:   Set the batchsize depeding on your GPU capabilities
 - `iterations_over_dataset`:  Set how many iterations over the dataset should be taken for learning. It might stop automatically if no improvement on the validation set was measured after 25 epochs
 - `data_gen_args` : a dictionary including these parameters:
@@ -232,7 +236,7 @@ Uncertainty estimation using Monte Carlo Dropout is implemented when using seman
 </p>
 
 ## Prediction only
-If you have a pretraind model and only want to predict your testdata with the weights saved in a .h5 or .hdf5 file, you can set the "iterations_over_dataset" = 0 and the "pretrained_weights_path" to your weights file.
+If you have a pretraind model and only want to predict your testdata with the weights saved in a .h5 or .hdf5 file, you can set the "iterations_over_dataset" = 0 and the "pretrained_weights" to your weights file.
 
 ## Use with Google Colaboratory
 
@@ -279,4 +283,4 @@ The main publication will be added soon.
 - [ ] create automatically train and test set
 - [ ] add all loss fuctions
 - [ ] add installation on pip and conda
-
+- [ ] add grad-cam

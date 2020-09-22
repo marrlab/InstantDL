@@ -1,31 +1,33 @@
 from instantdl.utils import *
+import logging
 
 class Classification(object):
-    def __init__(self, 
-                    use_algorithm,
-                    path, 
-                    pretrained_weights, 
-                    batchsize, 
-                    iterations_over_dataset, 
-                    data_gen_args, 
-                    loss_function, 
-                    num_classes, 
-                    image_size,
-                    calculate_uncertainty,
-                    evaluation):
+    def __init__(   self,
+                    path,
+                    pretrained_weights = None,
+                    batchsize = 4,
+                    iterations_over_dataset = 100,
+                    data_gen_args = None,
+                    loss_function = "binary_crossentropy",
+                    num_classes = 2,
+                    image_size = None,
+                    calculate_uncertainty = False,
+                    evaluation = True):
 
-        self.use_algorithm = use_algorithm
-        assert self.use_algorithm == "Classification"
+        self.use_algorithm = "Classification"
         self.path = path
         self.pretrained_weights = pretrained_weights
         self.batchsize = batchsize
         self.iterations_over_dataset = iterations_over_dataset
-        self.data_gen_args = data_gen_args
         self.loss_function = loss_function
         self.num_classes = num_classes
         self.image_size = image_size
         self.calculate_uncertainty = calculate_uncertainty
         self.evaluation = evaluation
+        if data_gen_args is None:
+            self.data_gen_args = dict()
+        else:
+            self.data_gen_args = data_gen_args
     
     def data_prepration(self): 
         '''
@@ -44,7 +46,7 @@ class Classification(object):
         network_input_size = np.array(Training_Input_shape)
         network_input_size[-1] = int(Training_Input_shape[-1]) * number_input_images
         network_input_size = tuple(network_input_size)
-        logging.info("Number of input folders is: ", number_input_images)
+        logging.info("Number of input folders is: %d" % number_input_images)
 
         '''
         Import filenames and split them into train and validation set according to the variable -validation_split = 20%
@@ -55,7 +57,7 @@ class Classification(object):
         steps_per_epoch = int(len(train_image_files)/self.batchsize)
 
         self.epochs = self.iterations_over_dataset
-        logging.info("Making:", steps_per_epoch, "steps per Epoch")
+        logging.info("Making: %d steps per Epoch" % steps_per_epoch)
         return [Training_Input_shape, num_channels, network_input_size, 
                         data_path, train_image_files, val_image_files, steps_per_epoch]
 
@@ -121,7 +123,7 @@ class Classification(object):
         - Checkpoints: Save model after each epoch if the validation loss has improved 
         - Tensorboard: Monitor training live with tensorboard. Start tensorboard in terminal with: tensorboard --logdir=/path_to/logs 
         '''
-        Early_Stopping = EarlyStopping(monitor='val_loss', patience=25, mode='auto', verbose=0)
+        early_stopping = EarlyStopping(monitor='val_loss', patience=25, mode='auto', verbose=0)
         datasetname = self.path.rsplit("/",1)[1]
         checkpoint_filepath = (self.path + "/logs" + "/pretrained_weights" + datasetname + ".hdf5") #.{epoch:02d}.hdf5")
         os.makedirs(os.getcwd() + (self.path + "/logs"), exist_ok=True)
@@ -131,7 +133,7 @@ class Classification(object):
         logging.info("Tensorboard log is created at: logs/  it can be opend using tensorboard --logdir=logs for a terminal in the Project folder")
 
         #################################################if self.use_algorithm == "Classification":
-        callbacks_list = [model_checkpoint, tensorboard, Early_Stopping]
+        callbacks_list = [model_checkpoint, tensorboard, early_stopping]
 
         '''
         Train the model given the initialized model and the data from the data generator
@@ -153,7 +155,7 @@ class Classification(object):
         '''
         test_image_files = os.listdir(os.path.join(self.path + "/test/image"))
         num_test_img = int(len(os.listdir(self.path + "/test/image")))
-        logging.info("Testing on", num_test_img, "test files")
+        logging.info("Testing on %d test files", num_test_img )
 
         '''
         Initialize the testset generator
@@ -161,7 +163,7 @@ class Classification(object):
         testGene = testGenerator(Training_Input_shape, self.path, num_channels, test_image_files, self.use_algorithm)
         logging.info('finished testGene')
         results = model.predict_generator(testGene, steps=num_test_img, use_multiprocessing=False, verbose=1)
-        logging.info("results", np.shape(results))
+        logging.info("results %s" % str(np.shape(results)))
         logging.info('finished model.predict_generator')
         
         #################################################
@@ -195,7 +197,7 @@ class Classification(object):
         logging.info("Starting Uncertainty estimation")
         resultsMCD = []
         for i in range(0, 20):
-            logging.info("Testing Uncertainty Number: ", str(i))
+            logging.info("Testing Uncertainty Number: %s" % str(i))
             testGene = testGenerator(Training_Input_shape, self.path, num_channels, test_image_files, self.use_algorithm)
             resultsMCD_pred = model.predict_generator(testGene,
                                                               steps=num_test_img,

@@ -9,30 +9,32 @@ from instantdl.utils import *
 from instantdl.segmentation.UNet_models import UNetBuilder
 
 class Regression(object):
-    def __init__(self, 
-                    use_algorithm,
-                    path, 
-                    pretrained_weights, 
-                    batchsize, 
-                    iterations_over_dataset, 
-                    data_gen_args, 
-                    loss_function, 
-                    num_classes, 
-                    image_size, 
-                    calculate_uncertainty,
-                    evaluation):
+    def __init__(   self,
+                    path,
+                    pretrained_weights = None,
+                    batchsize = 2,
+                    iterations_over_dataset = 100,
+                    data_gen_args = None,
+                    loss_function = "mse",
+                    num_classes = 1,
+                    image_size = None,
+                    calculate_uncertainty = False,
+                    evaluation = True):
 
-        self.use_algorithm = use_algorithm
-        assert self.use_algorithm in ["Regression", "SemanticSegmentation"]
+        self.use_algorithm = "Regression"
         self.path = path
         self.pretrained_weights = pretrained_weights
         self.batchsize = batchsize
         self.iterations_over_dataset = iterations_over_dataset
-        self.data_gen_args = data_gen_args
         self.loss_function = loss_function
         self.num_classes = num_classes
         self.image_size = image_size
         self.calculate_uncertainty = calculate_uncertainty
+        
+        if data_gen_args is None:
+            self.data_gen_args = dict()
+        else:
+            self.data_gen_args = data_gen_args
         self.evaluation = evaluation
     
     def data_prepration(self): 
@@ -147,7 +149,7 @@ class Regression(object):
         - Checkpoints: Save model after each epoch if the validation loss has improved 
         - Tensorboard: Monitor training live with tensorboard. Start tensorboard in terminal with: tensorboard --logdir=/path_to/logs 
         '''
-        Early_Stopping = EarlyStopping(monitor='val_loss', patience=25, mode='auto', verbose=0)
+        early_stopping = EarlyStopping(monitor='val_loss', patience=25, mode='auto', verbose=0)
         datasetname = self.path.rsplit("/",1)[1]
         checkpoint_filepath = (self.path + "/logs" + "/pretrained_weights" + datasetname + ".hdf5") #.{epoch:02d}.hdf5")
         os.makedirs(os.getcwd()+ (self.path + "/logs"), exist_ok=True)
@@ -155,7 +157,7 @@ class Regression(object):
 
         tensorboard = TensorBoard(log_dir = self.path + "logs/" + "/" + format(time.time())) #, update_freq='batch')
         logging.info("Tensorboard log is created at: logs/  it can be opend using tensorboard --logdir=logs for a terminal in the Project folder")
-        callbacks_list = [model_checkpoint, tensorboard, Early_Stopping]
+        callbacks_list = [model_checkpoint, tensorboard, early_stopping]
 
         '''
         Train the model given the initialized model and the data from the data generator

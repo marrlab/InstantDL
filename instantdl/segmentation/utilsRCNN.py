@@ -282,7 +282,8 @@ class Dataset(object):
         self.image_info.append(image_info)
 
     def image_reference(self, image_id):
-        """Return a link to the image in its source Website or details about
+        """
+        Return a link to the image in its source Website or details about
         the image that help looking it up or debugging it.
 
         Override for your dataset, but pass to this function
@@ -851,7 +852,8 @@ def download_trained_weights(coco_model_path, verbose=1):
 
 
 def norm_boxes(boxes, shape):
-    """Converts boxes from pixel coordinates to normalized coordinates.
+    """
+    Converts boxes from pixel coordinates to normalized coordinates.
     boxes: [N, (y1, x1, y2, x2)] in pixel coordinates
     shape: [..., (height, width)] in pixels
 

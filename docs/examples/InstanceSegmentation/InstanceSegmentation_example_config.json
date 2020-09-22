@@ -1,9 +1,9 @@
 {
 	"use_algorithm": "InstanceSegmentation",
-	"path": "./InstantDL/Lung_Instance_Segmentation/",
-	"pretrained_weights": false,
+	"path": "examples/data/InstanceSegmentation",
+	"pretrained_weights": "examples/data/InstanceSegmentation/logs/pretrained_weights_Lung_InstanceSegmentation.hdf5",
 	"batchsize": 1,
-	"iterations_over_dataset": 100,
+	"iterations_over_dataset": 200,
 	"data_gen_args": {
 			"save_augmented_images": false,
 		            "resample_images": false,
@@ -11,9 +11,9 @@
 		            "feature_scaling": false,
 		            "horizontal_flip": false,
 		            "vertical_flip": false,
-		            "poission_noise": false,
-		            "rotation_range": false,
-		            "zoom_range": false,
+		            "poission_noise": 0,
+		            "rotation_range": 45,
+		            "zoom_range": 2,
 		            "contrast_range": false,
 		            "brightness_range": false,
 		            "gamma_shift": false,
@@ -23,12 +23,7 @@
 	},
 	"loss_function": "mse",
 	"num_classes": 1,
-	"image_size": false,
+	"image_size": null,
 	"calculate_uncertainty": false,
-	"evaluation": false
+	"evaluation": true
 }
-
-
-
-
-

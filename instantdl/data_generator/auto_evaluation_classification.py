@@ -105,17 +105,17 @@ def classification_evaluation(path):
     Groundtruth, Results, Sigmoid_output = load_data(path)
     accuracy = accuracy_score(Groundtruth, Results)
     Sigmoid_output = np.squeeze(Sigmoid_output)
-    logging.info("The accuracy score is:", accuracy)
+    logging.info("The accuracy score is: %f" % accuracy)
     n_classes = len(np.unique(Groundtruth))
     GT = to_categorical(Groundtruth)
     os.makedirs((path + "/insights/"), exist_ok=True)
     roc_auc = get_auc(path, GT, Sigmoid_output, int(n_classes))
     weigted_roc_auc = 0
     for index, i in enumerate(np.unique(Groundtruth)):
-        logging.info("Groundtruth.count(i)", i, np.count_nonzero(Groundtruth == i))
+        logging.info("Groundtruth.count(i) %d %d" % (i, np.count_nonzero(Groundtruth == i)))
         weigted_roc_auc += np.count_nonzero(Groundtruth == i)*roc_auc[index]
     weigted_roc_auc /= len(Groundtruth)
-    logging.info("The weigted roc auc is:", weigted_roc_auc)
+    logging.info("The weigted roc auc is: %f" % weigted_roc_auc)
     get_confusion_matrix(path, Groundtruth, Results)
     f = open(path + '/insights/Evaluation_results.txt', 'a')
     f.write('\n')

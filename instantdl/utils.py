@@ -22,7 +22,6 @@ from instantdl.classification.ResNet50 import ResNet50 #, get_imagenet_weights
 import glob
 from keras.optimizers import Adam, SGD
 from instantdl.data_generator.data import write_logbook
-import logging
 logging.basicConfig(level=logging.INFO)
 
 def load_json(file_path):

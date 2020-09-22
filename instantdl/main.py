@@ -4,8 +4,13 @@ Written by Dominik Waibel and Ali Boushehri
 
 In this file the functions are started to train and test the networks
 '''
-from instantdl.utils import *
+
+import os
+import argparse
+from instantdl.utils import load_json
 from instantdl import GetPipeLine
+import logging
+from keras import backend as K
 
 def start_learning( use_algorithm,
                     path, 
@@ -56,47 +61,25 @@ if __name__ == "__main__":
     for k in configs:
         logging.info("%s : %s \n" % (k,configs[k]))
 
-    use_algorithm = configs["use_algorithm"]
-    path = configs["path"]
-    pretrained_weights_path = configs["pretrained_weights_path"]
-    batchsize = configs["batchsize"]
-    iterations_over_dataset = configs["iterations_over_dataset"]
-    data_gen_args = configs["data_gen_args"]
-    loss_function = configs["loss_function"]
-    num_classes = configs["num_classes"]
-    image_size = configs["image_size"]
-    calculate_uncertainty = configs["calculate_uncertainty"]
-    evaluation = configs["evaluation"]
-    
+   
     '''
     Sanity checks in order to ensure all settings in config
     have been set so the programm is able to run
     '''
-    assert use_algorithm in ['SemanticSegmentation',
-                            'Regression',
-                            'InstanceSegmentation',
-                            'Classification']
+    assert configs["use_algorithm"] in ['SemanticSegmentation',
+                                        'Regression',
+                                        'InstanceSegmentation',
+                                        'Classification']
 
-    if not isinstance(batchsize, int):
+    if not isinstance(configs["batchsize"], int):
         logging.warning("Batchsize has not been set. Setting batchsize = 1")
         batchsize = 1
-    if not isinstance(iterations_over_dataset, int):
+    if not isinstance(configs["iterations_over_dataset"], int):
         logging.warning("Epochs has not been set. Setting epochs = 500 and using early stopping")
         iterations_over_dataset = 500
 
-    if os.path.isfile((pretrained_weights_path)):
-        pretrained_weights = (pretrained_weights_path)
-    else:
-        pretrained_weights = None
+    if "pretrained_weights" in configs:
+        if not os.path.isfile((configs["pretrained_weights"])):
+            pretrained_weights = None
 
-    start_learning( use_algorithm,
-                    path,
-                    pretrained_weights,
-                    batchsize,
-                    iterations_over_dataset,
-                    data_gen_args,
-                    loss_function,
-                    num_classes,
-                    image_size,
-                    calculate_uncertainty,
-                    evaluation)
+    start_learning( **configs)
