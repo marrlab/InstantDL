@@ -6,7 +6,7 @@ class Classification(object):
                     pretrained_weights = None,
                     batchsize = 4,
                     iterations_over_dataset = 100,
-                    data_gen_args = {},
+                    data_gen_args = None,
                     loss_function = "binary_crossentropy",
                     num_classes = 2,
                     image_size = None,
@@ -18,12 +18,16 @@ class Classification(object):
         self.pretrained_weights = pretrained_weights
         self.batchsize = batchsize
         self.iterations_over_dataset = iterations_over_dataset
-        self.data_gen_args = data_gen_args
         self.loss_function = loss_function
         self.num_classes = num_classes
         self.image_size = image_size
         self.calculate_uncertainty = calculate_uncertainty
         self.evaluation = evaluation
+        
+        if data_gen_args is None:
+            self.data_gen_args = dict()
+        else:
+            self.data_gen_args = data_gen_args
     
     def data_prepration(self): 
         '''
