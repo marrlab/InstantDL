@@ -5,8 +5,12 @@ Written by Dominik Waibel and Ali Boushehri
 In this file the functions are started to train and test the networks
 '''
 
-from instantdl.utils import *
+import os
+import argparse
+from instantdl.utils import load_json
 from instantdl import GetPipeLine
+import logging
+from keras import backend as K
 
 def start_learning( use_algorithm,
                     path, 

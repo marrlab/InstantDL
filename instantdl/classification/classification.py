@@ -1,4 +1,4 @@
-from instantdl.utils import * 
+from instantdl.utils import *
 import logging
 
 class Classification(object):
