@@ -1,14 +1,14 @@
 from instantdl.utils import *
 
 class Classification(object):
-    def __init__(self,  
-                    path, 
-                    pretrained_weights = None, 
-                    batchsize = 4, 
-                    iterations_over_dataset = 100, 
-                    data_gen_args = dict(), 
-                    loss_function = "binary_crossentropy", 
-                    num_classes = 2, 
+    def __init__(   self,
+                    path,
+                    pretrained_weights = None,
+                    batchsize = 4,
+                    iterations_over_dataset = 100,
+                    data_gen_args = dict(),
+                    loss_function = "binary_crossentropy",
+                    num_classes = 2,
                     image_size = None,
                     calculate_uncertainty = False,
                     evaluation = True):

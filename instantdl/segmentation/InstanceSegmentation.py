@@ -8,15 +8,15 @@ In this file the functions are started to train and test the networks
 from instantdl.utils import *
 
 class InstanceSegmentation(object):
-    def __init__(self, 
-                    path, 
-                    pretrained_weights = None, 
-                    batchsize = 2, 
-                    iterations_over_dataset = 100, 
-                    data_gen_args = dict(), 
-                    loss_function = "mse", 
-                    num_classes = 1, 
-                    image_size = None, 
+    def __init__(   self,
+                    path,
+                    pretrained_weights = None,
+                    batchsize = 2,
+                    iterations_over_dataset = 100,
+                    data_gen_args = dict(),
+                    loss_function = "mse",
+                    num_classes = 1,
+                    image_size = None,
                     calculate_uncertainty = False,
                     evaluation = True):
 

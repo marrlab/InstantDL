@@ -9,15 +9,15 @@ from instantdl.utils import *
 from instantdl.segmentation.UNet_models import UNetBuilder
 
 class SemanticSegmentation(object):
-    def __init__(self,  
-                    path, 
-                    pretrained_weights = None, 
-                    batchsize = 2, 
-                    iterations_over_dataset = 100, 
-                    data_gen_args = dict(), 
-                    loss_function = "mse", 
-                    num_classes = 1, 
-                    image_size = None, 
+    def __init__(   self,
+                    path,
+                    pretrained_weights = None,
+                    batchsize = 2,
+                    iterations_over_dataset = 100,
+                    data_gen_args = dict(),
+                    loss_function = "mse",
+                    num_classes = 1,
+                    image_size = None,
                     calculate_uncertainty = False,
                     evaluation = True):
 
