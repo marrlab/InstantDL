@@ -41,7 +41,7 @@ After that the data is provided in the desired shape, you can simply use the cod
 ```
 pipeline = GetPipeLine( "use_algorithm": "SemanticSegmentation",
                         "path": "docs/examples/SemanticSegmentation/",
-                        "pretrained_weights_path": "docs/examples/SemanticSegmentation/logs/pretrained_weights_Lung_SemanticSegmentation.hdf5",
+                        "pretrained_weights": "docs/examples/SemanticSegmentation/logs/pretrained_weights_Lung_SemanticSegmentation.hdf5",
                         "batchsize": 1,
                         "iterations_over_dataset": 0,
                         "data_gen_args": {

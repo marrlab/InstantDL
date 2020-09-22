@@ -50,7 +50,7 @@ Possible setting in the config.json file are:
 "use_algorithm": "Regression", "SemanticSegmentation", "Instance Segmentation" or "Classification"
 "path": "data/Ouncomol_NucEnvelope_3Dnew", #Set the path to your project directory here
 "use_pretrained_weights": false, # Set to true if you want to use pretrained weights
-"pretrained_weights_path": false, # Set a relative file path from your project directory with the filename here. 
+"pretrained_weights": false, # Set a relative file path from your project directory with the filename here. 
 "batchsize": 2, # Set the batchsize depeding on your GPU capabilities
 "iterations_over_dataset": 200, # Set how many iterations over the dataset should be taken for learning. 
 It might stop automatically if no improvement on the validation set was measured after 25 epochs

@@ -1,7 +1,7 @@
 {
 	"use_algorithm": "InstanceSegmentation",
 	"path": "./InstantDL/Lung_Instance_Segmentation/",
-	"pretrained_weights_path": false,
+	"pretrained_weights": false,
 	"batchsize": 1,
 	"iterations_over_dataset": 100,
 	"data_gen_args": {

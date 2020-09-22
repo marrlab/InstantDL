@@ -13,15 +13,15 @@ sudo docker build --tag=instantdl:0.0.1 build
 
 ## Prepration the data folder
 
-For runnig the docker, first you need to create the data folder as exaplined in the [examples](../docs/examples). In case, you would like to pretrained weights as well, first create a folder called `logs` under the data folder and simply put the `.hdf5` file in the folders. After that, set all the parameters according to the documentation EXCEPT `path` and `pretrained_weights_path`, and save the parameters as  `config.json` in the data folder.
+For runnig the docker, first you need to create the data folder as exaplined in the [examples](../docs/examples). In case, you would like to pretrained weights as well, first create a folder called `logs` under the data folder and simply put the `.hdf5` file in the folders. After that, set all the parameters according to the documentation EXCEPT `path` and `pretrained_weights`, and save the parameters as  `config.json` in the data folder.
 
-__IMPORTANT NOTE__: For the config file, in the json file, these parameters `data` and `pretrained_weights_path` should BE ALWAYS: 
+__IMPORTANT NOTE__: For the config file, in the json file, these parameters `data` and `pretrained_weights` should BE ALWAYS: 
 
 ```json
 {
     ...
 	"path": "/data/",
-	"pretrained_weights_path": "/data/logs/pretrained_weights_Lung_SemanticSegmentation.hdf5",
+	"pretrained_weights": "/data/logs/pretrained_weights_Lung_SemanticSegmentation.hdf5",
     ...
 }
 ```

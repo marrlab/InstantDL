@@ -177,7 +177,7 @@ Possible settings for the inputs are
 - `use_algorithm`: You can choose between "Regression", "SemanticSegmentation", "Instance Segmentation" or "Classification"
 - `path`: the path to your project directory here
 - `use_pretrained_weights`:  Set to `True` if you want to use pretrained weights
-- `pretrained_weights_path`: Set a relative file path from your project directory with the filename here
+- `pretrained_weights`: Set a relative file path from your project directory with the filename here
 - `batchsize`:   Set the batchsize depeding on your GPU capabilities
 - `iterations_over_dataset`:  Set how many iterations over the dataset should be taken for learning. It might stop automatically if no improvement on the validation set was measured after 25 epochs
 - `data_gen_args` : a dictionary including these parameters:
@@ -236,7 +236,7 @@ Uncertainty estimation using Monte Carlo Dropout is implemented when using seman
 </p>
 
 ## Prediction only
-If you have a pretraind model and only want to predict your testdata with the weights saved in a .h5 or .hdf5 file, you can set the "iterations_over_dataset" = 0 and the "pretrained_weights_path" to your weights file.
+If you have a pretraind model and only want to predict your testdata with the weights saved in a .h5 or .hdf5 file, you can set the "iterations_over_dataset" = 0 and the "pretrained_weights" to your weights file.
 
 ## Use with Google Colaboratory
 
