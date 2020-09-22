@@ -25,13 +25,12 @@ class SemanticSegmentation(object):
         self.path = path
         self.pretrained_weights = pretrained_weights
         self.batchsize = batchsize
-        self.iterations_over_dataset = iterations_over_dataset 
+        self.iterations_over_dataset = iterations_over_dataset
         self.loss_function = loss_function
         self.num_classes = num_classes
         self.image_size = image_size
         self.calculate_uncertainty = calculate_uncertainty
         self.evaluation = evaluation
-        
         if data_gen_args is None:
             self.data_gen_args = dict()
         else:

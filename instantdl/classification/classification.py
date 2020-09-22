@@ -23,7 +23,6 @@ class Classification(object):
         self.image_size = image_size
         self.calculate_uncertainty = calculate_uncertainty
         self.evaluation = evaluation
-        
         if data_gen_args is None:
             self.data_gen_args = dict()
         else:

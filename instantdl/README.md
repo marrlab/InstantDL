@@ -2,7 +2,6 @@
 
 Here you can find the structure of the code as well as some relevant information.
 
-
 ## Folders
 
 Here you can find the information about the folders in the code:

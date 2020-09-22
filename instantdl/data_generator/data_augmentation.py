@@ -5,7 +5,6 @@ Written by Dominik Waibel
 '''
 
 import numpy as np
-from PIL import Image, ImageEnhance
 import skimage as sk
 import random
 from instantdl.data_generator.data import plot2images

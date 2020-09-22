@@ -2,7 +2,6 @@
 
 Here you can find the information of using InstantDL with docker.
 
-
 ## Build a Docker container
 
 first you need to download the repository. After that, being in the main folder, simply run 
