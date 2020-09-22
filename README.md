@@ -164,7 +164,7 @@ pipeline = GetPipeLine( use_algorithm = "Classification",
 pipeline.run()
 ```
 
-The minimal settings for InstantDL to run with default parameters are:
+The minimal settings for running InstantDL with default parameters are:
 ```python
 from instantdl import GetPipeLine
 
