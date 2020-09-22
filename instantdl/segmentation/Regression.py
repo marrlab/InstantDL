@@ -10,20 +10,18 @@ from instantdl.segmentation.UNet_models import UNetBuilder
 
 class Regression(object):
     def __init__(self, 
-                    use_algorithm,
                     path, 
-                    pretrained_weights, 
-                    batchsize, 
-                    iterations_over_dataset, 
-                    data_gen_args, 
-                    loss_function, 
-                    num_classes, 
-                    image_size, 
-                    calculate_uncertainty,
-                    evaluation):
+                    pretrained_weights = None, 
+                    batchsize = 2, 
+                    iterations_over_dataset = 100, 
+                    data_gen_args = dict(), 
+                    loss_function = "mse", 
+                    num_classes = 1, 
+                    image_size = None, 
+                    calculate_uncertainty = False,
+                    evaluation = True):
 
-        self.use_algorithm = use_algorithm
-        assert self.use_algorithm in ["Regression", "SemanticSegmentation"]
+        self.use_algorithm = "Regression" 
         self.path = path
         self.pretrained_weights = pretrained_weights
         self.batchsize = batchsize

@@ -1,21 +1,19 @@
 from instantdl.utils import *
 
 class Classification(object):
-    def __init__(self, 
-                    use_algorithm,
+    def __init__(self,  
                     path, 
-                    pretrained_weights, 
-                    batchsize, 
-                    iterations_over_dataset, 
-                    data_gen_args, 
-                    loss_function, 
-                    num_classes, 
-                    image_size,
-                    calculate_uncertainty,
-                    evaluation):
+                    pretrained_weights = None, 
+                    batchsize = 4, 
+                    iterations_over_dataset = 100, 
+                    data_gen_args = dict(), 
+                    loss_function = "binary_crossentropy", 
+                    num_classes = 2, 
+                    image_size = None,
+                    calculate_uncertainty = False,
+                    evaluation = True):
 
-        self.use_algorithm = use_algorithm
-        assert self.use_algorithm == "Classification"
+        self.use_algorithm = "Classification" 
         self.path = path
         self.pretrained_weights = pretrained_weights
         self.batchsize = batchsize

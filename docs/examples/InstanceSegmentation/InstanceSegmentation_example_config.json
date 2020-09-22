@@ -1,7 +1,7 @@
 {
-	"use_algorithm": "SemanticSegmentation",
-	"path": "examples/data/SemanticSegmentation",
-	"pretrained_weights_path": "examples/data/InstanceSegmentation/logs/pretrained_weights_Lung_SemanticSegmentation.hdf5",
+	"use_algorithm": "InstanceSegmentation",
+	"path": "examples/data/InstanceSegmentation",
+	"pretrained_weights_path": "examples/data/InstanceSegmentation/logs/pretrained_weights_Lung_InstanceSegmentation.hdf5",
 	"batchsize": 1,
 	"iterations_over_dataset": 200,
 	"data_gen_args": {
