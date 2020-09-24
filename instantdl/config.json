@@ -1,4 +1,5 @@
 {
-	"use_algorithm": "InstanceSegmentation",
-	"path": "/Users/dominik.waibel/Desktop/InstantDL/docs/examples/InstanceSegmentation/"
+	"use_algorithm": "SemanticSegmentation",
+	"path": "/home/dominik/Documents/InstantDL/Vessel/",
+	"loss_function": "mse"
 }
