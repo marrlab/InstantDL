@@ -132,12 +132,12 @@ After the data has been provided in the desired shape, you can simply use the co
 ```python
 from instantdl import GetPipeLine
 
-pipeline = GetPipeLine( use_algorithm = "Classification",
-                        path= "examples/Classification",
-	                     pretrained_weights= "examples/data/Classification/logs/pretrained_weights_Classification.hdf5",
-                        batchsize= 2,
-                        iterations_over_dataset= 0,
-                        data_gen_args= {
+pipeline = GetPipeLine( "use_algorithm": "Classification",
+                        "path": "examples/Classification",
+						"pretrained_weights": "examples/data/Classification/logs/pretrained_weights_Classification.hdf5",
+                        "batchsize": 2,
+                        "iterations_over_dataset": 0,
+                        "data_gen_args": {
                               "save_augmented_images": False,
                               "resample_images": False,
                               "std_normalization": False,
@@ -154,11 +154,11 @@ pipeline = GetPipeLine( use_algorithm = "Classification",
                               "threshold_background_groundtruth": False,
                               "binarize_mask": False
                         },
-                        loss_function= "binary_crossentropy",
-                        num_classes= 2,
-                        image_size= [128,128,3],
-                        calculate_uncertainty= False,
-                        evaluation= True
+                        "loss_function": "binary_crossentropy",
+                        "num_classes": 2,
+                        "image_size": [128,128,3],
+                        "calculate_uncertainty": False,
+                        "evaluation": True
 )
 
 pipeline.run()
@@ -168,8 +168,8 @@ The minimal settings for running InstantDL with default parameters are:
 ```python
 from instantdl import GetPipeLine
 
-pipeline = GetPipeLine( use_algorithm = "Classification",
-                        path= "examples/Classification"
+pipeline = GetPipeLine( "use_algorithm": "Classification",
+						"path": "examples/Classification"
 )
 
 pipeline.run()
