@@ -38,35 +38,39 @@ path
    │    ├── .
 ```
 After that the data is provided in the desired shape, you can simply use the code with this small snippet:
-```
-pipeline = GetPipeLine( "use_algorithm": "SemanticSegmentation",
-                        "path": "docs/examples/SemanticSegmentation/",
-                        "pretrained_weights": "docs/examples/SemanticSegmentation/logs/pretrained_weights_Lung_SemanticSegmentation.hdf5",
-                        "batchsize": 1,
-                        "iterations_over_dataset": 0,
-                        "data_gen_args": {
-                                "save_augmented_images": false,
-                                        "resample_images": false,
-                                        "std_normalization": false,
-                                        "feature_scaling": false,
-                                        "horizontal_flip": false,
-                                        "vertical_flip": true,
-                                        "poission_noise": false,
-                                        "rotation_range": false,
-                                        "zoom_range": false,
-                                        "contrast_range": false,
-                                        "brightness_range": false,
-                                        "gamma_shift": false,
-                                        "threshold_background_image": false,
-                                        "threshold_background_groundtruth": false,
-                                        "binarize_mask": false
-                        },
-                        "loss_function": "binary_crossentropy",
-                        "num_classes": 1,
-                        "image_size": null,
-                        "calculate_uncertainty": false,
-                        "evaluation": true
-)
+
+```python
+from instantdl import GetPipeLine
+
+configs = { "use_algorithm": "SemanticSegmentation", 
+            "path": "docs/examples/SemanticSegmentation/",
+            "pretrained_weights": "docs/examples/SemanticSegmentation/logs/pretrained_weights_Lung_SemanticSegmentation.hdf5",
+            "batchsize": 1,
+            "iterations_over_dataset": 0,
+            "data_gen_args": {
+                     "save_augmented_images": False,
+                     "resample_images": False,
+                     "std_normalization": False,
+                     "feature_scaling": False,
+                     "horizontal_flip": False,
+                     "vertical_flip": True,
+                     "poission_noise": False,
+                     "rotation_range": False,
+                     "zoom_range": False,
+                     "contrast_range": False,
+                     "brightness_range": False,
+                     "gamma_shift": False,
+                     "threshold_background_image": False,
+                     "threshold_background_groundtruth": False,
+                     "binarize_mask": False
+            },
+            "loss_function": "binary_crossentropy",
+            "num_classes": 1,
+            "image_size": None,
+            "calculate_uncertainty": False,
+            "evaluation": True}
+
+pipeline = GetPipeLine(configs)
 
 pipeline.run()
 ```
