@@ -41,33 +41,37 @@ After that the data is provided in the desired shape, you can simply use the cod
 ```python
 from instantdl import GetPipeLine
 
-pipeline = GetPipeLine( use_algorithm = "Regression",
-                        path= "docs/examples/Regression",
-	                     pretrained_weights= None,
-                        batchsize= 1,
-                        iterations_over_dataset= 10,
-                        data_gen_args= {
-                              "save_augmented_images": False,
-                              "resample_images": False,
-                              "std_normalization": False,
-                              "feature_scaling": False,
-                              "horizontal_flip": True,
-                              "vertical_flip": True,
-                              "poission_noise": False,
-                              "rotation_range": 20,
-                              "zoom_range": 2,
-                              "contrast_range": False,
-                              "brightness_range": False,
-                              "gamma_shift": False,
-                              "threshold_background_image": False,
-                              "threshold_background_groundtruth": False,
-                              "binarize_mask": False
-                        },
-                        loss_function= "mse",
-                        num_classes= 1,
-                        image_size= None,
-                        calculate_uncertainty= True,
-                        evaluation= True
+configs = {
+      "use_algorithm" : "Regression",  # mandatory field
+      "path": "docs/examples/Regression",  # mandatory field
+	"pretrained_weights": None,
+      "batchsize": 1,
+      "iterations_over_dataset": 10,
+      "data_gen_args": {
+            "save_augmented_images": False,
+            "resample_images": False,
+            "std_normalization": False,
+            "feature_scaling": False,
+            "horizontal_flip": True,
+            "vertical_flip": True,
+            "poission_noise": False,
+            "rotation_range": 20,
+            "zoom_range": 2,
+            "contrast_range": False,
+            "brightness_range": False,
+            "gamma_shift": False,
+            "threshold_background_image": False,
+            "threshold_background_groundtruth": False,
+            "binarize_mask": False
+      },
+      "loss_function": "mse",
+      "num_classes": 1,
+      "image_size": None,
+      "calculate_uncertainty": True,
+      "evaluation": True
+}
+
+pipeline = GetPipeLine( 
 )
 
 pipeline.run()
