@@ -150,7 +150,7 @@ class Regression(object):
         - Checkpoints: Save model after each epoch if the validation loss has improved 
         - Tensorboard: Monitor training live with tensorboard. Start tensorboard in terminal with: tensorboard --logdir=/path_to/logs 
         '''
-        early_stopping = EarlyStopping(monitor='val_loss', patience=25, mode='auto', verbose=0)
+        early_stopping = EarlyStopping(monitor='val_loss', patience=5, mode='auto', verbose=0)
         datasetname = self.path.rsplit("/",1)[1]
         checkpoint_filepath = (self.path + "/logs" + "/pretrained_weights" + datasetname + ".hdf5") #.{epoch:02d}.hdf5")
         os.makedirs(os.getcwd()+ (self.path + "/logs"), exist_ok=True)

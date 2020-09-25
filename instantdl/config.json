@@ -1,4 +1,4 @@
 {
-	"use_algorithm": "InstanceSegmentation",
-	"path": "/Users/dominik.waibel/Desktop/InstantDL/docs/examples/InstanceSegmentation/"
+	"use_algorithm": "SemanticSegmentation",
+	"path": "/Users/dominik.waibel/Desktop/InstantDL/Multi-organ_Semantic_Segmentation-2/"
 }
