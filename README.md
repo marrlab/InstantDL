@@ -169,7 +169,7 @@ The minimal settings for running InstantDL with default parameters are:
 from instantdl import GetPipeLine
 
 pipeline = GetPipeLine( "use_algorithm": "Classification",
-						"path": "examples/Classification"
+                        "path": "examples/Classification"
 )
 
 pipeline.run()
