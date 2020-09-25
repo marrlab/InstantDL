@@ -55,17 +55,19 @@ from instantdl import GetPipeLine
 The you should pass the parameters to the pipeline
 
 ```python
-pipeline = GetPipeLine(use_algorithm,
-                    path, 
-                    pretrained_weights, 
-                    batchsize, 
-                    iterations_over_dataset, 
-                    data_gen_args, 
-                    loss_function, 
-                    num_classes, 
-                    image_size, 
-                    calculate_uncertainty,
-                    evaluation)
+configs = { "use_algorithm" : str, # mandatory field
+            "path" : str, # mandatory field
+            "pretrained_weights" : str or None, 
+            "batchsize" : int, 
+            "iterations_over_dataset" : int, 
+            "data_gen_args" : dict, 
+            "loss_function" : str, 
+            "num_classes" : int, 
+            "image_size" : int,
+            "calculate_uncertainty" : bool,
+            "evaluation" : bool}
+
+pipeline = GetPipeLine(configs)
 pipeline.run()
 ```
 This simply runs the Deep Learning pipeline. 
@@ -132,45 +134,49 @@ After the data has been provided in the desired shape, you can simply use the co
 ```python
 from instantdl import GetPipeLine
 
-pipeline = GetPipeLine( "use_algorithm": "Classification",
-                        "path": "examples/Classification",
-                        "pretrained_weights": "examples/data/Classification/logs/pretrained_weights_Classification.hdf5",
-                        "batchsize": 2,
-                        "iterations_over_dataset": 0,
-                        "data_gen_args": {
-                              "save_augmented_images": False,
-                              "resample_images": False,
-                              "std_normalization": False,
-                              "feature_scaling": False,
-                              "horizontal_flip": False,
-                              "vertical_flip": False,
-                              "poission_noise": 1,
-                              "rotation_range": 20,
-                              "zoom_range": False,
-                              "contrast_range": 1,
-                              "brightness_range": 1,
-                              "gamma_shift": 0,
-                              "threshold_background_image": False,
-                              "threshold_background_groundtruth": False,
-                              "binarize_mask": False
-                        },
-                        "loss_function": "binary_crossentropy",
-                        "num_classes": 2,
-                        "image_size": [128,128,3],
-                        "calculate_uncertainty": False,
-                        "evaluation": True
-)
+configs = {
+            "use_algorithm": "Classification",
+            "path": "examples/Classification",
+            "pretrained_weights": "examples/data/Classification/logs/pretrained_weights_Classification.hdf5",
+            "batchsize": 2,
+            "iterations_over_dataset": 0,
+            "data_gen_args": {
+                  "save_augmented_images": False,
+                  "resample_images": False,
+                  "std_normalization": False,
+                  "feature_scaling": False,
+                  "horizontal_flip": False,
+                  "vertical_flip": False,
+                  "poission_noise": 1,
+                  "rotation_range": 20,
+                  "zoom_range": False,
+                  "contrast_range": 1,
+                  "brightness_range": 1,
+                  "gamma_shift": 0,
+                  "threshold_background_image": False,
+                  "threshold_background_groundtruth": False,
+                  "binarize_mask": False
+            },
+            "loss_function": "binary_crossentropy",
+            "num_classes": 2,
+            "image_size": [128,128,3],
+            "calculate_uncertainty": False,
+            "evaluation": True }
+
+pipeline = GetPipeLine(configs)
 
 pipeline.run()
 ```
 
 The minimal settings for running InstantDL with default parameters are:
+
 ```python
 from instantdl import GetPipeLine
 
-pipeline = GetPipeLine( "use_algorithm": "Classification",
-                        "path": "examples/Classification"
-)
+configs = { "use_algorithm": "Classification",
+            "path": "examples/Classification"}
+
+pipeline = GetPipeLine(configs)
 
 pipeline.run()
 ```
