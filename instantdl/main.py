@@ -12,12 +12,12 @@ from instantdl import GetPipeLine
 import logging
 from keras import backend as K
 
-def start_learning( **configs):
+def start_learning(configs):
 
     logging.info("Start learning")
     logging.info(configs["use_algorithm"])
 
-    pipeline = GetPipeLine(**configs)
+    pipeline = GetPipeLine(configs)
 
     pipeline.run()
     K.clear_session()
@@ -70,4 +70,4 @@ if __name__ == "__main__":
     else:
         configs["pretrained_weights"] = None
 
-    start_learning( **configs)
+    start_learning(configs)
