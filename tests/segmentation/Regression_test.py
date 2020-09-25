@@ -1,4 +1,4 @@
-
+'''
 """
 InstantDL
 Utils for data evaluation
@@ -78,3 +78,4 @@ def test_3DRegression():
     #Delete created test data
     if os.path.exists(os.getcwd()+"/tests/segmentation/testimages") and os.path.isdir(os.getcwd()+"/tests/segmentation/testimages"):
         shutil.rmtree(os.getcwd()+"/tests/segmentation/testimages")
+'''

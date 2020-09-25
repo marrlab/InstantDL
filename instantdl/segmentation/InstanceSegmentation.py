@@ -41,7 +41,7 @@ class InstanceSegmentation(object):
 
     def run(self):    
         '''
-        Initialize a model for instance segmentation 
+        Initialize a model for instance segmentation
         '''
         UseResnet = 50
 
@@ -131,4 +131,3 @@ class InstanceSegmentation(object):
             segmentation_regression_evaluation(self.path)
 
         model = None
-    
