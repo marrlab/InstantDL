@@ -30,7 +30,7 @@ def test_2DRegression():
                "iterations_over_dataset": 1,
                "evaluation": False}
 
-    pipeline = GetPipeLine(**configs)
+    pipeline = GetPipeLine(configs)
 
     pipeline.run()
     K.clear_session()
@@ -62,7 +62,7 @@ def test_3DRegression():
                "iterations_over_dataset": 1,
                "evaluation": False}
 
-    pipeline = GetPipeLine(**configs)
+    pipeline = GetPipeLine(configs)
 
     pipeline.run()
     K.clear_session()
