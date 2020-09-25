@@ -42,8 +42,8 @@ After that the data is provided in the desired shape, you can simply use the cod
 ```python
 from instantdl import GetPipeLine
 
-configs = { "use_algorithm": "SemanticSegmentation", 
-            "path": "docs/examples/SemanticSegmentation/",
+configs = { "use_algorithm": "SemanticSegmentation",  # mandatory field
+            "path": "docs/examples/SemanticSegmentation/", # mandatory field
             "pretrained_weights": "docs/examples/SemanticSegmentation/logs/pretrained_weights_Lung_SemanticSegmentation.hdf5",
             "batchsize": 1,
             "iterations_over_dataset": 0,

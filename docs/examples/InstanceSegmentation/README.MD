@@ -59,8 +59,8 @@ After that the data is provided in the desired shape, you can simply use the cod
 from instantdl import GetPipeLine
 
 configs = {
-            "use_algorithm" : "InstanceSegmentation",
-            "path" : "docs/examples/InstanceSegmentation",
+            "use_algorithm" : "InstanceSegmentation", # mandatory field
+            "path" : "docs/examples/InstanceSegmentation", # mandatory field
 	        "pretrained_weights" : None,
             "batchsize" : 1,
             "iterations_over_dataset": 10,
