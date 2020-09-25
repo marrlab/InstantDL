@@ -41,7 +41,7 @@ class InstanceSegmentation(object):
 
     def run(self):    
         '''
-        Initialize a model for instance segmentation 
+        Initialize a model for instance segmentation
         '''
         UseResnet = 50
 
@@ -113,7 +113,7 @@ class InstanceSegmentation(object):
         else:
             model.load_weights(weights_path, by_name=True)
         tensorboard = TensorBoard(log_dir="logs/" + self.path + "/" + format(time.time()))  # , update_freq='batch')
-        custom_callbacks = [EarlyStopping(monitor='val_loss', min_delta=0, patience=20, verbose=0, mode='auto'), tensorboard]
+        custom_callbacks = [EarlyStopping(monitor='val_loss', min_delta=0, patience=5, verbose=0, mode='auto'), tensorboard]
         if self.iterations_over_dataset > 0:
             print("Start train")
             train(model, dataset, trainsubset, VAL_IMAGE_IDS, self.iterations_over_dataset, custom_callbacks)
@@ -131,4 +131,3 @@ class InstanceSegmentation(object):
             segmentation_regression_evaluation(self.path)
 
         model = None
-    

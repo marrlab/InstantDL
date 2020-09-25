@@ -4,7 +4,7 @@ from instantdl.segmentation.Regression import Regression
 from instantdl.segmentation.InstanceSegmentation import InstanceSegmentation
 from instantdl.segmentation.SemanticSegmentation import SemanticSegmentation
 
-def GetPipeLine(**configs):
+def GetPipeLine(configs):
     if configs["use_algorithm"] == "Classification":
         pipeline = Classification(**configs)
         return pipeline

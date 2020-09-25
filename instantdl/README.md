@@ -137,7 +137,7 @@ Please dont expect to achieve competitive results on these datasets, as they are
 - [x] add docker for gpu and cuda toolkit
 - [x] add objects instead of the main functions
 - [x] add google colab
-- [ ] add tests  
+- [x] add tests  
 - [ ] add thresholding for semantic segmentation
 - [ ] add versions
 - [ ] create automatically train and test set

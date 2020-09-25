@@ -13,8 +13,8 @@ def test_2DSegmentation():
     os.makedirs(os.getcwd() + "/tests/segmentation/testimages/train/groundtruth/", exist_ok=True)
     os.makedirs(os.getcwd() + "/tests/segmentation/testimages/test/image/", exist_ok=True)
     os.makedirs(os.getcwd() + "/tests/segmentation/testimages/test/groundtruth/", exist_ok=True)
-    X_true = np.ones((128, 128, 3))
-    Y_true = 255. * np.ones((128, 128, 3))
+    X_true = np.ones((32, 32, 3))
+    Y_true = 255. * np.ones((32, 32, 3))
     for i in range(0,20):
         imsave(os.getcwd() + "/tests/segmentation/testimages/train/image/image"+str(i)+".jpg", X_true)
         imsave(os.getcwd() + "/tests/segmentation/testimages/train/groundtruth/image"+str(i)+".jpg", Y_true)
@@ -22,17 +22,14 @@ def test_2DSegmentation():
         imsave(os.getcwd() + "/tests/segmentation/testimages/test/image/image"+str(i)+".jpg", X_true)
         imsave(os.getcwd() + "/tests/segmentation/testimages/test/groundtruth/image"+str(i)+".jpg", Y_true)
 
-    pipeline = GetPipeLine("SemanticSegmentation",
-                           os.getcwd() + "/tests/segmentation/testimages/",
-                           False,
-                           1,
-                           1,
-                           {},
-                           "mse",
-                           1,
-                           None,
-                           False,
-                           False)
+    configs = {"use_algorithm": "SemanticSegmentation",
+               "path": "./tests/segmentation/testimages/",
+               "pretrained_weights": False,
+               "batchsize": 1,
+               "iterations_over_dataset": 1,
+               "evaluation": False}
+
+    pipeline = GetPipeLine(configs)
 
     pipeline.run()
     K.clear_session()
@@ -57,17 +54,14 @@ def test_3DSegmentation():
         imsave(os.getcwd() + "/tests/segmentation/testimages/test/image/image" + str(i) + ".tif", X_true)
         imsave(os.getcwd() + "/tests/segmentation/testimages/test/groundtruth/image" + str(i) + ".tif", Y_true)
 
-    pipeline = GetPipeLine("SemanticSegmentation",
-                           os.getcwd() + "/tests/segmentation/testimages/",
-                           False,
-                           1,
-                           1,
-                           {},
-                           "mse",
-                           1,
-                           None,
-                           False,
-                           False)
+    configs = {"use_algorithm": "SemanticSegmentation",
+               "path": "./tests/segmentation/testimages/",
+               "pretrained_weights": False,
+               "batchsize": 1,
+               "iterations_over_dataset": 1,
+               "evaluation": False}
+
+    pipeline = GetPipeLine(configs)
 
     pipeline.run()
     K.clear_session()

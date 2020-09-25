@@ -10,7 +10,7 @@ import shutil
 from instantdl.utils import *
 
 def test_InstanceSegmentation():
-    X_true = np.ones((64, 64, 3))
+    X_true = np.ones((64, 64, 3))git com
     X_true[10:20, 20:30] = 255
     Y_true = np.zeros((64, 64))
     Y_true[10:20,20:30] = 1

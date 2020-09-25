@@ -120,6 +120,8 @@ def prepare_data_for_evaluation(root_dir, max_images):
 			predictions.append(resize(prediction, (256,256)))
 		logging.info("pred %s" % np.shape(predictions))
 		logging.info("gt %s" % np.shape(groundtruth))
+		predictions = np.array(predictions)
+		groundtruth = np.array(groundtruth)
 		abs_errormap_norm, rel_errormap_norm = calcerrormap(predictions, groundtruth)
 
 	else:

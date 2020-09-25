@@ -44,34 +44,35 @@ After that the data is provided in the desired shape, you can simply use the cod
 ```python
 from instantdl import GetPipeLine
 
-pipeline = GetPipeLine( use_algorithm = "Classification",	
-                        path= "docs/examples/Classification",
-	                     pretrained_weights= "docs/examples/data/Classification/logs/pretrained_weights_Classification.hdf5",
-                        batchsize= 2,
-                        iterations_over_dataset= 0,
-                        data_gen_args= {
-                              "save_augmented_images": False,
-                              "resample_images": False,
-                              "std_normalization": False,
-                              "feature_scaling": False,
-                              "horizontal_flip": False,
-                              "vertical_flip": False,
-                              "poission_noise": 1,
-                              "rotation_range": 20,
-                              "zoom_range": False,
-                              "contrast_range": 1,
-                              "brightness_range": 1,
-                              "gamma_shift": 0,
-                              "threshold_background_image": False,
-                              "threshold_background_groundtruth": False,
-                              "binarize_mask": False
-                        },
-                        loss_function= "binary_crossentropy",
-                        num_classes= 2,
-                        image_size= None,
-                        calculate_uncertainty= True,
-                        evaluation= True
-)
+configs = { "use_algorithm" : "Classification",	# mandatory field
+            "path": "docs/examples/Classification", # mandatory field
+	      "pretrained_weights": "docs/examples/data/Classification/logs/pretrained_weights_Classification.hdf5",
+            "batchsize": 2,
+            "iterations_over_dataset": 0,
+            "data_gen_args": {
+                  "save_augmented_images": False,
+                  "resample_images": False,
+                  "std_normalization": False,
+                  "feature_scaling": False,
+                  "horizontal_flip": False,
+                  "vertical_flip": False,
+                  "poission_noise": 1,
+                  "rotation_range": 20,
+                  "zoom_range": False,
+                  "contrast_range": 1,
+                  "brightness_range": 1,
+                  "gamma_shift": 0,
+                  "threshold_background_image": False,
+                  "threshold_background_groundtruth": False,
+                  "binarize_mask": False
+            },
+            "loss_function": "binary_crossentropy",
+            "num_classes": 2,
+            "image_size": None,
+            "calculate_uncertainty": True,
+            "evaluation": True}
+
+pipeline = GetPipeLine(configs)
 
 pipeline.run()
 ```

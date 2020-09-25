@@ -58,34 +58,36 @@ After that the data is provided in the desired shape, you can simply use the cod
 ```python
 from instantdl import GetPipeLine
 
-pipeline = GetPipeLine( use_algorithm = "InstanceSegmentation",
-                        path= "docs/examples/InstanceSegmentation",
-	                    pretrained_weights= None,
-                        batchsize= 1,
-                        iterations_over_dataset= 10,
-                        data_gen_args= {
-                              "save_augmented_images": False,
-                              "resample_images": False,
-                              "std_normalization": False,
-                              "feature_scaling": False,
-                              "horizontal_flip": True,
-                              "vertical_flip": True,
-                              "poission_noise": False,
-                              "rotation_range": 20,
-                              "zoom_range": 2,
-                              "contrast_range": False,
-                              "brightness_range": False,
-                              "gamma_shift": False,
-                              "threshold_background_image": False,
-                              "threshold_background_groundtruth": False,
-                              "binarize_mask": False
-                        },
-                        loss_function= "mse",
-                        num_classes= 1,
-                        image_size= None,
-                        calculate_uncertainty= True,
-                        evaluation= True
-)
+configs = {
+            "use_algorithm" : "InstanceSegmentation", # mandatory field
+            "path" : "docs/examples/InstanceSegmentation", # mandatory field
+	        "pretrained_weights" : None,
+            "batchsize" : 1,
+            "iterations_over_dataset": 10,
+            "data_gen_args": {
+                  "save_augmented_images": False,
+                  "resample_images": False,
+                  "std_normalization": False,
+                  "feature_scaling": False,
+                  "horizontal_flip": True,
+                  "vertical_flip": True,
+                  "poission_noise": False,
+                  "rotation_range": 20,
+                  "zoom_range": 2,
+                  "contrast_range": False,
+                  "brightness_range": False,
+                  "gamma_shift": False,
+                  "threshold_background_image": False,
+                  "threshold_background_groundtruth": False,
+                  "binarize_mask": False
+            },
+            "loss_function": "mse",
+            "num_classes": 1,
+            "image_size": None,
+            "calculate_uncertainty": True,
+            "evaluation": True}
+
+pipeline = GetPipeLine(configs)
 
 pipeline.run()
 ```
@@ -93,8 +95,6 @@ The pipeline will start training on the images in the train folder and once its 
 For instance segmentation uncertainty estimation is not supported.
 Once InstantDL is finished it will output as png files visualizing the result and .npy files containing the predicted masks to the results to the result folder.
 The performance can be evaluated if evaluation is set to True, then InstantDL will save evaluations such as the mean squared error to the insights folder as a .txt file and print visualizations of the segmentation to the evaluation folder.
-
-
 
 As you can see, it is very straightforward to use the pipeline and there is no need for more programming.
 

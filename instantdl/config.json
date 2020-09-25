@@ -1,5 +1,4 @@
 {
 	"use_algorithm": "SemanticSegmentation",
-	"path": "/home/dominik/Documents/InstantDL/Vessel/",
-	"loss_function": "mse"
+	"path": "/Users/dominik.waibel/Desktop/InstantDL/Multi-organ_Semantic_Segmentation-2/"
 }
