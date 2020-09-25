@@ -134,7 +134,7 @@ from instantdl import GetPipeLine
 
 pipeline = GetPipeLine( "use_algorithm": "Classification",
                         "path": "examples/Classification",
-						"pretrained_weights": "examples/data/Classification/logs/pretrained_weights_Classification.hdf5",
+                        "pretrained_weights": "examples/data/Classification/logs/pretrained_weights_Classification.hdf5",
                         "batchsize": 2,
                         "iterations_over_dataset": 0,
                         "data_gen_args": {
