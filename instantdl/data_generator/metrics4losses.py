@@ -1,0 +1,1 @@
+# In this file loss function, which are not in keras are implemented
