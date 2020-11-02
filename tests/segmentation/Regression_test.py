@@ -36,6 +36,20 @@ def test_2DRegression():
     pipeline.run()
     K.clear_session()
     assert (os.path.isfile(os.getcwd() + "/tests/segmentation/testimages/logs/pretrained_weights.hdf5"))
+
+    configs = {"use_algorithm": "Regression",
+               "path": "./tests/segmentation/testimages/",
+               "pretrained_weights": "./tests/segmentation/testimages/logs/pretrained_weights.hdf5",
+               "batchsize": 1,
+               "image_size": False,
+               "iterations_over_dataset": 1,
+               "evaluation": False}
+
+    pipeline = GetPipeLine(configs)
+    pipeline.run()
+    K.clear_session()
+
+    assert (os.path.isfile(os.getcwd() + "/tests/segmentation/testimages/logs/pretrained_weights.hdf5"))
     #Make sure the networks has changed something
     for i in range(0, 5):
         assert (X_true != np.array(imread(os.getcwd() + "/tests/segmentation/testimages/results/image"+str(i)+".jpg_predict.tif").astype("uint8"))).all
