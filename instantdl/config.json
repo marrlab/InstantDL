@@ -1,4 +1,6 @@
 {
 	"use_algorithm": "SemanticSegmentation",
-	"path": "/InstantDL/SemanticSegmentationDataset/"
+	"path": "/Users/dominik.waibel/Desktop/Lung_Semantic_Segmentation/",
+	"iterations_over_dataset": 0,
+	"pretrained_weights": "/Users/dominik.waibel/Desktop/Lunglogs/Lung_SemanticSegmentation.hdf5"
 }

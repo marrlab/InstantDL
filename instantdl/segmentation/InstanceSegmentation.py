@@ -118,12 +118,12 @@ class InstanceSegmentation(object):
             print("Start train")
             train(model, dataset, trainsubset, VAL_IMAGE_IDS, self.iterations_over_dataset, custom_callbacks)
 
-
+        print("Iterations are set to:", self.iterations_over_dataset)
         print("Testing with weights:", weights_path)
-        model.load_weights(weights_path, by_name=True)
         config = RCNNInferenceConfig()
         model = RCNNmodel.MaskRCNN(mode="inference", config=config, model_dir=logs)
-        weights_path = model.find_last()
+        if self.iterations_over_dataset > 0:
+            weights_path = model.find_last()
         model.load_weights(weights_path, by_name=True)
         test_Val_IMAGE_IDS = []
         detect(model, dataset, testsubset, RESULTS_DIR, test_Val_IMAGE_IDS)
