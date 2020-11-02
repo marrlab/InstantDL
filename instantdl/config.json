@@ -1,6 +1,9 @@
 {
 	"use_algorithm": "SemanticSegmentation",
 	"path": "/Users/dominik.waibel/Desktop/Lung_Semantic_Segmentation/",
-	"iterations_over_dataset": 0,
-	"pretrained_weights": "/Users/dominik.waibel/Desktop/Lunglogs/Lung_SemanticSegmentation.hdf5"
+	"iterations_over_dataset": 1,
+	"pretrained_weights": "/Users/dominik.waibel/Desktop/MSE_pretrained_weights_Vessel.hdf5",
+	"image_size": false,
+	"calculate_uncertainty": false,
+	"evaluation": false
 }

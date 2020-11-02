@@ -75,7 +75,7 @@ Set data augmentation parameters here
 Set parameters training here. Number of classes should be 1 using binary segmenation tasks
 "loss_function": "mse",
 "num_classes": 1, # Number of classes should be 1 for binary segmenation tasks
-"image_size": null, # null or tuple with dimensions of desired image size in format [x-dim, y-dim, (z-dim), channels],
+"image_size": false, # false or tuple with dimensions of desired image size in format [x-dim, y-dim, (z-dim), channels],
 e.g. [128,128,3]
 "calculate_uncertainty": false # true or false
 ```
