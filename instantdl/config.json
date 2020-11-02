@@ -1,5 +1,5 @@
 {
-	"use_algorithm": "SemanticSegmentation",
+	"use_algorithm": "Regression",
 	"path": "/Users/dominik.waibel/Desktop/Lung_Semantic_Segmentation/",
 	"iterations_over_dataset": 1,
 	"pretrained_weights": "/Users/dominik.waibel/Desktop/MSE_pretrained_weights_Vessel.hdf5",
