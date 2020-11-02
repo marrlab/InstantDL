@@ -35,7 +35,7 @@ class Classification(object):
         Get the number of input images and their shape
         If the last image dimension,. which should contain the channel information (1 or 3) is not existing e.g. for (512,512) add a 1 as the channel number.
         '''
-        if self.image_size == False:
+        if self.image_size == False or self.image_size == None:
             Training_Input_shape, num_channels, _ = get_input_image_sizes(self.path, self.use_algorithm)
         else:
             Training_Input_shape = self.image_size
