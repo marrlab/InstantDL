@@ -27,6 +27,7 @@ def test_2DSegmentation():
                "pretrained_weights": False,
                "batchsize": 1,
                "iterations_over_dataset": 1,
+               "image_size": False,
                "evaluation": False}
 
     pipeline = GetPipeLine(configs)
@@ -58,6 +59,7 @@ def test_3DSegmentation():
                "path": "./tests/segmentation/testimages/",
                "pretrained_weights": False,
                "batchsize": 1,
+               "image_size": False,
                "iterations_over_dataset": 1,
                "evaluation": False}
 

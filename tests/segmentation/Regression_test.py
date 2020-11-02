@@ -27,6 +27,7 @@ def test_2DRegression():
                "path": "./tests/segmentation/testimages/",
                "pretrained_weights": False,
                "batchsize": 1,
+               "image_size": False,
                "iterations_over_dataset": 1,
                "evaluation": False}
 
@@ -59,6 +60,7 @@ def test_3DRegression():
                "path": "./tests/segmentation/testimages/",
                "pretrained_weights": False,
                "batchsize": 1,
+               "image_size": False,
                "iterations_over_dataset": 1,
                "evaluation": False}
 
