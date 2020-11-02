@@ -35,10 +35,11 @@ def test_2DRegression():
 
     pipeline.run()
     K.clear_session()
+    assert (os.path.isfile(os.getcwd() + "/tests/segmentation/testimages/logs/pretrained_weights.hdf5"))
     #Make sure the networks has changed something
     for i in range(0, 5):
-        assert (X_true != imread(os.getcwd() + "/tests/segmentation/testimages/results/image"+str(i)+".jpg_predict.tif")).all
-    #Delete created test data
+        assert (X_true != np.array(imread(os.getcwd() + "/tests/segmentation/testimages/results/image"+str(i)+".jpg_predict.tif").astype("uint8"))).all
+
     if os.path.exists(os.getcwd()+"/tests/segmentation/testimages") and os.path.isdir(os.getcwd()+"/tests/segmentation/testimages"):
         shutil.rmtree(os.getcwd()+"/tests/segmentation/testimages")
 
@@ -68,6 +69,7 @@ def test_3DRegression():
 
     pipeline.run()
     K.clear_session()
+    assert (os.path.isfile(os.getcwd() + "/tests/segmentation/testimages/logs/pretrained_weights.hdf5"))
     # Make sure the networks has changed something
     for i in range(0, 5):
         assert (X_true != np.array((imread(os.getcwd() + "/tests/segmentation/testimages/results/image"+str(i)+".tif_predict.tif")).astype("uint8"))).all
