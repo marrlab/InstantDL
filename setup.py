@@ -10,7 +10,7 @@ def read(fname):
 
 setup(
     name = "instantdl",
-    version = "0.0.1",
+    version = "1.0.0",
     author = "Dominik Waibel & Ali Boushehri",
     author_email = "dominik.waibel@helmholtz-muenchen.de & ali.boushehri@roche.com",
     description = ("An easy and convenient Deep Learning pipeline for image segmentation and classification"),
