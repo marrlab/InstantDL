@@ -19,7 +19,7 @@ setup(
     url = "https://github.com/aliechoes/ICBPipeline",
     packages=find_packages(exclude=["doc*", "test*"]),
     install_requires=[  'keras==2.2.4',
-                        'tensorboard>=1.13.0,<=1.14.0'],
+                        'tensorboard>=1.13.0,<=1.15.2'],
     long_description=read('README.md'),
     classifiers=[
         "Development Status :: 3 - Alpha",
