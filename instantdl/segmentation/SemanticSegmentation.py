@@ -151,7 +151,7 @@ class SemanticSegmentation(object):
         early_stopping = EarlyStopping(monitor='val_loss', patience=5, mode='auto', verbose=0)
         datasetname = self.path.rsplit("/",1)[1]
         checkpoint_filepath = (self.path + "/logs" + "/pretrained_weights" + datasetname + ".hdf5") #.{epoch:02d}.hdf5")
-        os.makedirs(os.getcwd() + (self.path + "/logs"), exist_ok=True)
+        os.makedirs((self.path + "/logs"), exist_ok=True)
         model_checkpoint = ModelCheckpoint(checkpoint_filepath, monitor=('val_loss'), verbose=1, save_best_only=True)
 
         tensorboard = TensorBoard(log_dir=self.path + "logs/" + "/" + format(time.time()))  # , update_freq='batch')
