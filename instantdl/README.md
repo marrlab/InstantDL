@@ -9,7 +9,6 @@ Here you can find the information about the folders in the code:
 - [classification](classification)
 - [data_generator](data_generator)
 - [evaluation](evaluation)
-- [metrics](metrics)
 - [segmentation](segmentation)
 
 ## Dependencies
@@ -30,9 +29,8 @@ For running the code, you need to have Python 3.6 or higher installed. In additi
    "scikit-image":"0.15.0",
    "scikit-learn":"0.21.3",
    "scipy":"1.3.0",
-   "tensorboard":"1.14.0",
-   "tensorflow":"1.14.0",
-   "tensorflow-gpu":"1.14.0",
+   "tensorflow":"1.15.2",
+   "tensorflow-gpu":"1.15.2",
    "pandas":"1.0.3"
 }
 ```
@@ -77,7 +75,7 @@ Set data augmentation parameters here
 Set parameters training here. Number of classes should be 1 using binary segmenation tasks
 "loss_function": "mse",
 "num_classes": 1, # Number of classes should be 1 for binary segmenation tasks
-"image_size": null, # null or tuple with dimensions of desired image size in format [x-dim, y-dim, (z-dim), channels],
+"image_size": false, # false or tuple with dimensions of desired image size in format [x-dim, y-dim, (z-dim), channels],
 e.g. [128,128,3]
 "calculate_uncertainty": false # true or false
 ```

@@ -10,7 +10,7 @@ def read(fname):
 
 setup(
     name = "instantdl",
-    version = "0.0.1",
+    version = "1.0.0",
     author = "Dominik Waibel & Ali Boushehri",
     author_email = "dominik.waibel@helmholtz-muenchen.de & ali.boushehri@roche.com",
     description = ("An easy and convenient Deep Learning pipeline for image segmentation and classification"),
@@ -19,7 +19,7 @@ setup(
     url = "https://github.com/aliechoes/ICBPipeline",
     packages=find_packages(exclude=["doc*", "test*"]),
     install_requires=[  'keras==2.2.4',
-                        'tensorboard>=1.13.0,<=1.14.0'],
+                        'tensorboard>=1.13.0,<=1.15.2'],
     long_description=read('README.md'),
     classifiers=[
         "Development Status :: 3 - Alpha",
