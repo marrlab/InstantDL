@@ -1,0 +1,9 @@
+build
+*.c
+*.so
+frontend.cpp
+*.pyc
+*/build
+*/*.c
+*/*.so
+
