@@ -23,6 +23,16 @@ from instantdl.classification.ResNet50 import ResNet50 #, get_imagenet_weights
 import glob
 from keras.optimizers import Adam, SGD
 from instantdl.data_generator.data import write_logbook
+
+from instantdl.data_generator.local_shape_descriptor import LsdExtractor
+import gunpowder as gp
+import numpy as np
+import time
+from scipy.ndimage import gaussian_filter
+from scipy.ndimage.filters import convolve
+from numpy.lib.stride_tricks import as_strided
+from instantdl.data_generator.affinities import watershed_from_affinities, evaluate_affs
+
 import logging
 logging.basicConfig(level=logging.INFO)
 

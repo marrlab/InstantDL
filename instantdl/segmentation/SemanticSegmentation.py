@@ -43,7 +43,7 @@ class SemanticSegmentation(object):
         If the last image dimension,. which should contain the channel information (1 or 3) is not existing e.g. for 
         (512,512) add a 1 as the channel number.
         '''
-        if self.image_size == None:
+        if self.image_size == False:
             Training_Input_shape, num_channels, Input_image_shape = get_input_image_sizes(self.path, self.use_algorithm)
         else:
             Training_Input_shape = self.image_size
@@ -153,7 +153,7 @@ class SemanticSegmentation(object):
         Early_Stopping = EarlyStopping(monitor='val_loss', patience=25, mode='auto', verbose=0)
         datasetname = self.path.rsplit("/",1)[1]
         checkpoint_filepath = (self.path + "/logs" + "/pretrained_weights" + datasetname + ".hdf5") #.{epoch:02d}.hdf5")
-        os.makedirs(os.getcwd() + (self.path + "/logs"), exist_ok=True)
+        os.makedirs((self.path + "/logs"), exist_ok=True)
         model_checkpoint = ModelCheckpoint(checkpoint_filepath, monitor=('val_loss'), verbose=1, save_best_only=True)
 
         tensorboard = TensorBoard(log_dir=self.path + "logs/" + "/" + format(time.time()))  # , update_freq='batch')
@@ -212,8 +212,7 @@ class SemanticSegmentation(object):
                     gt.append(Valgene[i][1][0,:,:,:,0])
             
             opt_threshold, result, output_seg = find_threshold(pred, gt, len(Training_Input_shape[:-1]))
-            print('Optimal threshold:',opt_threshold)
-            
+
             if len(Training_Input_shape[:-1]) == 2:
                 nhood = m.mknhood3d(1)[:-1]
                 final_seg = []
@@ -234,11 +233,70 @@ class SemanticSegmentation(object):
                     final_seg.append(seg)
                     
             results = np.array(final_seg)
-            
+
+
+        def find_threshold_lsd(gti, predi, thresholds):
+            from sklearn.metrics import mean_squared_error
+            errors = []
+            segmentations = get_segm_from_affs(predi, thresholds)
+            for segmentation in segmentations:
+                print(np.shape(segmentation))
+                errors.append(mean_squared_error(gti[0,:,:,0], segmentation[0,:,:]))
+
+            opt_threshold = thresholds[errors.index(np.min(errors))]
+            return opt_threshold
+
+
+        def get_segm_from_affs(result, thresholds):
+            import waterz
+            segmentations = []
+            aff = result
+            aff = np.transpose(aff, (3, 0, 1, 2))
+            fragment = watershed_from_affinities(aff)[0]
+            seggenerator = waterz.agglomerate(affs=aff, thresholds=thresholds, fragments=fragment)
+            for segmentation in seggenerator:
+                segmentations.append(segmentation)
+            return segmentations
+
+
+        if self.loss_function == 'lsd loss':
+            import itertools as it
+            Valgene = list(it.islice(ValidationDataGenerator, 2))
+            pred = []
+            gt = []
+
+            if len(Training_Input_shape[:-1]) == 2:
+                for i in range(len(Valgene)):
+                    pred.append(model.predict(Valgene[i][0])[0])
+                    gt.append(Valgene[i][1][0])
+            if len(Training_Input_shape[:-1]) == 3:
+                for i in range(len(Valgene)):
+                    pred.append(model.predict(Valgene[0][i][0]))
+                    gt.append(Valgene[i][1][0, :, :, :, 0])
+            opt_thresholds = []
+            for i in range(0,len(gt)):
+                opt_thresholds.append(find_threshold_lsd(gt[i], pred[i], np.arange(0.1, 0.9, 0.1)))
+
+            opt_threshold = np.mean(opt_thresholds)
+            print("Mean opt threshold", opt_threshold)
+
+            #throw away lsds and only keep affs
+            results = results[0]
+            resultslength = np.shape(results)[0]
+            lsdresults = []
+            for i in range(0, resultslength):
+                result_i = results[i]
+                result_i = result_i[np.newaxis,...]
+                lsdseg = np.array(get_segm_from_affs(result_i, [opt_threshold]))[0,0,:,:]
+                lsdresults.append(lsdseg)
+
+        results = np.array(lsdresults).astype("uint8")
+
         '''
         Save the models prediction on the testset by printing the predictions 
         as images to the results folder in the project path
         '''
+
         saveResult(self.path + "/results/", test_image_files, results, Input_image_shape)
         if self.calculate_uncertainty == False:
             if self.evaluation == True:

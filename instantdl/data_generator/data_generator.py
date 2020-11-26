@@ -172,8 +172,29 @@ def training_data_generator(Training_Input_shape, batchsize, num_channels,
                 elif data_dimensions == 3:
                     Y = morphology.remove_small_objects(label(Y[0,:,:,:,0]),8)
                     Y = Y[np.newaxis,...,np.newaxis]
-            print(np.shape(X_train))
-            yield (X_train, Y)
+            #print(np.shape(X_train))
+
+            if loss_function == "lsd loss":
+                from instantdl.data_generator.local_shape_descriptor import LsdExtractor
+
+                if data_dimensions == 2:
+                    Y = morphology.remove_small_objects(label(Y[0]),8)
+                    Yaff = Y[np.newaxis,...]
+                    extractor = LsdExtractor(sigma=(2.0, 2.0,1.0))
+                    Ylsd = extractor.get_descriptors(Y)
+                    Ylsd = np.transpose(Ylsd, (3, 1, 2, 0))
+                    #Ylsd = Ylsd[np.newaxis, ...]
+                elif data_dimensions == 3:
+                    Y = morphology.remove_small_objects(label(Y[0,:,:,:,0]),8)
+                    Yaff = Y[np.newaxis,...,np.newaxis]
+                    extractor = LsdExtractor(sigma=(2.0, 2.0, 2.0))
+                    Ylsd = extractor.get_descriptors(Y)
+                    Ylsd = np.transpose(Ylsd, (1, 2, 3, 0))
+                    Ylsd = Ylsd[np.newaxis, ..., np.newaxis]
+                #print(np.shape(X_train), np.shape(Yaff),np.shape(Ylsd))
+                yield (X_train, [Yaff, Ylsd])
+            else:
+                yield (X_train, Y)
 
 
 def training_data_generator_classification(Training_Input_shape, 
