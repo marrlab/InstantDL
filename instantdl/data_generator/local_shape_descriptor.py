@@ -8,7 +8,7 @@ from numpy.lib.stride_tricks import as_strided
 
 logger = logging.getLogger(__name__)
 '''
-file taken from: https://github.com/funkelab/lsd/blob/master/lsd/local_shape_descriptor.py
+code taken from: https://github.com/funkelab/lsd/blob/master/lsd/local_shape_descriptor.py
 '''
 def get_local_shape_descriptors(
         segmentation,

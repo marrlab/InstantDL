@@ -5,8 +5,9 @@ import mahotas
 import numpy as np
 import waterz
 import zarr
-
-
+'''
+code taken from: https://github.com/funkelab/lsd/blob/master/lsd/fragments.py
+'''
 def watershed_from_affinities(
         affs,
         max_affinity_value=1.0,
