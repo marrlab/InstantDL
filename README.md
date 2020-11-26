@@ -34,7 +34,7 @@ For running the code, you need to have Python 3.6 or higher installed. In additi
 - scikit-learn: 0.21.3
 - scipy: 1.3.0
 - tensorflow: 1.15.2
-- tensorflow-gpu: 1.15.2 # in case of GPU exastnace
+- tensorflow-gpu: 1.15.2 # in case of GPU existance
 - pandas: 1.0.3
 ```
 
