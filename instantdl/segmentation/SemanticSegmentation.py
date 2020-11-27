@@ -242,7 +242,6 @@ class SemanticSegmentation(object):
             for segmentation in segmentations:
 
                 if len(Training_Input_shape[:-1]) == 2:
-                    gti = gti[0,:,:,0]
                     segmentation = segmentation[0,:,:]
                 print(np.shape(segmentation))
                 print(np.shape(gti))
@@ -252,11 +251,9 @@ class SemanticSegmentation(object):
             return opt_threshold
 
 
-        def get_segm_from_affs(result, thresholds):
+        def get_segm_from_affs(aff, thresholds):
             import waterz
             segmentations = []
-            aff = result
-            print("aff", np.shape(aff))
             '''
             Affinities should have dimensions (channels, z, x, y)
             '''
