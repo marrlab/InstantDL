@@ -189,11 +189,12 @@ def training_data_generator(Training_Input_shape, batchsize, num_channels,
                     Yaff = Y[np.newaxis,...,np.newaxis]
                     extractor = LsdExtractor(sigma=(2.0, 2.0, 2.0))
                     Ylsd = extractor.get_descriptors(Y)
-                    Ylsd = np.transpose(Ylsd, (1, 2, 3, 0))
-                    Ylsd = Ylsd[np.newaxis, ..., np.newaxis]
-                #print(np.shape(X_train), np.shape(Yaff),np.shape(Ylsd))
-                yield (X_train, [Yaff, Ylsd])
+                    Ylsd = Ylsd[np.newaxis,...]
+                    Ylsd = np.transpose(Ylsd, (0, 2, 3, 4, 1))
+                print(np.shape(X_train), np.shape(Yaff),np.shape(Ylsd))
+                yield (X_train.astype("float32"), [Yaff.astype("float32"), Ylsd.astype("float32")])
             else:
+                print(np.shape(X_train), np.shape(Y))
                 yield (X_train, Y)
 
 

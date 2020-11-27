@@ -168,7 +168,7 @@ class SemanticSegmentation(object):
                                 steps_per_epoch=steps_per_epoch,
                                 validation_data=ValidationDataGenerator,
                                 validation_steps=len(val_image_files),
-                                max_queue_size=50,
+                                max_queue_size=5,
                                 epochs=self.epochs,
                                 callbacks = callbacks_list,
                                 use_multiprocessing=True)

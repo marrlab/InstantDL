@@ -31,7 +31,6 @@ class UNetBuilder(object):
 
         elif loss_function == 'lsd loss':
             from malis.malis_keras import malis_loss2d
-            inputs = Input(shape = (None, None, network_input_size[-1]))
             num_classes = 1
             inputs = Input(shape=(network_input_size[0], network_input_size[1], network_input_size[2]))
         else:
@@ -150,7 +149,7 @@ class UNetBuilder(object):
                         logging.info('loaded %s' % layer.name)
 
         return model2D
-
+    #ToDo: Set filters to 32
     def unet3D(pretrained_weights, network_input_size, num_channels_label, num_classes, loss_function, Dropout_On, base_n_filters=32):
         logging.info("started UNet")
         if loss_function == 'malis loss':
@@ -161,11 +160,9 @@ class UNetBuilder(object):
             inputs = Input(shape=(network_input_size[0],network_input_size[1],network_input_size[2],network_input_size[3]))
 
         elif loss_function == 'lsd loss':
-            loss_function = "mse"
-            num_channels_label = 10
+            from malis.malis_keras import malis_loss3d
             num_classes = 1
-            inputs = Input(shape = (network_input_size[0],network_input_size[1],network_input_size[2]))
-
+            inputs = Input(shape=(network_input_size[0],network_input_size[1],network_input_size[2],network_input_size[3]))
         else:
             inputs = Input(shape=(None, None, None, network_input_size[-1]))
         conv1 = Conv3D(base_n_filters, 3, padding='same', kernel_initializer='he_normal')(inputs)
@@ -257,15 +254,23 @@ class UNetBuilder(object):
         conv9 = BatchNormalization()(conv9)
         conv9 = LeakyReLU(alpha=0.1)(conv9)
 
-        if num_classes > 1:
-            conv10 = Conv3D(num_classes, (1), activation='softmax')(conv9)  # Changed activiation from Relu to linear
+        if loss_function == 'lsd loss':
+            conv10 = Conv3D(4, 1, activation='sigmoid')(conv9) #Malis output
+            conv11 = Conv3D(10, 1, activation='sigmoid')(conv9) #lsd output
+            model3D = Model(inputs=inputs, outputs=[conv10, conv11])
+            logging.info("shape input UNet %s" % np.shape(inputs))
+            logging.info("shape output UNet %s" % np.shape(conv10))
+            model3D.compile(optimizer="Adam", loss = [malis_loss3d, "mse"], metrics=['mse'])
         else:
-            conv10 = Conv3D(num_channels_label, 1, activation='sigmoid')(conv9)  # Changed activiation from Relu to linear
+            if num_classes > 1:
+                conv10 = Conv3D(num_classes, (1), activation='softmax')(conv9)  # Changed activiation from Relu to linear
+            else:
+                conv10 = Conv3D(num_channels_label, 1, activation='sigmoid')(conv9)  # Changed activiation from Relu to linear
 
-        model3D = Model(inputs=inputs, outputs=conv10)
-        logging.info("shape input UNet %s" % np.shape(inputs))
-        logging.info("shape output UNet %s" % np.shape(conv10))
-        model3D.compile(optimizer="Adam", loss=loss_function, metrics=['mse'])
+            model3D = Model(inputs=inputs, outputs=conv10)
+            logging.info("shape input UNet %s" % np.shape(inputs))
+            logging.info("shape output UNet %s" % np.shape(conv10))
+            model3D.compile(optimizer="Adam", loss=loss_function, metrics=['mse'])
 
         if (pretrained_weights):
             model3D.load_weights(pretrained_weights, by_name=True, skip_mismatch=True)
