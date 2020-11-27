@@ -240,8 +240,13 @@ class SemanticSegmentation(object):
             errors = []
             segmentations = get_segm_from_affs(predi, thresholds)
             for segmentation in segmentations:
+
+                if len(Training_Input_shape[:-1]) == 2:
+                    gti = gti[0,:,:,0]
+                    segmentation = segmentation[0,:,:]
                 print(np.shape(segmentation))
-                errors.append(mean_squared_error(gti[0,:,:,0], segmentation[0,:,:]))
+                print(np.shape(gti))
+                errors.append(mean_squared_error(gti.flatten(), segmentation.flatten()))
 
             opt_threshold = thresholds[errors.index(np.min(errors))]
             return opt_threshold
@@ -251,6 +256,12 @@ class SemanticSegmentation(object):
             import waterz
             segmentations = []
             aff = result
+            print("aff", np.shape(aff))
+            '''
+            Affinities should have dimensions (channels, z, x, y)
+            '''
+            if len(Training_Input_shape[:-1]) == 3:
+                aff = aff[0,...]
             aff = np.transpose(aff, (3, 0, 1, 2))
             fragment = watershed_from_affinities(aff)[0]
             seggenerator = waterz.agglomerate(affs=aff, thresholds=thresholds, fragments=fragment)
@@ -271,8 +282,10 @@ class SemanticSegmentation(object):
                     gt.append(Valgene[i][1][0])
             if len(Training_Input_shape[:-1]) == 3:
                 for i in range(len(Valgene)):
-                    pred.append(model.predict(Valgene[0][i][0]))
-                    gt.append(Valgene[i][1][0, :, :, :, 0])
+                    #print("Valgene[0][i]",np.shape(Valgene[0][i]))
+                    pred.append(model.predict(Valgene[i][0])[0])
+                    #print("Valgene[i][1][0][0, :, :, :, 0]", np.shape(Valgene[i][1][0][0, :, :, :, 0]))
+                    gt.append(Valgene[i][1][0][0, :, :, :, 0])
             opt_thresholds = []
             for i in range(0,len(gt)):
                 opt_thresholds.append(find_threshold_lsd(gt[i], pred[i], np.arange(0.1, 0.9, 0.1)))
@@ -290,7 +303,7 @@ class SemanticSegmentation(object):
                 lsdseg = np.array(get_segm_from_affs(result_i, [opt_threshold]))[0,0,:,:]
                 lsdresults.append(lsdseg)
 
-        results = np.array(lsdresults).astype("uint8")
+            results = np.array(lsdresults).astype("uint8")
 
         '''
         Save the models prediction on the testset by printing the predictions 
