@@ -34,7 +34,11 @@ For running the code, you need to have Python 3.6 or higher installed. In additi
    "tensorboard":"1.14.0",
    "tensorflow":"1.14.0",
    "tensorflow-gpu":"1.14.0",
-   "pandas":"1.0.3"
+   "pandas":"1.0.3",
+   "mahotas" : "1.4.11" ,
+   "zarr": "2.5.0",
+   "waterz": "git+git://github.com/funkey/waterz@8ccd0b308fed604d143577f128420da83ff444da#egg=waterz",
+   "gunpower":"git+git://github.com/funkey/gunpowder@28fbe7914e235edc1eb15bfdf695da15ac48bb32#egg=gunpowder"
 }
 ```
 
