@@ -85,7 +85,7 @@ From there evaluations using jupyter-notebooks from the Evaluation folder can be
 
 ### 3. Docker
 
-For Docker installation, please refer to the [docker](docker) folder.
+For Docker installation, please refer to the [docker](../docker) folder.
 
 ## Simple Example
 
@@ -184,7 +184,7 @@ As you can see, it is very straightforward to use the pipeline and there is no n
 
 ## More Examples
 
-One example of each task of semantic segmentation, instance segmentation, regression and classification is in the [docs/examples](docs/examples) folder.
+One example of each task of semantic segmentation, instance segmentation, regression and classification is in the [docs/examples](examples) folder.
 
 ## Training Parameters
 
@@ -248,7 +248,7 @@ you can find examples of different configs in the example folders
 Uncertainty estimation using Monte Carlo Dropout is implemented when using semantic segmentation, regression and classification. During evaluation on the testset it evaluates 20 different models by using dropout during inference and calculates the model uncertainty on the test set as suggested by [Gal et al.](https://arxiv.org/abs/1506.02142) and implemented in [this method](https://openreview.net/pdf?id=Sk_P2Q9sG) and for classification [in this gitrepo](https://github.com/RobRomijnders/bayes_nn). The uncertainty is saved as separate numpy files when using regression and semantic segmentation tasks and as a .csv file when using classification. Figure 2 shows how the uncertainty estimation using regression and a classification task works. For regression and semantic segmentation the pipeline saves an uncertainty map to the project folder, where areas with high uncertainty are visible (Figure 2.B). For classification the certainty measure is printed to the results file. Numbers close to zero are considered certain, higher numbers uncertain. Uncertainty estimation opens new level of interpretability of results.
 
 <p align="center">
-   <img src="docs/Figure2.jpeg" alt="architecture" width="700" class="center"/>
+   <img src="Figure2.jpeg" alt="architecture" width="700" class="center"/>
 </p>
 
 ## Prediction only
@@ -256,4 +256,4 @@ If you have a pretraind model and only want to predict your testdata with the we
 
 ## Use with Google Colaboratory
 
-You can use InstantDL with Google Colab. For this the InstantDL folder with your project data needs to be uploaded into your google drive. There, the file [InstantDL_google_colab.ipynb](docs/google_colab/InstantDL_google_colab.ipynb) which is in the instantdl folder must be opened with Google Colab ('open with'). In this notebook you will find all the explanations and the code to execute the pipeline.
+You can use InstantDL with Google Colab. For this the InstantDL folder with your project data needs to be uploaded into your google drive. There, the file [InstantDL_google_colab.ipynb](google_colab/InstantDL_google_colab.ipynb) which is in the instantdl folder must be opened with Google Colab ('open with'). In this notebook you will find all the explanations and the code to execute the pipeline.
