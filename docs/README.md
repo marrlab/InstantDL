@@ -239,7 +239,7 @@ you can find examples of different configs in the example folders
 11. Experiment settings are automatically saved to a logbook in order to simplify experiment monitoring.
 
 <p align="center">
-  <img width="500"  src="docs/Figure1.jpeg">
+  <img width="500"  src="Figure1.jpeg">
 </p>
 
 
