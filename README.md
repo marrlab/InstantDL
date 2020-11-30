@@ -14,6 +14,8 @@ InstantDL enables experts and non-experts to use state-of-the art deep learning 
 
 For documentation please refere to [docs](docs)
 
+[![InstantDL](https://www.youtube.com/watch?v=Wy4wlEyE2fA)]
+
 ## Contributing
 
 We are happy about any contributions. For any suggested changes, please send a pull request to the *develop* branch.
