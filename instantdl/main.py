@@ -84,6 +84,9 @@ if __name__ == "__main__":
         logging.warning("Epochs has not been set. Setting epochs = 500 and using early stopping")
         iterations_over_dataset = 500
 
+    if loss_function in ["malis loss", "lsd loss"]:
+        batchsize = 1
+
     if os.path.isfile((pretrained_weights_path)):
         pretrained_weights = (pretrained_weights_path)
     else:
