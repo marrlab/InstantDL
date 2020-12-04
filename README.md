@@ -16,10 +16,12 @@ For documentation please refere to [docs](docs)
 
 For a short video introducing InstantDL please see:
 
-<a href="http://www.youtube.com/watch?v=Wy4wlEyE2fA"><p align="center">
-    <img href="InstantDL" src="http://img.youtube.com/vi/Wy4wlEyE2fA/0.jpg"
-    width="500" align="center">
-</p><a href=''>
+<a href="http://www.youtube.com/watch?v=Wy4wlEyE2fA">
+	<p align="center">
+    	<img href="InstantDL" src="http://img.youtube.com/vi/Wy4wlEyE2fA/0.jpg"
+    	width="500" align="center">
+	</p>
+<a>
 
 ## Contributing
 
