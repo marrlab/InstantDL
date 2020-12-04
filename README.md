@@ -15,12 +15,11 @@ InstantDL enables experts and non-experts to use state-of-the art deep learning 
 For documentation please refere to [docs](docs)
 
 For a short video introducing InstantDL please see:
-[![InstantDL](http://img.youtube.com/vi/Wy4wlEyE2fA/0.jpg)](http://www.youtube.com/watch?v=Wy4wlEyE2fA "InstantDL")
 
-<p href="http://www.youtube.com/watch?v=Wy4wlEyE2fA" align="center">
+<a href="http://www.youtube.com/watch?v=Wy4wlEyE2fA"><p align="center">
     <img href="InstantDL" src="http://img.youtube.com/vi/Wy4wlEyE2fA/0.jpg"
     width="500" align="center">
-</p>
+</p><a href=''>
 
 ## Contributing
 
