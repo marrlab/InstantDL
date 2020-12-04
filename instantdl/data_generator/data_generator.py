@@ -137,8 +137,7 @@ def training_data_generator(Training_Input_shape, batchsize, num_channels,
     for i, folder_name in enumerate(Folder_Names):
         if os.path.isdir(data_path + folder_name) == True:
             X_min[i], X_max[i] = get_min_max(data_path, folder_name, train_image_files)
-    logging.info("array of min values: %s" % X_min)
-    logging.info("array of max values:%s" % X_max)
+
     while True:
         def grouped(train_image_files, batchsize):
             return zip(*[iter(train_image_files)] * batchsize)
