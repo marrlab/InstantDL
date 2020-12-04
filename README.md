@@ -18,6 +18,10 @@ For a short video introducing InstantDL please see:
 [![InstantDL](http://img.youtube.com/vi/Wy4wlEyE2fA/0.jpg)](http://www.youtube.com/watch?v=Wy4wlEyE2fA "InstantDL")
 
 
+<iframe width="420" height="315"
+src="http://www.youtube.com/watch?v=Wy4wlEyE2fA">
+</iframe>
+
 ## Contributing
 
 We are happy about any contributions. For any suggested changes, please send a pull request to the *develop* branch.
