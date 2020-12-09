@@ -178,23 +178,23 @@ def training_data_generator(Training_Input_shape, batchsize, num_channels,
                 from instantdl.data_generator.local_shape_descriptor import LsdExtractor
 
                 if data_dimensions == 2:
-                    Y = morphology.remove_small_objects(label(Y[0]),8)
-                    Yaff = Y[np.newaxis,...]
+                    Ylabel = morphology.remove_small_objects(label(Y[0]),8)
+                    #Yaff = Ylabel[np.newaxis,...]
                     extractor = LsdExtractor(sigma=(2.0, 2.0,1.0))
-                    Ylsd = extractor.get_descriptors(Y)
+                    Ylsd = extractor.get_descriptors(Ylabel)
                     Ylsd = np.transpose(Ylsd, (3, 1, 2, 0))
                     #Ylsd = Ylsd[np.newaxis, ...]
                 elif data_dimensions == 3:
-                    Y = morphology.remove_small_objects(label(Y[0,:,:,:,0]),8)
-                    Yaff = Y[np.newaxis,...,np.newaxis]
+                    Ylabel = morphology.remove_small_objects(label(Y[0,:,:,:,0]),8)
+                    #Yaff = Ylabel[np.newaxis,...,np.newaxis]
                     extractor = LsdExtractor(sigma=(2.0, 2.0, 2.0))
-                    Ylsd = extractor.get_descriptors(Y)
+                    Ylsd = extractor.get_descriptors(Ylabel)
                     Ylsd = Ylsd[np.newaxis,...]
                     Ylsd = np.transpose(Ylsd, (0, 2, 3, 4, 1))
-                #print(np.shape(X_train), np.shape(Yaff),np.shape(Ylsd))
-                yield (X_train.astype("float32"), [Yaff.astype("float32"), Ylsd.astype("float32")])
+                #print(np.shape(X_train), np.shape(Y), np.shape(Ylsd))
+                yield (X_train.astype("float32"), [Y.astype("float32"), Ylsd.astype("float32")])
             else:
-                #print(np.shape(X_train), np.shape(Y))
+                print(np.shape(X_train), np.shape(Y))
                 yield (X_train, Y)
 
 

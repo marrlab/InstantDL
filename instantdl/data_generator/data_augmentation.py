@@ -208,6 +208,7 @@ def data_augentation(X, Y, data_gen_args, data_path_file_name):
             returns: one tensor, Y, which have the same dimensions as the input
         """
         mean_Y = np.mean(Y)
+        Y = np.nan_to_num(Y)
         Y[Y <= mean_Y] = 0
         Y[Y > mean_Y] = 1
         Y = np.nan_to_num(Y)

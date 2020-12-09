@@ -1,9 +1,9 @@
 {
 	"use_algorithm": "SemanticSegmentation",
-	"path": "/Users/dominik.waibel/Desktop/InstantDL/docs/examples/SemanticSegmentation/",
+	"path": "/home/dominik/Documents/InstantDL_dev_lsd/Vessel12/",
 	"pretrained_weights_path": false,
 	"batchsize": 1,
-	"iterations_over_dataset": 20,
+	"iterations_over_dataset": 50,
 	"data_gen_args": {
 		"rotation": 20,
 		"horizontal_flip": true,
