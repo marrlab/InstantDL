@@ -135,8 +135,7 @@ class SemanticSegmentation(object):
             self.pretrained_weights = None
         if data_dimensions == 3:
             logging.info("Using 3D UNet")
-            #ToDO: Set dropout on again
-            model = UNetBuilder.unet3D(self.pretrained_weights, network_input_size, num_channels_label, self.num_classes, self.loss_function, Dropout_On = False)
+            model = UNetBuilder.unet3D(self.pretrained_weights, network_input_size, num_channels_label, self.num_classes, self.loss_function, Dropout_On = True)
         else:
             logging.info("Using 2D UNet")
             model = UNetBuilder.unet2D(self.pretrained_weights, network_input_size, num_channels_label, self.num_classes, self.loss_function, Dropout_On = True)
@@ -269,6 +268,8 @@ class SemanticSegmentation(object):
 
 
         if self.loss_function == 'lsd loss':
+            results = results[0]
+            '''
             import itertools as it
             Valgene = list(it.islice(ValidationDataGenerator, 2))
             pred = []
@@ -302,7 +303,7 @@ class SemanticSegmentation(object):
                 lsdresults.append(lsdseg)
 
             results = np.array(lsdresults).astype("uint8")
-
+            '''
         '''
         Save the models prediction on the testset by printing the predictions 
         as images to the results folder in the project path

@@ -122,12 +122,12 @@ class UNetBuilder(object):
         conv9 = LeakyReLU(alpha=0.1)(conv9)
 
         if loss_function == 'lsd loss':
-            conv10 = Conv2D(3, 1, activation='sigmoid')(conv9) #Malis output
+            conv10 = Conv2D(1, 1, activation='sigmoid')(conv9) #Malis output
             conv11 = Conv2D(10, 1, activation='sigmoid')(conv9) #lsd output
             model2D = Model(inputs=inputs, outputs=[conv10, conv11])
             logging.info("shape input UNet %s" % np.shape(inputs))
             logging.info("shape output UNet %s" % np.shape(conv10))
-            model2D.compile(optimizer="Adam", loss = [malis_loss2d, "mse"], metrics=['mse'])
+            model2D.compile(optimizer="Adam", loss = ["mse", "mse"], metrics=['mse'])
 
         else:
             if num_classes > 1:
