@@ -135,7 +135,8 @@ class SemanticSegmentation(object):
             self.pretrained_weights = None
         if data_dimensions == 3:
             logging.info("Using 3D UNet")
-            model = UNetBuilder.unet3D(self.pretrained_weights, network_input_size, num_channels_label, self.num_classes, self.loss_function, Dropout_On = True)
+            #ToDO: Set dropout on again
+            model = UNetBuilder.unet3D(self.pretrained_weights, network_input_size, num_channels_label, self.num_classes, self.loss_function, Dropout_On = False)
         else:
             logging.info("Using 2D UNet")
             model = UNetBuilder.unet2D(self.pretrained_weights, network_input_size, num_channels_label, self.num_classes, self.loss_function, Dropout_On = True)

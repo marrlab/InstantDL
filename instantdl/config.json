@@ -1,16 +1,19 @@
 {
 	"use_algorithm": "SemanticSegmentation",
 	"path": "/home/dominik/Documents/InstantDL_dev_lsd/Vessel12/",
-	"pretrained_weights_path": "/home/dominik/Documents/InstantDL_dev_lsd/data3d/logs/MSE_pretrained_weights_Vessel.hdf5",
-	"batchsize": 1,
-	"iterations_over_dataset": 2,
+	"pretrained_weights_path": "/home/dominik/Documents/InstantDL_dev_lsd/Vessel12/pretrained_weights.hdf5",
+	"batchsize": 4,
+	"iterations_over_dataset": 1,
 	"data_gen_args": {
+		"rotation": 20,
+		"horizontal_flip": true,
+		"vertical_flip": true
 	},
-	"loss_function": "lsd loss",
+	"loss_function": "mse",
 	"num_classes": 1,
 	"image_size": false,
 	"calculate_uncertainty": false,
-	"evaluation": false
+	"evaluation": true
 }
 
 

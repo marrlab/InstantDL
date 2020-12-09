@@ -34,6 +34,7 @@ class UNetBuilder(object):
             num_classes = 1
             inputs = Input(shape=(network_input_size[0], network_input_size[1], network_input_size[2]))
         else:
+            #inputs = Input(shape=(network_input_size[0], network_input_size[1], network_input_size[2]))
             inputs = Input(shape = (None, None, network_input_size[-1]))
         conv1 = Conv2D(base_n_filters, 3, padding='same', kernel_initializer='he_normal')(inputs)
         conv1 = BatchNormalization()(conv1)
@@ -149,7 +150,7 @@ class UNetBuilder(object):
                         logging.info('loaded %s' % layer.name)
 
         return model2D
-    #ToDo: Set filters to 32
+
     def unet3D(pretrained_weights, network_input_size, num_channels_label, num_classes, loss_function, Dropout_On, base_n_filters=32):
         logging.info("started UNet")
         if loss_function == 'malis loss':

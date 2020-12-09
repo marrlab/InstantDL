@@ -191,10 +191,10 @@ def training_data_generator(Training_Input_shape, batchsize, num_channels,
                     Ylsd = extractor.get_descriptors(Y)
                     Ylsd = Ylsd[np.newaxis,...]
                     Ylsd = np.transpose(Ylsd, (0, 2, 3, 4, 1))
-                print(np.shape(X_train), np.shape(Yaff),np.shape(Ylsd))
+                #print(np.shape(X_train), np.shape(Yaff),np.shape(Ylsd))
                 yield (X_train.astype("float32"), [Yaff.astype("float32"), Ylsd.astype("float32")])
             else:
-                print(np.shape(X_train), np.shape(Y))
+                #print(np.shape(X_train), np.shape(Y))
                 yield (X_train, Y)
 
 
