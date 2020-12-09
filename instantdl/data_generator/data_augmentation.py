@@ -209,8 +209,9 @@ def data_augentation(X, Y, data_gen_args, data_path_file_name):
         """
         mean_Y = np.mean(Y)
         Y = np.nan_to_num(Y)
-        Y[Y <= mean_Y] = 0
-        Y[Y > mean_Y] = 1
+        Y[Y <= mean_Y] = 0.
+        Y = np.nan_to_num(Y)
+        Y[Y > mean_Y] = 1.
         Y = np.nan_to_num(Y)
     if "save_augmented_images" in data_gen_args and data_gen_args["save_augmented_images"] == True:
         """ save all augmented images to a folder named "Augmentations" in the project folder to make augmentations trackable

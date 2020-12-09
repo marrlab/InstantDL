@@ -103,7 +103,7 @@ def image_generator(    Training_Input_shape, batchsize, num_channels,
             image_data = resize(image_data, Training_Input_shape)
             newmin = np.min(image_data)
             newmax = np.max(image_data)
-            image_data = ((image_data - newmin) / (newmax - newmin)) * (max_value - min_value) + min_value
+            image_data = ((image_data - newmin) / (newmax - newmin + 0.00001)) * (max_value - min_value) + min_value
         image_data = (image_data - X_min) / (X_max - X_min)
         X.append(image_data)
     X = np.stack(X, axis = 0)
