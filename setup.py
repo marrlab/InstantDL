@@ -10,7 +10,7 @@ def read(fname):
 
 setup(
     name='instantdl',
-    version='1.0.3',
+    version='1.0.4',
     description='An easy and convenient Deep Learning pipeline for image segmentation and classification',
     author='Dominik Waibel, Ali Boushehri',
     author_email='dominik.waibel@helmholtz-muenchen.de, ali.boushehri@roche.com',
@@ -18,7 +18,7 @@ setup(
     keywords='Computational Biology Deep Learning',
     url='https://github.com/marrlab/InstantDL',
     packages=find_packages(exclude=['doc*', 'test*']),
-    install_requires=[  'keras==2.2.4',
+    install_requires=[  'keras>=2.2.4',
                         'tensorboard>=1.13.0,<=1.15.2'],
     long_description=read('README.md'),
     classifiers=[
