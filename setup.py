@@ -18,7 +18,7 @@ setup(
     keywords='Computational Biology Deep Learning',
     url='https://github.com/marrlab/InstantDL',
     packages=find_packages(exclude=['doc*', 'test*']),
-    install_requires=[  'keras==2.0.0',
+    install_requires=[  'keras==2.2.4',
                         'tensorboard>=1.13.0,<=1.15.2'],
     long_description=read('README.md'),
     classifiers=[
