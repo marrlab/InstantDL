@@ -18,6 +18,12 @@ For installing the package, you should download the repository and run
 python setup.py install
 ```
 
+
+or install it via PyPI using:
+```bash
+pip install instantdl
+```
+
 For running the code, you need to have Python 3.6 or higher installed. In addition, these are the main dependencies:
 
 ```yaml
