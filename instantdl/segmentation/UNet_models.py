@@ -32,6 +32,7 @@ class UNetBuilder(object):
         elif loss_function == 'lsd loss':
             from malis.malis_keras import malis_loss2d
             num_classes = 1
+            num_channels_label = 3
             inputs = Input(shape=(network_input_size[0], network_input_size[1], network_input_size[2]))
         else:
             #inputs = Input(shape=(network_input_size[0], network_input_size[1], network_input_size[2]))
@@ -122,12 +123,12 @@ class UNetBuilder(object):
         conv9 = LeakyReLU(alpha=0.1)(conv9)
 
         if loss_function == 'lsd loss':
-            conv10 = Conv2D(1, 1, activation='sigmoid')(conv9) #Malis output
+            conv10 = Conv2D(num_channels_label, 1, activation='sigmoid')(conv9) #Malis output
             conv11 = Conv2D(10, 1, activation='sigmoid')(conv9) #lsd output
             model2D = Model(inputs=inputs, outputs=[conv10, conv11])
             logging.info("shape input UNet %s" % np.shape(inputs))
             logging.info("shape output UNet %s" % np.shape(conv10))
-            model2D.compile(optimizer="Adam", loss = ["mse", "mse"], metrics=['mse'])
+            model2D.compile(optimizer="Adam", loss = [malis_loss2d, "mse"], metrics=['mse'])
 
         else:
             if num_classes > 1:
@@ -163,6 +164,7 @@ class UNetBuilder(object):
         elif loss_function == 'lsd loss':
             from malis.malis_keras import malis_loss3d
             num_classes = 1
+            num_channels_label = 4
             inputs = Input(shape=(network_input_size[0],network_input_size[1],network_input_size[2],network_input_size[3]))
         else:
             inputs = Input(shape=(None, None, None, network_input_size[-1]))
@@ -256,7 +258,7 @@ class UNetBuilder(object):
         conv9 = LeakyReLU(alpha=0.1)(conv9)
 
         if loss_function == 'lsd loss':
-            conv10 = Conv3D(4, 1, activation='sigmoid')(conv9) #Malis output
+            conv10 = Conv3D(num_channels_label, 1, activation='sigmoid')(conv9) #Malis output
             conv11 = Conv3D(10, 1, activation='sigmoid')(conv9) #lsd output
             model3D = Model(inputs=inputs, outputs=[conv10, conv11])
             logging.info("shape input UNet %s" % np.shape(inputs))

@@ -3,9 +3,8 @@
 	"path": "/home/dominik/Documents/InstantDL_dev_lsd/Vessel12/",
 	"pretrained_weights_path": false,
 	"batchsize": 1,
-	"iterations_over_dataset": 50,
+	"iterations_over_dataset": 5,
 	"data_gen_args": {
-		"rotation": 20,
 		"horizontal_flip": true,
 		"vertical_flip": true
 	},

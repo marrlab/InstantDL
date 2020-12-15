@@ -269,6 +269,50 @@ class SemanticSegmentation(object):
 
         if self.loss_function == 'lsd loss':
             results = results[0]
+            logging.info('Use Malis loss')
+            import malis as m
+            import itertools as it
+            from scipy.ndimage.morphology import binary_fill_holes
+
+            Valgene = list(it.islice(ValidationDataGenerator, 10))
+            pred = []
+            gt = []
+
+            if len(Training_Input_shape[:-1]) == 2:
+                for i in range(len(Valgene)):
+                    pred.append(model.predict(Valgene[i][0])[0])
+                    gt.append(Valgene[i][1][0][0,:,:,0])
+                    print(np.shape(Valgene[i][1][0][0,:,:,0]), np.shape(model.predict(Valgene[i][0])[0][0,:,:,0]))
+            if len(Training_Input_shape[:-1]) == 3:
+                for i in range(len(Valgene)):
+                    #print("Valgene[0][i]",np.shape(Valgene[0][i]))
+                    pred.append(model.predict(Valgene[i][0])[0])
+                    #print("Valgene[i][1][0][0, :, :, :, 0]", np.shape(Valgene[i][1][0][0, :, :, :, 0]))
+                    gt.append(Valgene[i][1][0][0, :, :, :, 0])
+
+            opt_threshold, result, output_seg = find_threshold(pred, gt, len(Training_Input_shape[:-1]))
+
+            if len(Training_Input_shape[:-1]) == 2:
+                nhood = m.mknhood3d(1)[:-1]
+                final_seg = []
+                for patch in range(results.shape[0]):
+                    aff = np.transpose(np.expand_dims(np.where(results[patch] < opt_threshold, 0, 1), axis=0),
+                                       (3, 1, 2, 0))  # (C,H,W,batch)
+                    seg = m.affgraph_to_seg(aff.astype(np.int32), nhood)[0]
+                    seg = np.where(seg == 0, 0, 1)
+                    seg = binary_fill_holes(seg).astype(int)  # fill small holes in the isntances
+                    final_seg.append(seg)
+            if len(Training_Input_shape[:-1]) == 3:
+                nhood = m.mknhood3d(1)
+                final_seg = []
+                for patch in range(results.shape[0]):
+                    aff = np.transpose(np.where(results[patch] < opt_threshold, 0, 1), (3, 0, 1, 2))  # (C,H,W,D)
+                    seg = m.affgraph_to_seg(aff.astype(np.int32), nhood)[0]
+                    seg = np.where(seg == 0, 0, 1)
+                    seg = binary_fill_holes(seg).astype(int)  # fill small holes in the isntances
+                    final_seg.append(seg)
+
+            results = np.array(final_seg)
             '''
             import itertools as it
             Valgene = list(it.islice(ValidationDataGenerator, 2))
