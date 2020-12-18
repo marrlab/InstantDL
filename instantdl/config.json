@@ -1,6 +1,7 @@
 {
-	"use_algorithm": "SemanticSegmentation",
-	"path": "/Users/dominik.waibel/Desktop/InstantDL/docs/examples/SemanticSegmentation/",
+	"use_algorithm": "Classification",
+	"path": "/Users/dominik.waibel/Desktop/Classification/",
+	"batchsize": 10,
 	"iterations_over_dataset": 1,
 	"pretrained_weights": false,
 	"image_size": false,

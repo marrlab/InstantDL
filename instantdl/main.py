@@ -13,7 +13,6 @@ import logging
 from keras import backend as K
 
 def start_learning(configs):
-
     logging.info("Start learning")
     logging.info(configs["use_algorithm"])
 

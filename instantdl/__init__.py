@@ -5,6 +5,14 @@ from instantdl.segmentation.InstanceSegmentation import InstanceSegmentation
 from instantdl.segmentation.SemanticSegmentation import SemanticSegmentation
 
 def GetPipeLine(configs):
+    import numpy as np
+    np.random.seed(123)
+    import random as python_random
+    python_random.seed(123)
+    import tensorflow as tf
+    tf.random.set_random_seed(123)
+    sess = tf.Session(graph=tf.get_default_graph())
+    K.set_session(sess)
     if configs["use_algorithm"] == "Classification":
         pipeline = Classification(**configs)
         return pipeline

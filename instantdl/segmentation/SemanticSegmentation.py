@@ -7,6 +7,11 @@ In this file the functions are started to train and test the networks
 
 from instantdl.utils import *
 from instantdl.segmentation.UNet_models import UNetBuilder
+import random
+random.seed(1)
+tf.reset_default_graph()
+tf.random.set_random_seed(1)
+np.random.seed(1)
 
 class SemanticSegmentation(object):
     def __init__(   self,

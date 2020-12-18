@@ -238,7 +238,10 @@ class Classification(object):
                                                                                     Training_Input_shape, 
                                                                                     num_channels, 
                                                                                     train_image_files)
-
+        tf.random.set_random_seed(1)
+        import random as python_random
+        python_random.seed(1)
+        np.random.seed(1)
         model = self.load_model(network_input_size)
         model, checkpoint_filepath = self.train_model(  model,
                                                             TrainingDataGenerator,
