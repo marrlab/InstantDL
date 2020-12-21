@@ -79,6 +79,7 @@ Set parameters training here. Number of classes should be 1 using binary segmena
 e.g. [128,128,3]
 "seeds", false # true or false
 "calculate_uncertainty": false # true or false
+"evaluation": true # true or false
 ```
 
 The minimal settings for InstantDL to run with default parameters are:
