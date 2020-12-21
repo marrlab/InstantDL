@@ -118,6 +118,8 @@ python main.py --config ./config.json
 | Loss function | Choose from the following: MSE, MAE, dice loss, binary cross entropy, categorical cross entropy |
 | Number of classes | Set to the number of classes in your dataset|
 | Seeds | Random seeds can be set for reproducibility of experiments |
+| Calculate uncertainty | For classification, regression and semantic segmentation uncertainty can be calculated using MC dropout |
+| Evaluation | Based on the task the model will automatically calculate relevant metrics for a quantitative evaluation and sample images for a qualitative evaluation and save them to the 'evaluation' and 'insights' folders which are automatically created |
 
 ## Run examples:
 One example of each task of semantic segmentation, instance segmentation, regression and classification is in the examples folder.
