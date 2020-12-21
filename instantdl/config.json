@@ -7,6 +7,5 @@
 	"image_size": false,
 	"calculate_uncertainty": false,
 	"evaluation": false,
-	"seeds": false,
 	"num_classes": 2
 }
