@@ -69,4 +69,7 @@ if __name__ == "__main__":
     else:
         configs["pretrained_weights"] = None
 
+    if "seeds" not in configs:
+        configs["seeds"] = False
+
     start_learning(configs)
