@@ -12,6 +12,7 @@ class Classification(object):
                     loss_function = "binary_crossentropy",
                     num_classes = 2,
                     image_size = None,
+                    seeds = False,
                     calculate_uncertainty = False,
                     evaluation = True):
 

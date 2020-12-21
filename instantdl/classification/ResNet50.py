@@ -290,13 +290,14 @@ def ResNet50(input_shape,
         model.load_weights(weights_path)
         if backend.backend() == 'theano':
             keras_utils.convert_all_kernels_in_model(model)
-    elif os.path.isfile(weights):
-        model.load_weights(weights)
-        for layer, pre in zip(model.layers, weights):
-            weights = layer.get_weights()
-            if weights:
-                if np.array_equal(weights[0], pre[0]):
-                    logging.info('not loaded %s' % layer.name)
-                else:
-                    logging.info('loaded %s' % layer.name)
+    elif isinstance(weights, str):
+        if os.path.isfile(weights):
+            model.load_weights(weights)
+            for layer, pre in zip(model.layers, weights):
+                weights = layer.get_weights()
+                if weights:
+                    if np.array_equal(weights[0], pre[0]):
+                        logging.info('not loaded %s' % layer.name)
+                    else:
+                        logging.info('loaded %s' % layer.name)
     return model
