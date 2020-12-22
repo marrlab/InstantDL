@@ -33,8 +33,16 @@ class Classification(object):
     
     def data_prepration(self): 
         '''
-        Get the number of input images and their shape
-        If the last image dimension,. which should contain the channel information (1 or 3) is not existing e.g. for (512,512) add a 1 as the channel number.
+        Prepare data as a Training and Validation set
+        Args:
+            data_path: Path to folder containing the dataset
+            Training_Input_shape: Shape of the input images in the train folder
+            num_channels: Number of channels (e.g.: 3 for RGB)
+            train_image_files: List of filenames contained in the train set
+            val_image_files: List of filenames contained in the validation set
+            data_dimensions: Image dimensions
+        return:
+            Two data generators (train & validation) and the number of channels of the groundtruth (label)
         '''
         if self.image_size == False or self.image_size == None:
             Training_Input_shape, num_channels, _ = get_input_image_sizes(self.path, self.use_algorithm)
@@ -93,10 +101,14 @@ class Classification(object):
         return TrainingDataGenerator, ValidationDataGenerator
     
     def load_model(self, network_input_size):
-        #################################################if self.use_algorithm == "Classification":
         '''
-        Build the classificaiton model with a ResNet50 and initilize with pretrained, imagenet or random weights
-        Initialize data generator 
+        Build a 2D or 3D U-Net model and initialize it with pretrained or random weights
+        Args:
+            network_input_size: Dimensions of one input image (e.g. 128,128,3)
+            data_dimensions: Dimensions of the data (e.g. 3)
+            num_channels_label: Number of channels of the groundtruth
+        returns:
+            A 2D or 3D UNet model
         '''
         model = ResNet50(network_input_size,
                             Dropout = 0.1,
@@ -122,8 +134,16 @@ class Classification(object):
         '''
         Set Model callbacks such as:
         - Early stopping (after the validation loss has not improved for 25 epochs
-        - Checkpoints: Save model after each epoch if the validation loss has improved 
-        - Tensorboard: Monitor training live with tensorboard. Start tensorboard in terminal with: tensorboard --logdir=/path_to/logs 
+        - Checkpoints: Save model after each epoch if the validation loss has improved
+        - Tensorboard: Monitor training live with tensorboard. Start tensorboard in terminal with: tensorboard --logdir=/path_to/logs
+        Args:
+            model: The initialized U-Net model
+            TrainingDataGenerator: The train data generator
+            ValidationDataGenerator: The validation data generator
+            steps_per_epoch: The number of train steps in one epoch
+            val_image_files: List of validation files
+        returns:
+            The trained model and the checkpoint file path
         '''
         early_stopping = EarlyStopping(monitor='val_loss', patience=5, mode='auto', verbose=0)
         datasetname = self.path.rsplit("/",1)[1]
@@ -153,8 +173,15 @@ class Classification(object):
 
     def test_set_evaluation(self, model, Training_Input_shape, num_channels):
         '''
-        Get the names of the test images for model evaluation
+        Evalute the model on the testset
+        Args:
+            model: the trained or initialized model
+            Training_Input_shape: The dimensions of the input data
+            num_channels: the number of channels
+            Input_image_shape: The shape of the input images
+        returns: the results of the tested images, a list of filenames of the testset, the number of images tested
         '''
+
         test_image_files = os.listdir(os.path.join(self.path + "/test/image"))
         num_test_img = int(len(os.listdir(self.path + "/test/image")))
         logging.info("Testing on %d test files", num_test_img )
@@ -179,11 +206,30 @@ class Classification(object):
 
         return results,test_image_files, num_test_img
         ################################################# if calculate_uncertainty == True:
-    def uncertainty_prediction(self, results, checkpoint_filepath, network_input_size, Training_Input_shape, num_channels, test_image_files, num_test_img):    
+    def uncertainty_prediction(self,
+                               results,
+                               checkpoint_filepath,
+                               network_input_size,
+                               Training_Input_shape,
+                               num_channels,
+                               test_image_files,
+                               num_test_img):
         '''
-        Uncertainty prediction for classification 
-        Using: https://github.com/RobRomijnders/bayes_nn
-        for uncertainty estimation with MC Dropout for classification
+        Start uncertainty prediction if selected for regression or semantic segmentation
+        As suggested by Gal et. al.: https://arxiv.org/abs/1506.02142
+        And as implemented in: https://openreview.net/pdf?id=Sk_P2Q9sG
+        Args:
+            checkpoint_filepath: the directory where checkpoints are saved
+            network_input_size: the dimensions of the input to the network
+            Training_Input_shape: the shape of the images in the train dataset
+            num_channels: number of channels (e.g.: 3 for RGB)
+            test_image_files: list of filenames contained in the testset
+            num_test_img: number of filenames in the testset
+            data_dimensions: image dimensions
+            num_channels_label: number of channels of the groundtruth (e.g.: 3 for RGB)
+            Input_image_shape: The shape of the input images
+        returns:
+            Saves the results to the 'results' directory and the uncertainty estimations to the 'uncertainty' directory
         '''
         if self.epochs > 0:
             uncertainty_weights = checkpoint_filepath

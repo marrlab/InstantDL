@@ -14,9 +14,9 @@ import logging
 
 class UNetBuilder(object):
     '''
-    Builds a 2D or 3D U-Net for image segmentation following the publicaiton from Ronneberger et al.: https://arxiv.org/abs/1505.04597
+    Builds a 2D or 3D U-Net for image segmentation following the publication from Ronneberger et al.: https://arxiv.org/abs/1505.04597
     The layers consist of a convolution followed by a LeackyReLu activation and a Batch Normalization
-    Dropout is integraeted with a dropout rate of 20% during training to increase generalizability
+    Dropout is integrated with a dropout rate of 20% during training to increase generalizability
     Padding has bee set to "same"
     '''
 

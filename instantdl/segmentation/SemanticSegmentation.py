@@ -94,11 +94,16 @@ class SemanticSegmentation(object):
 
     def data_generator(self, data_path, Training_Input_shape, num_channels, train_image_files, data_dimensions, val_image_files):
         '''
-        Prepare data in Training and Validation set 
-        '''
-        
-        '''
-            Get Output size of U-Net
+        Prepare data as a Training and Validation set
+        Args:
+            data_path: Path to folder containing the dataset
+            Training_Input_shape: Shape of the input images in the train folder
+            num_channels: Number of channels (e.g.: 3 for RGB)
+            train_image_files: List of filenames contained in the train set
+            val_image_files: List of filenames contained in the validation set
+            data_dimensions: Image dimensions
+        return:
+            Two data generators (train & validation) and the number of channels of the groundtruth (label)
         '''
 
         img_file_label_name = os.listdir(data_path + "/groundtruth/")[0]
@@ -130,10 +135,14 @@ class SemanticSegmentation(object):
         return TrainingDataGenerator, ValidationDataGenerator,num_channels_label
     
     def load_model(self, network_input_size,data_dimensions,num_channels_label ):
-  
-
         '''
         Build a 2D or 3D U-Net model and initialize it with pretrained or random weights
+        Args:
+            network_input_size: Dimensions of one input image (e.g. 128,128,3)
+            data_dimensions: Dimensions of the data (e.g. 3)
+            num_channels_label: Number of channels of the groundtruth
+        returns:
+            A 2D or 3D UNet model
         '''
         if self.pretrained_weights == False:
             self.pretrained_weights = None
@@ -153,6 +162,14 @@ class SemanticSegmentation(object):
         - Early stopping (after the validation loss has not improved for 25 epochs
         - Checkpoints: Save model after each epoch if the validation loss has improved 
         - Tensorboard: Monitor training live with tensorboard. Start tensorboard in terminal with: tensorboard --logdir=/path_to/logs 
+        Args:
+            model: The initialized U-Net model
+            TrainingDataGenerator: The train data generator
+            ValidationDataGenerator: The validation data generator
+            steps_per_epoch: The number of train steps in one epoch
+            val_image_files: List of validation files
+        returns:
+            The trained model and the checkpoint file path
         '''
         early_stopping = EarlyStopping(monitor='val_loss', patience=5, mode='auto', verbose=0)
         datasetname = self.path.rsplit("/",1)[1]
@@ -181,8 +198,15 @@ class SemanticSegmentation(object):
 
     def test_set_evaluation(self, model, Training_Input_shape, num_channels,Input_image_shape):
         '''
-        Get the names of the test images for model evaluation
+        Evalute the model on the testset
+        Args:
+            model: the trained or initialized model
+            Training_Input_shape: The dimensions of the input data
+            num_channels: the number of channels
+            Input_image_shape: The shape of the input images
+        returns: the results of the tested images, a list of filenames of the testset, the number of images tested
         '''
+
         test_image_files = os.listdir(os.path.join(self.path + "/test/image"))
         num_test_img = int(len(os.listdir(self.path + "/test/image")))
         #logging.info("Testing on", num_test_img, "test files")
@@ -224,6 +248,18 @@ class SemanticSegmentation(object):
         Start uncertainty prediction if selected for regression or semantic segmentation
         As suggested by Gal et. al.: https://arxiv.org/abs/1506.02142 
         And as implemented in: https://openreview.net/pdf?id=Sk_P2Q9sG
+        Args:
+            checkpoint_filepath: the directory where checkpoints are saved
+            network_input_size: the dimensions of the input to the network
+            Training_Input_shape: the shape of the images in the train dataset
+            num_channels: number of channels (e.g.: 3 for RGB)
+            test_image_files: list of filenames contained in the testset
+            num_test_img: number of filenames in the testset
+            data_dimensions: image dimensions
+            num_channels_label: number of channels of the groundtruth (e.g.: 3 for RGB)
+            Input_image_shape: The shape of the input images
+        returns:
+            Saves the results to the 'results' directory and the uncertainty estimations to the 'uncertainty' directory
         '''
         if data_dimensions == 3:
             logging.info("Using 3D UNet")
