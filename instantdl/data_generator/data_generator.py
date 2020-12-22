@@ -326,9 +326,9 @@ def saveResult_classification(path, test_image_files, results):
     return: None
     '''
     logging.info("Save result")
-    save_path = (path + '/results/')
     os.makedirs(path, exist_ok=True)
-    with open(save_path + 'results.csv', 'w') as writeFile:
+
+    with open(path + '/results.csv', 'w') as writeFile:
         writer = csv.writer(writeFile)
         writer.writerow(['filename', 'prediction', 'Probability for each possible outcome'])
         for i in range(0, len(results)-1):

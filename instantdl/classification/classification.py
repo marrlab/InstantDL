@@ -146,12 +146,13 @@ class Classification(object):
             The trained model and the checkpoint file path
         '''
         early_stopping = EarlyStopping(monitor='val_loss', patience=5, mode='auto', verbose=0)
-        datasetname = self.path.rsplit("/",1)[1]
+        path = copy.deepcopy(self.path)
+        datasetname = path.rsplit("/",1)[1]
         checkpoint_filepath = (self.path + "/logs" + "/pretrained_weights" + datasetname + ".hdf5") #.{epoch:02d}.hdf5")
         os.makedirs((self.path + "/logs"), exist_ok=True)
         model_checkpoint = ModelCheckpoint(checkpoint_filepath, monitor=('val_loss'), verbose=1, save_best_only=True)
 
-        tensorboard = TensorBoard(log_dir = self.path + "logs/" + "/" + format(time.time())) #, update_freq='batch')
+        tensorboard = TensorBoard(log_dir = self.path + "/logs/" + "/" + format(time.time())) #, update_freq='batch')
         logging.info("Tensorboard log is created at: logs/  it can be opend using tensorboard --logdir=logs for a terminal in the Project folder")
 
         #################################################if self.use_algorithm == "Classification":
@@ -200,7 +201,7 @@ class Classification(object):
         Save the models prediction on the testset by saving a .csv file containing filenames 
         and predicted classes to the results folder in the project path
         '''
-        saveResult_classification(self.path, test_image_files, results)
+        saveResult_classification(self.path + "/results/", test_image_files, results)
         if self.evaluation == True:
             classification_evaluation(self.path)
 
@@ -262,7 +263,7 @@ class Classification(object):
         assert self.num_classes > 1
         combined_certainty = np.mean(-1 * np.sum(resultsMCD * np.log(resultsMCD + 10e-6), axis=-1), axis = 0)
         combined_certainty = combined_certainty/ np.log(self.num_classes) # normalize to values between 0 and 1
-        saveResult_classification_uncertainty(  self.path,
+        saveResult_classification_uncertainty(  self.path + "/results/",
                                                 test_image_files,
                                                 results,
                                                 average_MC_Pred,

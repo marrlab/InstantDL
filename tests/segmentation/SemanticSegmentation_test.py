@@ -1,6 +1,5 @@
 """
 InstantDL
-Utils for data evaluation
 Written by Dominik Waibel
 """
 
