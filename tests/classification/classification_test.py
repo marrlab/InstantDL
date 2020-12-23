@@ -14,7 +14,7 @@ def test_Classification():
     os.makedirs(os.getcwd() + "/tests/classification/testimages/train/groundtruth/", exist_ok=True)
     os.makedirs(os.getcwd() + "/tests/classification/testimages/test/image/", exist_ok=True)
     os.makedirs(os.getcwd() + "/tests/classification/testimages/test/groundtruth/", exist_ok=True)
-    X_true = np.ones((32, 32, 3))
+    X_true = np.ones((32, 32))
 
     with open(os.getcwd() + "/tests/classification/testimages/train/groundtruth/" + 'groundtruth.csv', 'w') as writeFile:
         writer = csv.writer(writeFile)
@@ -30,19 +30,19 @@ def test_Classification():
             imsave(os.getcwd() + "/tests/classification/testimages/test/image/image" + str(i) + ".jpg", X_true)
             writer.writerow(["image" + str(i) + ".jpg", str(1)])
 
-    configs = {"use_algorithm": "Classification",
-               "path": "./tests/classification/testimages/",
-               "batchsize": 1,
-               "iterations_over_dataset": 1,
-               "num_classes": 2,
-               "evaluation": False}
+    configs = { "use_algorithm": "Classification",
+                "path": "./tests/classification/testimages/",
+                "batchsize": 1,
+                "iterations_over_dataset": 1,
+                "num_classes": 2,
+                "evaluation": False}
 
     pipeline = GetPipeLine(configs)
-
     pipeline.run()
     K.clear_session()
+
     # Make sure the networks has changed something
-    assert (os.path.isfile(os.getcwd() + "/tests/classification/testimages/results/results.cvs"))
+    assert (os.path.isfile(os.getcwd() + "/tests/classification/testimages/results/results.csv"))
     #Delete created test data
     if os.path.exists(os.getcwd()+"/tests/classification/testimages") and os.path.isdir(os.getcwd()+"/tests/classification/testimages"):
         shutil.rmtree(os.getcwd()+"/tests/classification/testimages")
