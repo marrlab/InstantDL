@@ -34,6 +34,7 @@ def test_Classification():
                "path": "./tests/classification/testimages/",
                "batchsize": 1,
                "iterations_over_dataset": 1,
+               "num_classes": 2,
                "evaluation": False}
 
     pipeline = GetPipeLine(configs)
