@@ -40,7 +40,6 @@ def test_Classification():
 
     pipeline.run()
     K.clear_session()
-    assert (os.path.isfile(os.getcwd() + "/tests/classification/testimages/logs/pretrained_weights.hdf5"))
     # Make sure the networks has changed something
     assert (os.path.isfile(os.getcwd() + "/tests/classification/testimages/results/results.cvs"))
     #Delete created test data

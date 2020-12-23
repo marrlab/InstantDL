@@ -326,9 +326,10 @@ def saveResult_classification(path, test_image_files, results):
     return: None
     '''
     logging.info("Save result")
-    os.makedirs(path, exist_ok=True)
-
-    with open(path + '/results.csv', 'w') as writeFile:
+    save_path = (path + '/results/')
+    os.mkdir(path)
+    os.makedirs(path + "/results", exist_ok=True)
+    with open(save_path + '/results.csv', 'w') as writeFile:
         writer = csv.writer(writeFile)
         writer.writerow(['filename', 'prediction', 'Probability for each possible outcome'])
         for i in range(0, len(results)-1):
@@ -351,7 +352,8 @@ def saveResult_classification_uncertainty(path, test_image_files, results,
     '''
     logging.info("Save result")
     save_path = (path + '/results/')
-    os.makedirs(path, exist_ok=True)
+    os.mkdir(path)
+    os.makedirs(path + "/results", exist_ok=True)
     with open(save_path + 'results.csv', 'w') as writeFile:
         writer = csv.writer(writeFile)
         writer.writerow(['filename', 'prediction', 'Probability for each possible outcome',
