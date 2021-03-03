@@ -32,17 +32,13 @@ We are happy about any contributions. For any suggested changes, please send a p
 If you use InstantDL in a project, you can cite the preprint on bioRxiv
 
 ```
-@article {Waibel2020.06.22.164103,
+@article {
 author = {Waibel, Dominik Jens Elias and Shetab Boushehri, Sayedali and Marr, Carsten},
 title = {InstantDL - An easy-to-use deep learning pipeline for image segmentation and classification},
-elocation-id = {2020.06.22.164103},
-year = {2020},
-doi = {10.1101/2020.06.22.164103},
-publisher = {Cold Spring Harbor Laboratory},
-URL = {https://www.biorxiv.org/content/early/2020/06/23/2020.06.22.164103},
-eprint = {https://www.biorxiv.org/content/early/2020/06/23/2020.06.22.164103.full.pdf},
-journal = {bioRxiv}
+year = {2021},
+doi = {10.1186/s12859-021-04037-3},
+URL = {https://bmcbioinformatics.biomedcentral.com/articles/10.1186/s12859-021-04037-3#article-info},
+eprint = {https://doi.org/10.1186/s12859-021-04037-3},
+journal = {BMC Bioinformatics}
 }
 ```
-
-The main publication will be added soon.
