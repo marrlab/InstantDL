@@ -29,7 +29,7 @@ We are happy about any contributions. For any suggested changes, please send a p
 
 ## Citation
 
-If you use InstantDL in a project, you can cite the preprint on bioRxiv
+If you use InstantDL, please use this citation:
 
 ```
 @article {
