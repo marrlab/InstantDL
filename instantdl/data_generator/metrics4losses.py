@@ -1,7 +1,7 @@
 # File for custom loss functions
 
 from keras import backend as K
-from keras.losses import categorical_crossentropy
+from keras.losses import binary_crossentropy
 
 def dice_coef(y_true, y_pred, smooth=1):
     """
@@ -21,4 +21,4 @@ def dice_crossentropy_loss(y_true, y_pred):
         vol_loss = K.abs(K.sum(y_true)-K.sum(y_pred))/(K.sum(y_true)*2)
     else:
         vol_loss = 0
-    return dice_loss(y_true, y_pred) + categorical_crossentropy(y_true, y_pred) + vol_loss
+    return dice_loss(y_true, y_pred) + binary_crossentropy(y_true, y_pred) + vol_loss
