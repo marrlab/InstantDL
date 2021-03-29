@@ -23,6 +23,7 @@ import glob
 from keras.optimizers import Adam, SGD
 from instantdl.data_generator.data import write_logbook
 logging.basicConfig(level=logging.INFO)
+from instantdl.data_generator.metrics4losses import *
 
 def load_json(file_path):
     with open(file_path, 'r') as stream:

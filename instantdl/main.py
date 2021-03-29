@@ -74,4 +74,7 @@ if __name__ == "__main__":
     if configs["loss_function"] == "dice loss":
         configs["loss_function"] = dice_loss
 
+    if configs["loss_function"] == "categorical crossentropy dice loss":
+        configs["loss_function"] = dice_crossentropy_loss
+
     start_learning(configs)
