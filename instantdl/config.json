@@ -1,5 +1,5 @@
 {
 	"use_algorithm": "SemanticSegmentation",
 	"path": "/Users/dominik.waibel/Desktop/InstantDL/docs/examples/SemanticSegmentation/",
-	"loss_function": "categorical crossentropy dice loss"
+	"loss_function": "binary crossentropy dice loss"
 }
