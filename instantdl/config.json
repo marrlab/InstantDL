@@ -1,4 +1,5 @@
 {
 	"use_algorithm": "SemanticSegmentation",
-	"path": "/InstantDL/SemanticSegmentationDataset/"
+	"path": "/Users/dominik.waibel/Desktop/InstantDL/docs/examples/SemanticSegmentation/",
+	"loss_function": "dice loss"
 }
