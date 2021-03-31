@@ -115,7 +115,7 @@ python main.py --config ./config.json
 | Batch size | Set integer, it depends on your GPU / CPU capabilities |
 | Number of iterations over dataset | Integer, using early stopping if no improvement is measured on the validation set after 25 epochs |
 | Data augmentation | Resample images (yes/no), std-mean-normalization (yes/no), feature scaling (yes/no), vertical and horizontal flip (yes/no), zoom (factor), rotation (degrees), add Poisson noise (amound), zoom range (factor), contrast (factor), brightness (factor), gamma shift (factor), threshold background of image (yes/no), threshold background of ground truth (yes/no), Gaussian blur of image (factor), Gaussian blur of groundtruth (factor), binarize groundtruth (yes/no), save augmented images and masks to folder (yes/no) |
-| Loss function | Choose from the following: MSE, MAE, dice loss, binary cross entropy, categorical cross entropy |
+| Loss function | Choose from the following: MSE, MAE, dice loss, binary cross entropy, categorical cross entropy, binary crossentropy dice, malis loss |
 | Number of classes | Set to the number of classes in your dataset|
 | Seeds | Random seeds can be set for reproducibility of experiments |
 | Calculate uncertainty | For classification, regression and semantic segmentation uncertainty can be calculated using MC dropout |

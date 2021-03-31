@@ -29,7 +29,7 @@ We are happy about any contributions. For any suggested changes, please send a p
 
 ## Citation
 
-If you use InstantDL, please use this citation:
+If you use InstantDL, please cite this paper:
 
 ```
 @article {
