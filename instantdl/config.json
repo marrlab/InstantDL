@@ -1,6 +1,6 @@
 {
-	"use_algorithm": "Regression",
-	"path": "/Users/dominik.waibel/Desktop/InstantDL/docs/examples/Regression/",
+	"use_algorithm": "SemanticSegmentation",
+	"path": "/Users/dominik.waibel/Desktop/InstantDL/docs/examples/SemanticSegmentation/",
 	"pretrained_weights_path": false,
 	"batchsize": 1,
 	"iterations_over_dataset": 1,
@@ -21,14 +21,9 @@
 		            "threshold_background_groundtruth": false,
 		            "binarize_mask": false
 	},
-	"loss_function": "mse",
+	"loss_function": "malis loss",
 	"num_classes": 1,
 	"image_size": false,
-	"calculate_uncertainty": true,
+	"calculate_uncertainty": false,
 	"evaluation": true
 }
-
-
-
-
-

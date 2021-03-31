@@ -81,8 +81,12 @@ if __name__ == "__main__":
         logging.warning("Batchsize has not been set. Setting batchsize = 1")
         batchsize = 1
 
-    if loss_function = "malis loss":
+    if configs["loss_function"] == "malis loss":
         batchsize = 1
+
+    if "loss_function" in configs:
+        if configs["loss_function"] == "malis loss" == "malis loss":
+            configs["batchsize"] = 1
 
     if not isinstance(iterations_over_dataset, int):
         logging.warning("Epochs has not been set. Setting epochs = 500 and using early stopping")
