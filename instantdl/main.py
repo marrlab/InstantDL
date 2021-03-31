@@ -82,6 +82,7 @@ if __name__ == "__main__":
         batchsize = 1
 
     if configs["loss_function"] == "malis loss":
+        logging.warning("Please install Malis loss from: https://github.com/HelmholtzAI-Consultants-Munich/Malis-Loss")
         batchsize = 1
 
     if "loss_function" in configs:
