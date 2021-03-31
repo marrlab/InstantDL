@@ -21,6 +21,6 @@ if malis_module is not None:
         opt_threshold, result, output_seg = find_threshold(seg,gt,2)
         assert opt_threshold == 0.1
         assert result == 1.0
-        
+
     
   
