@@ -71,8 +71,14 @@ if __name__ == "__main__":
     else:
         configs["pretrained_weights"] = None
 
-    if configs["loss_function"] == "dice loss":
+    if configs["loss_function"] in ["dice loss", "dice"]:
         configs["loss_function"] = dice_loss
+
+    if configs["loss_function"] in ["tversky loss", "tversky"] :
+        configs["loss_function"] = tversky_loss
+
+    if configs["loss_function"] in ["focal loss", "focal"] :
+        configs["loss_function"] = binary_focal_loss_fixed
 
     if configs["loss_function"] == "binary crossentropy dice loss":
         configs["loss_function"] = dice_crossentropy_loss
