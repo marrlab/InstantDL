@@ -7,6 +7,7 @@ In this file the functions are started to train and test the networks
 
 from instantdl.utils import *
 from instantdl.segmentation.UNet_models import UNetBuilder
+from instantdl.data_generator.metrics4losses import *
 import random
 random.seed(1)
 tf.reset_default_graph()

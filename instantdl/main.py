@@ -8,6 +8,7 @@ In this file the functions are started to train and test the networks
 import os
 import argparse
 from instantdl.utils import load_json
+from instantdl.data_generator.metrics4losses import *
 from instantdl import GetPipeLine
 import logging
 from keras import backend as K
@@ -68,4 +69,17 @@ if __name__ == "__main__":
                 configs["pretrained_weights"] = None
     else:
         configs["pretrained_weights"] = None
+
+    if configs["loss_function"] in ["dice_loss", "dice loss", "dice"]:
+        configs["loss_function"] = dice_loss
+
+    if configs["loss_function"] in ["tversky_loss", "tversky loss", "tversky"] :
+        configs["loss_function"] = tversky_loss
+
+    if configs["loss_function"] in ["focal_loss", "focal loss", "focal"] :
+        configs["loss_function"] = binary_focal_loss_fixed
+
+    if configs["loss_function"] == "binary crossentropy dice loss":
+        configs["loss_function"] = dice_crossentropy_loss
+
     start_learning(configs)
