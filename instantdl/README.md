@@ -77,7 +77,9 @@ Set parameters training here. Number of classes should be 1 using binary segmena
 "num_classes": 1, # Number of classes should be 1 for binary segmenation tasks
 "image_size": false, # false or tuple with dimensions of desired image size in format [x-dim, y-dim, (z-dim), channels],
 e.g. [128,128,3]
+"seeds", false # true or false
 "calculate_uncertainty": false # true or false
+"evaluation": true # true or false
 ```
 
 The minimal settings for InstantDL to run with default parameters are:
@@ -113,8 +115,11 @@ python main.py --config ./config.json
 | Batch size | Set integer, it depends on your GPU / CPU capabilities |
 | Number of iterations over dataset | Integer, using early stopping if no improvement is measured on the validation set after 25 epochs |
 | Data augmentation | Resample images (yes/no), std-mean-normalization (yes/no), feature scaling (yes/no), vertical and horizontal flip (yes/no), zoom (factor), rotation (degrees), add Poisson noise (amound), zoom range (factor), contrast (factor), brightness (factor), gamma shift (factor), threshold background of image (yes/no), threshold background of ground truth (yes/no), Gaussian blur of image (factor), Gaussian blur of groundtruth (factor), binarize groundtruth (yes/no), save augmented images and masks to folder (yes/no) |
-| Loss function | Choose from the following: MSE, MAE, dice loss, binary cross entropy, categorical cross entropy |
+| Loss function | Choose from the following: MSE, MAE, dice loss, binary cross entropy, categorical cross entropy, binary crossentropy dice, malis loss |
 | Number of classes | Set to the number of classes in your dataset|
+| Seeds | Random seeds can be set for reproducibility of experiments |
+| Calculate uncertainty | For classification, regression and semantic segmentation uncertainty can be calculated using MC dropout |
+| Evaluation | Based on the task the model will automatically calculate relevant metrics for a quantitative evaluation and sample images for a qualitative evaluation and save them to the 'evaluation' and 'insights' folders which are automatically created |
 
 ## Run examples:
 One example of each task of semantic segmentation, instance segmentation, regression and classification is in the examples folder.
@@ -136,8 +141,8 @@ Please dont expect to achieve competitive results on these datasets, as they are
 - [x] add objects instead of the main functions
 - [x] add google colab
 - [x] add tests  
-- [ ] add thresholding for semantic segmentation
-- [ ] add versions
+- [x] add thresholding for semantic segmentation
+- [x] add versions
 - [ ] create automatically train and test set
 - [ ] add all loss fuctions
 - [ ] add installation on pip and conda

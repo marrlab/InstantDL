@@ -33,6 +33,7 @@ from keras import layers
 from keras import backend
 from keras import utils
 from keras import models
+import tensorflow as tf
 
 def identity_block(input_tensor,Dropout, kernel_size, filters, stage, block):
     """The identity block is the block that has no conv layer at shortcut.
@@ -60,7 +61,7 @@ def identity_block(input_tensor,Dropout, kernel_size, filters, stage, block):
                       kernel_initializer='he_normal',
                       name=conv_name_base + '2a')(input_tensor)
     if Dropout is not None:
-        x = layers.Dropout(Dropout)(x, training = True)
+        x = layers.Dropout(Dropout, seed = 1)(x, training = True)
     x = layers.BatchNormalization(axis=bn_axis, name=bn_name_base + '2a')(x)
     x = layers.Activation('relu')(x)
 
@@ -193,6 +194,10 @@ def ResNet50(input_shape,
         ValueError: in case of invalid argument for `weights`,
             or invalid input shape.
     """
+    tf.random.set_random_seed(1)
+    import random as python_random
+    python_random.seed(1)
+    np.random.seed(1)
     if not (weights in {'imagenet', None} or os.path.exists(weights)):
         raise ValueError('The `weights` argument should be either '
                          '`None` (random initialization), `imagenet` '
@@ -285,13 +290,14 @@ def ResNet50(input_shape,
         model.load_weights(weights_path)
         if backend.backend() == 'theano':
             keras_utils.convert_all_kernels_in_model(model)
-    elif weights is not None:
-        model.load_weights(weights)
-        for layer, pre in zip(model.layers, weights):
-            weights = layer.get_weights()
-            if weights:
-                if np.array_equal(weights[0], pre[0]):
-                    logging.info('not loaded %s' % layer.name)
-                else:
-                    logging.info('loaded %s' % layer.name)
+    elif isinstance(weights, str):
+        if os.path.isfile(weights):
+            model.load_weights(weights)
+            for layer, pre in zip(model.layers, weights):
+                weights = layer.get_weights()
+                if weights:
+                    if np.array_equal(weights[0], pre[0]):
+                        logging.info('not loaded %s' % layer.name)
+                    else:
+                        logging.info('loaded %s' % layer.name)
     return model

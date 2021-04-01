@@ -6,5 +6,6 @@ In this folder, you can find the information regarding the segmentation part of 
 
 Here is an example of running the Segmentation task:
 
-An example of how to run a semantic segmentation or instance segmentation task can be found in the [examples](examples) folder. Therefore the config.json file from the example folder has to be moved into the Pipeline folder and executed using the main.
+An example of how to run a semantic segmentation or instance segmentation task can be found in the [examples](examples) folder.  
+Therefore the config.json file from the example folder has to be moved into the Pipeline folder and executed using the main.
 Folder names must not be changed.

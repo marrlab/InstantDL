@@ -18,6 +18,7 @@ class InstanceSegmentation(object):
                     loss_function = "mse",
                     num_classes = 1,
                     image_size = None,
+                    seeds=False,
                     calculate_uncertainty = False,
                     evaluation = True):
 
