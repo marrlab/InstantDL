@@ -391,7 +391,7 @@ def training_validation_data_split(data_path):
     return train_image_files, val_image_files
 
 
-def get_input_image_sizes(path, use_algorithm):
+def get_input_image_sizes(iterations_over_dataset,path, use_algorithm):
     '''
     Get the size of the input images and check dimensions
 
@@ -404,14 +404,17 @@ def get_input_image_sizes(path, use_algorithm):
         num_channels: number of channels
         Input_image_shape: the shape of the input image
     '''
-    data_path = path + '/train'
+    if iterations_over_dataset != 0:
+        data_path = path + '/train'
+    else:
+        data_path = path + '/test/'
     img_file = os.listdir(data_path + "/image/")[0]
     Input_image_shape = np.array(np.shape(np.array(import_image(data_path + "/image/" + img_file))))
     logging.info("Input shape Input_image_shape %s" % Input_image_shape)
     if use_algorithm in ["Regression", "Segmentation"]:
         logging.info("Input_image_shape %s" % Input_image_shape)
-        if int(Input_image_shape[0]) not in [int(16), int(32),int(64),int(128),int(256),int(512),int(1024),int(2048)]:
-            if int(Input_image_shape[1]) not in [int(16), int(32),int(64),int(128),int(256),int(512),int(1024),int(2048)]:
+        if Input_image_shape[0] % 16 != 0:
+            if Input_image_shape[1] % 16 != 0:
                 sys.exit("The Input data needs to be of pixel dimensions: 16, 32, 64, 128, 256, 512, 1024 or 2048 in each dimension")
 
     # If has an alpha channel, remove it for consistency

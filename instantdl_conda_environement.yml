@@ -1,4 +1,4 @@
-name: instantdl
+name: instantdl2
 channels:
   - defaults
 dependencies:

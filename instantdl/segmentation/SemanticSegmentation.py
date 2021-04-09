@@ -51,7 +51,7 @@ class SemanticSegmentation(object):
         (512,512) add a 1 as the channel number.
         '''
         if self.image_size == False or self.image_size == None:
-            Training_Input_shape, num_channels, Input_image_shape = get_input_image_sizes(self.path, self.use_algorithm)
+            Training_Input_shape, num_channels, Input_image_shape = get_input_image_sizes(self.iterations_over_dataset, self.path, self.use_algorithm)
         else:
             Training_Input_shape = self.image_size
             num_channels = int(self.image_size[-1])
@@ -316,21 +316,21 @@ class SemanticSegmentation(object):
         steps_per_epoch = data_prepration_results[7]
         data_dimensions = data_prepration_results[8]
         val_image_files = data_prepration_results[9]
-
-        TrainingDataGenerator, ValidationDataGenerator, num_channels_label = self.data_generator(   data_path, 
-                                                                            Training_Input_shape, 
-                                                                            num_channels, 
-                                                                            train_image_files, 
-                                                                            data_dimensions, 
-                                                                            val_image_files)
+        if self.iterations_over_dataset != 0:
+            TrainingDataGenerator, ValidationDataGenerator, num_channels_label = self.data_generator(   data_path,
+                                                                                Training_Input_shape,
+                                                                                num_channels,
+                                                                                train_image_files,
+                                                                                data_dimensions,
+                                                                                val_image_files)
 
         model = self.load_model( network_input_size,data_dimensions,num_channels_label)
-
-        model, checkpoint_filepath = self.train_model(  model,
-                                                        TrainingDataGenerator,
-                                                        ValidationDataGenerator , 
-                                                        steps_per_epoch, 
-                                                        val_image_files  )
+        if self.iterations_over_dataset != 0:
+            model, checkpoint_filepath = self.train_model(  model,
+                                                            TrainingDataGenerator,
+                                                            ValidationDataGenerator ,
+                                                            steps_per_epoch,
+                                                            val_image_files  )
 
         results,test_image_files, num_test_img = self.test_set_evaluation( model, 
                                                                         Training_Input_shape, 

@@ -281,21 +281,22 @@ class Classification(object):
         train_image_files = data_prepration_results[4]
         val_image_files = data_prepration_results[5]
         steps_per_epoch = data_prepration_results[6]
-
-        TrainingDataGenerator, ValidationDataGenerator = self.data_generator(  data_path, 
-                                                                                    Training_Input_shape, 
-                                                                                    num_channels, 
-                                                                                    train_image_files)
-        tf.random.set_random_seed(1)
+        if self.iterations_over_dataset != 0:
+            TrainingDataGenerator, ValidationDataGenerator = self.data_generator(  data_path,
+                                                                                        Training_Input_shape,
+                                                                                        num_channels,
+                                                                                        train_image_files)
+            tf.random.set_random_seed(1)
         import random as python_random
         python_random.seed(1)
         np.random.seed(1)
         model = self.load_model(network_input_size)
-        model, checkpoint_filepath = self.train_model(  model,
-                                                            TrainingDataGenerator,
-                                                            ValidationDataGenerator , 
-                                                            steps_per_epoch, 
-                                                            val_image_files )
+        if self.iterations_over_dataset != 0:
+            model, checkpoint_filepath = self.train_model(  model,
+                                                                TrainingDataGenerator,
+                                                                ValidationDataGenerator ,
+                                                                steps_per_epoch,
+                                                                val_image_files )
 
         results,test_image_files, num_test_img = self.test_set_evaluation(  model, 
                                                                                 Training_Input_shape, 
