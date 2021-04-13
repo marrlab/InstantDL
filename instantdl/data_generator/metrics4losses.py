@@ -41,11 +41,7 @@ def dice_crossentropy_loss(y_true, y_pred):
     keras tensor
         tensor containing dice loss + binary crossentropy
     """
-    if K.sum(y_true) != 0:
-        vol_loss = K.abs(K.sum(y_true)-K.sum(y_pred))/(K.sum(y_true)*2)
-    else:
-        vol_loss = 0
-    return dice_loss(y_true, y_pred) + binary_crossentropy(y_true, y_pred) + vol_loss
+    return dice_loss(y_true, y_pred) + binary_crossentropy(y_true, y_pred)
 
 def tversky_loss(y_true, y_pred, alpha=0.3, beta=0.7, smooth=1e-10):
     """ Tversky loss function.

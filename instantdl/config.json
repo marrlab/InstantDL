@@ -1,6 +1,6 @@
 {
 	"use_algorithm": "Classification",
-	"path": "/Users/dominik.waibel/Desktop/Classification/",
+	"path": "/Users/dominik.waibel/Desktop/InstantDL/Crossval/Ex3/",
 	"batchsize": 10,
 	"iterations_over_dataset": 1,
 	"pretrained_weights": false,
