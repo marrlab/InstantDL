@@ -36,7 +36,44 @@ For running the code, you need to have Python 3.6 or higher installed. In additi
 ```
 
 ## How to use the code
-
+```bash
+path
+├── train                    
+│   ├── image
+│   │    ├── 000003-num1.png
+│   │    ├── 000004-num9.png
+│   │    ├── 000006-num1.png
+│   │    ├── .
+│   │    ├── .
+│   │    ├── .
+│   │    └── 059994-num1.png     
+│   └── groundtruth  
+│        ├── 000003-num1.png
+│        ├── 000004-num9.png
+│        ├── 000006-num1.png
+│        ├── .
+│        ├── .
+│        ├── .
+│        └── 059994-num1.png    
+│
+└── test                    
+   ├── image
+   │    ├── 000002-num1.png
+   │    ├── 000005-num1.png
+   │    ├── 000007-num9.png
+   │    ├── .
+   │    ├── .
+   │    ├── .
+   │    └── 009994-num1.png     
+   └── groundtruth  
+        ├── 000002-num1.png
+        ├── 000005-num1.png
+        ├── 000007-num9.png
+        ├── .
+        ├── .
+        ├── .
+        └── 009994-num1.png  
+```
 The pipeline is based on folders. Please put your data manually in the corresponding folders as illustrated by the figure above. The folder names must not be changed as this will stop the pipeline from functioning.
 
 The config.json file in the config folder must be used to set parameters for the pipeline. After this the pipeline is started by executing the main.py file. Predictins from the testset will be saved after training to the Results folder which will automatically be created. 
