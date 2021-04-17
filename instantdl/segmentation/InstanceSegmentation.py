@@ -20,7 +20,9 @@ class InstanceSegmentation(object):
                     image_size = None,
                     seeds=False,
                     calculate_uncertainty = False,
-                    evaluation = True):
+                    evaluation = True,
+                    semi_supervised = False,
+                    burn_in_iterations = 25):
 
         self.use_algorithm = "InstanceSegmentation"
         self.path = path
@@ -37,8 +39,9 @@ class InstanceSegmentation(object):
             self.data_gen_args = dict()
         else:
             self.data_gen_args = data_gen_args
-    
 
+        self.semi_supervised = semi_supervised
+        self.burn_in_iterations = burn_in_iterations
 
     def run(self):    
         '''

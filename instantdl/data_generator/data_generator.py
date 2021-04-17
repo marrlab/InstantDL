@@ -16,6 +16,8 @@ import copy
 import glob
 import logging
 from keras.utils import to_categorical
+from keras.utils import Sequence
+from keras.callbacks import Callback
 from skimage.color import gray2rgb
 import warnings
 
@@ -391,7 +393,7 @@ def training_validation_data_split(data_path):
     return train_image_files, val_image_files
 
 
-def get_input_image_sizes(iterations_over_dataset,path, use_algorithm):
+def get_input_image_sizes(iterations_over_dataset, path, use_algorithm):
     '''
     Get the size of the input images and check dimensions
 
@@ -434,3 +436,154 @@ def get_input_image_sizes(iterations_over_dataset,path, use_algorithm):
     input_size = tuple(Training_Input_shape)
     logging.info("Input size is: %s" % (input_size,))
     return tuple(Training_Input_shape), num_channels, Input_image_shape
+
+
+class training_data_generator_classification_gen(Sequence, Callback):
+    def __init__(self, Training_Input_shape, batchsize, num_channels, num_classes, train_image_files, data_gen_args,
+                 data_path, unlabel_path, use_algorithm, semi_supervised, unlabel_image_files, shuffle=False,
+                 iterations_over_dataset=100, burn_in_iterations=25):
+
+        super().__init__()
+        self.Training_Input_shape = Training_Input_shape
+        self.batchsize = batchsize
+        self.num_channels = num_channels
+        self.num_classes = num_classes
+        self.train_image_files = train_image_files
+        self.data_gen_args = data_gen_args
+        self.data_path = data_path
+        self.use_algorithm = use_algorithm
+        self.semi_supervised = semi_supervised
+        self.unlabel_image_files = np.array(unlabel_image_files)
+
+        self.csvfilepath = os.path.join(data_path + '/groundtruth/', 'groundtruth.csv')
+        self.Folder_Names = \
+            ["/image/", "/image1/", "/image2/", "/image3/", "/image4/", "/image5/", "/image6/", "/image7/"]
+        self.X_min = np.zeros((len(self.Folder_Names)))
+        self.X_max = np.zeros((len(self.Folder_Names)))
+        for i, folder_name in enumerate(self.Folder_Names):
+            if os.path.isdir(data_path + folder_name):
+                self.X_min[i], self.X_max[i] = get_min_max(data_path, folder_name, train_image_files)
+        logging.info("array of min values: %s" % self.X_min)
+        logging.info("array of max values: %s" % self.X_max)
+
+        self.shuffle = shuffle
+        self.indexes = np.arange(len(self.train_image_files))
+        self.iterations_over_dataset = iterations_over_dataset
+        self.burn_in_iterations = burn_in_iterations
+        self.pseudo_labeling_threshold = 0.99
+        self.mx_pseudo_labels = len(unlabel_image_files) // (self.iterations_over_dataset - self.burn_in_iterations)
+        self.orig_training_len = len(train_image_files)
+        self.current_pseudo_labels = 0
+        self.unlabel_path = unlabel_path
+        self.progress_bar_len = 30
+        self.train_dataset = None
+
+        self.prepare_dataset()
+
+    def __getitem__(self, index):
+        indexes = self.indexes[index * self.batchsize:(index + 1) * self.batchsize]
+        train_image_file_batch = [self.train_dataset[k] for k in indexes]
+        X, y = self.__data_generation(train_image_file_batch)
+
+        return X, y
+
+    def __len__(self):
+        return int(np.floor(len(self.train_image_files) / self.batchsize))
+
+    def prepare_dataset(self):
+        self.train_dataset = []
+
+        for j in range(0, len(self.train_image_files)):
+            img_file = self.train_image_files[j]
+            with open(self.csvfilepath) as csvfile:
+                reader = csv.DictReader(csvfile)
+                for row in reader:
+                    if row['filename'] == img_file:
+                        self.train_dataset.append((img_file, row['label']))
+
+    def read_images(self, image_file_batch, path):
+        X = None
+
+        image_file_batch = [x[0] for x in image_file_batch]
+
+        for index, folder_name in enumerate(self.Folder_Names):
+            if os.path.isdir(path + folder_name):
+                if "image" in folder_name and index > 0:
+                    imp = image_generator(self.Training_Input_shape, self.batchsize, self.num_channels,
+                                          image_file_batch, folder_name, path,
+                                          self.X_min[index], self.X_max[index], self.use_algorithm)
+
+                    X = np.concatenate([X, imp], axis=-1)
+                if "image" in folder_name and index == 0:
+                    X = image_generator(self.Training_Input_shape, self.batchsize, self.num_channels,
+                                        image_file_batch, folder_name, path, self.X_min[index],
+                                        self.X_max[index], self.use_algorithm)
+
+        return X
+
+    def print_bar(self, curr, total):
+        data_per_point = total // self.progress_bar_len
+        done_point = ((curr // data_per_point) - 1)
+        print("{0}/{1} [{2}{3}{4}]".format(curr, total, "=" * done_point,
+                                           ">", "." * (self.progress_bar_len - done_point)))
+
+    def on_epoch_begin(self, epoch, logs=None):
+        logging.info("Shuffling the dataset at epoch: ", epoch)
+        print("Shuffling the dataset at epoch: ", epoch)
+        np.random.shuffle(self.indexes)
+        out = None
+
+        if self.semi_supervised and epoch > self.burn_in_iterations:
+            logging.info("Performing pseudo labeling at epoch: ", epoch)
+            print("Performing pseudo labeling at epoch: ", epoch)
+
+            for index in range(0, self.unlabel_image_files.shape[0] // self.batchsize):
+                indexes = np.arange(index * self.batchsize, (index + 1) * self.batchsize)
+                unlabel_image_file_batch = [(self.unlabel_image_files[k], 0) for k in indexes]
+                X = self.read_images(unlabel_image_file_batch, self.unlabel_path)
+                self.print_bar(index, self.unlabel_image_files.shape[0])
+
+                if index > 0:
+                    out_temp = self.model.predict(X)
+                    out = np.concatenate([out, out_temp], axis=-1)
+                else:
+                    out = self.model.predict(X)
+
+            mx_probs = np.max(out, axis=1)
+            mx_probs_label = np.argmax(out, axis=1)
+            mx_probs_indexes = np.arange(0, mx_probs.shape[0])
+
+            mx_probs_label = mx_probs_label[mx_probs > self.pseudo_labeling_threshold][:self.mx_pseudo_labels]
+            mx_probs_indexes = mx_probs_indexes[mx_probs > self.pseudo_labeling_threshold][:self.mx_pseudo_labels]
+            mx_probs = mx_probs[mx_probs > self.pseudo_labeling_threshold][:self.mx_pseudo_labels]
+
+            for index in range(0, mx_probs.shape[0]):
+                self.train_dataset.append((self.unlabel_image_files[mx_probs_indexes[index]], mx_probs_label[index]))
+
+            self.unlabel_image_files = np.delete(self.unlabel_image_files, mx_probs_indexes)
+            self.current_pseudo_labels += mx_probs.shape[0]
+
+            if self.current_pseudo_labels > self.orig_training_len:
+                logging.info("Increasing the batch size.")
+                print("Increasing the batch size.")
+                self.batchsize += 1
+                self.current_pseudo_labels = 0
+
+            logging.info("Adding {0} pseudo labels. Training set size: {1}".format(mx_probs.shape[0],
+                                                                                   len(self.train_image_files)))
+            print("Adding {0} pseudo labels. Training set size: {1}".format(mx_probs.shape[0],
+                                                                            len(self.train_image_files)))
+
+    def on_epoch_end(self, epoch=0, logs=None):
+        pass
+
+    def __data_generation(self, train_image_file_batch):
+
+        X = self.read_images(train_image_file_batch, self.data_path)
+        X, Trash = data_augentation(X, X, self.data_gen_args, self.data_path + str(train_image_file_batch))
+        label = np.zeros(self.batchsize)
+        for j in range(0, self.batchsize):
+            label[j] = train_image_file_batch[j][1]
+
+        label = to_categorical(label, self.num_classes)
+        return X, label
