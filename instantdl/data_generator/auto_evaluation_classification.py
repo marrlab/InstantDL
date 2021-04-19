@@ -1,7 +1,8 @@
 import numpy as np
 import os
 import sklearn
-from sklearn.metrics import accuracy_score, confusion_matrix, roc_curve, roc_auc_score, auc
+from sklearn.metrics import accuracy_score, confusion_matrix, roc_curve, roc_auc_score, \
+    auc, precision_recall_fscore_support, average_precision_score
 import numpy as np
 from keras.utils import to_categorical
 import pandas as pd
@@ -9,6 +10,7 @@ import matplotlib.pyplot as plt
 import datetime
 import csv
 import logging
+
 
 def get_auc(path, y_test, y_score, n_classes):
     '''
@@ -40,6 +42,7 @@ def get_auc(path, y_test, y_score, n_classes):
     plt.savefig(path + "/insights/AUC.png")
     return roc_auc
 
+
 def get_confusion_matrix(path, Groundtruth, Results):
     '''
     :param path: path to project directory
@@ -64,6 +67,7 @@ def get_confusion_matrix(path, Groundtruth, Results):
     plt.tight_layout()
     plt.savefig(path + "/insights/Confusion_Matrix.png") #TODO Plot cuts legend when saving
 
+
 def load_data(path):
     '''
     imports the predictions and groundtruth and creates a table called Predictions_and_Results_Table in the insights folder
@@ -85,16 +89,17 @@ def load_data(path):
             loc = Groundtruth_in.loc[Groundtruth_in['filename'] == Results_in["filename"][i]]
             if str(loc['filename'].values)[2:-2] == Results_in["filename"][i]:
                 Results.append(Results_in["prediction"][i])
-                Groundtruth.append((loc["groundtruth"]).values.astype(int))
+                Groundtruth.append((loc["label"]).values.astype(int))
                 Sigmoid_output_i = Results_in["Probability for each possible outcome"][i]
                 Sigmoid_max_output.append(max(Sigmoid_output_i))
                 Sigmoid_output_i = np.array((Sigmoid_output_i)[1:-1].split())
                 Sigmoid_output.append(Sigmoid_output_i)
-                writer.writerow([Results_in["filename"][i], Results_in["prediction"][i], (loc["groundtruth"].values)])
+                writer.writerow([Results_in["filename"][i], Results_in["prediction"][i], (loc["label"].values)])
     Groundtruth = np.array(Groundtruth)
     Results = np.array(Results)
     Sigmoid_output = np.array(Sigmoid_output)
     return Groundtruth, Results, Sigmoid_output
+
 
 def classification_evaluation(path):
     '''
@@ -104,6 +109,8 @@ def classification_evaluation(path):
     '''
     Groundtruth, Results, Sigmoid_output = load_data(path)
     accuracy = accuracy_score(Groundtruth, Results)
+    m_precision, m_recall, m_f1, m_support = precision_recall_fscore_support(Groundtruth, Results, average='macro')
+    precision, recall, f1, support = precision_recall_fscore_support(Groundtruth, Results, average='weighted')
     Sigmoid_output = np.squeeze(Sigmoid_output)
     logging.info("The accuracy score is: %f" % accuracy)
     n_classes = len(np.unique(Groundtruth))
@@ -121,6 +128,12 @@ def classification_evaluation(path):
     f.write('\n')
     f.write('\n' + "Evaluated at: " + str(datetime.datetime.now())[:16])
     f.write('\n' + "Accuracy : " + str(accuracy))
+    f.write('\n' + "Macro Precision : " + str(m_precision))
+    f.write('\n' + "Macro Recall : " + str(m_recall))
+    f.write('\n' + "Macro F1-score : " + str(m_f1))
+    f.write('\n' + "Weighted Precision : " + str(precision))
+    f.write('\n' + "Weighted Recall : " + str(recall))
+    f.write('\n' + "Weighted F1-score : " + str(f1))
     for i in range(len(roc_auc)):
         f.write('\n' + "Area under curve class " + str(i) + ": " + str(roc_auc[i]))
     f.close()

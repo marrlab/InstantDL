@@ -13,6 +13,7 @@ from instantdl import GetPipeLine
 import logging
 from keras import backend as K
 
+
 def start_learning(configs):
     logging.info("Start learning")
     logging.info(configs["use_algorithm"])
@@ -25,12 +26,12 @@ def start_learning(configs):
 
 if __name__ == "__main__":
 
-    parser = argparse.ArgumentParser( \
-                            description='Starting the deep learning code')
-    parser.add_argument('-c',\
-                        '--config', \
-                        default="config.json", \
-                        help='config json file address', \
+    parser = argparse.ArgumentParser(
+        description='Starting the deep learning code')
+    parser.add_argument('-c',
+                        '--config',
+                        default="config.json",
+                        help='config json file address',
                         type=str)
 
     args = vars(parser.parse_args())
@@ -38,12 +39,11 @@ if __name__ == "__main__":
     configs = load_json(args['config'])
 
     for k in configs:
-        logging.info("%s : %s \n" % (k,configs[k]))
+        logging.info("%s : %s \n" % (k, configs[k]))
 
-   
     '''
     Sanity checks in order to ensure all settings in config
-    have been set so the programm is able to run
+    have been set so the program is able to run
     '''
     assert configs["use_algorithm"] in ['SemanticSegmentation',
                                         'Regression',
@@ -73,10 +73,10 @@ if __name__ == "__main__":
     if configs["loss_function"] in ["dice_loss", "dice loss", "dice"]:
         configs["loss_function"] = dice_loss
 
-    if configs["loss_function"] in ["tversky_loss", "tversky loss", "tversky"] :
+    if configs["loss_function"] in ["tversky_loss", "tversky loss", "tversky"]:
         configs["loss_function"] = tversky_loss
 
-    if configs["loss_function"] in ["focal_loss", "focal loss", "focal"] :
+    if configs["loss_function"] in ["focal_loss", "focal loss", "focal"]:
         configs["loss_function"] = binary_focal_loss_fixed
 
     if configs["loss_function"] == "binary crossentropy dice loss":

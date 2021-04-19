@@ -7,12 +7,13 @@ from instantdl.segmentation.SemanticSegmentation import SemanticSegmentation
 def GetPipeLine(configs):
     if "seeds" in configs:
         if configs["seeds"] == True:
+            seed = 123  # 123, 666, 555
             import numpy as np
-            np.random.seed(123)
+            np.random.seed(seed)
             import random as python_random
-            python_random.seed(123)
+            python_random.seed(seed)
             import tensorflow as tf
-            tf.random.set_random_seed(123)
+            tf.random.set_random_seed(seed)
             sess = tf.Session(graph=tf.get_default_graph())
             K.set_session(sess)
     if configs["use_algorithm"] == "Classification":

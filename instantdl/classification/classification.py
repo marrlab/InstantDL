@@ -17,7 +17,8 @@ class Classification(object):
                  calculate_uncertainty=False,
                  evaluation=True,
                  semi_supervised=False,
-                 burn_in_iterations=25):
+                 burn_in_iterations=25,
+                 max_batchsize=16):
 
         self.use_algorithm = "Classification"
         self.path = path
@@ -69,8 +70,8 @@ class Classification(object):
         '''
         train_path = self.path + '/train'
         unlabel_path = self.path + '/unlabel'
-        train_image_files, val_image_files = training_validation_data_split(train_path)
-        unlabel_image_files = os.listdir(os.path.join(unlabel_path + '/image'))
+        train_image_files, val_image_files = training_validation_data_split_classification(train_path, Folders)
+        unlabel_image_files = training_unlabel_classification(unlabel_path, Folders)
 
         steps_per_epoch = int(len(train_image_files) / self.batchsize)
 
@@ -142,7 +143,7 @@ class Classification(object):
             A ResNet50 model
         '''
         model = ResNet50(network_input_size,
-                         Dropout=0.1,
+                         Dropout=0.25,
                          include_top=True,
                          weights=self.pretrained_weights,
                          input_tensor=None,
@@ -176,7 +177,7 @@ class Classification(object):
         returns:
             The trained model and the checkpoint file path
         '''
-        early_stopping = EarlyStopping(monitor='val_loss', patience=5, mode='auto', verbose=0)
+        early_stopping = EarlyStopping(monitor='val_loss', patience=10, mode='auto', verbose=0)
         path = copy.deepcopy(self.path)
         datasetname = path.rsplit("/", 1)[1]
         checkpoint_filepath = (
@@ -200,7 +201,8 @@ class Classification(object):
                             max_queue_size=50,
                             epochs=self.epochs,
                             callbacks=callbacks_list,
-                            use_multiprocessing=True)
+                            workers=0,
+                            use_multiprocessing=False)
         logging.info('finished Model.fit_generator')
         return model, checkpoint_filepath
 
