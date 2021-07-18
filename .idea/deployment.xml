@@ -1,11 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="PublishConfigData" autoUpload="Always" serverName="ahmad.qasim@vicb-submit-01:22" remoteFilesAllowedToDisappearOnAutoupload="false" autoUploadExternalChanges="true">
+  <component name="PublishConfigData" autoUpload="Always" remoteFilesAllowedToDisappearOnAutoupload="false">
     <serverData>
       <paths name="ahmad.qasim@vicb-submit-01:22">
         <serverdata>
           <mappings>
             <mapping deploy="/home/icb/ahmad.qasim/HiWi/InstantDL" local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="ahmad@193.174.50.157:22">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/home/ahmad/HiWi/InstantDL" local="$PROJECT_DIR$" />
           </mappings>
         </serverdata>
       </paths>

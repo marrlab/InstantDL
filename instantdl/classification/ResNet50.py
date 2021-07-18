@@ -32,7 +32,7 @@ keras_utils = None
 from keras import layers
 from keras import backend
 from keras import utils
-from keras import models
+from instantdl.model import models
 import tensorflow as tf
 
 def identity_block(input_tensor,Dropout, kernel_size, filters, stage, block):
@@ -208,7 +208,6 @@ def ResNet50(input_shape,
         raise ValueError('If using `weights` as `"imagenet"` with `include_top`'
                          ' as true, `classes` should be 1000')
 
-
     if input_tensor is None:
         img_input = layers.Input(shape=input_shape)
     else:
@@ -271,7 +270,7 @@ def ResNet50(input_shape,
     else:
         inputs = img_input
     # Create model.
-    model = models.Model(inputs, x, name='resnet50')
+    model = models.ClassificationModel(inputs, x, name='resnet50')
 
     # Load weights.
     if weights == 'imagenet':

@@ -159,7 +159,11 @@ def image_generator_full_path(Training_Input_shape, batchsize, num_channels,
     '''
     X = []
     for i in range(0, batchsize):
-        img_file = train_image_file[i]
+        try:
+            img_file = train_image_file[i]
+        except IndexError:
+            img_file = None
+            pass
         image_data = import_image(img_file)
         if np.shape(image_data) != tuple(Training_Input_shape):
             # The Resizing fundtion changes the array values, therefore shift them back to the original range
@@ -597,7 +601,7 @@ class training_data_generator_classification_gen(Sequence, Callback):
         self.indexes = np.arange(len(train_image_files))
         self.iterations_over_dataset = iterations_over_dataset
         self.burn_in_iterations = burn_in_iterations
-        self.pseudo_labeling_threshold = 0.99
+        self.pseudo_labeling_threshold = 0.999
         self.mx_pseudo_labels = len(unlabel_image_files) // (self.iterations_over_dataset - self.burn_in_iterations)
         self.orig_training_len = len(train_image_files)
         self.current_pseudo_labels = 0
@@ -616,7 +620,7 @@ class training_data_generator_classification_gen(Sequence, Callback):
         return X, y
 
     def __len__(self):
-        return int(np.floor(len(self.train_image_files) / self.batchsize))
+        return int(np.floor(len(self.train_dataset) / self.batchsize))
 
     def prepare_dataset(self):
         self.train_dataset = []
@@ -644,13 +648,15 @@ class training_data_generator_classification_gen(Sequence, Callback):
                                            ">", "." * (self.progress_bar_len - done_point)))
 
     def on_epoch_begin(self, epoch, logs=None):
-        logging.info("Shuffling the dataset at epoch: ", epoch)
-        print("Shuffling the dataset at epoch: ", epoch)
-        self.indexes = np.arange(len(self.train_dataset))
-        np.random.shuffle(self.indexes)
+        pass
+
+    def on_epoch_end(self, epoch=0, logs=None):
+        # logging.info("Shuffling the dataset at epoch: ", epoch)
+        # print("Shuffling the dataset at epoch: ", epoch)
+        # np.random.shuffle(self.indexes)
         out = None
 
-        if self.semi_supervised and epoch > self.burn_in_iterations:
+        if self.semi_supervised and epoch >= self.burn_in_iterations:
             logging.info("Performing pseudo labeling at epoch: ", epoch)
             print("Performing pseudo labeling at epoch: ", epoch)
 
@@ -684,20 +690,30 @@ class training_data_generator_classification_gen(Sequence, Callback):
             self.unlabel_image_files = np.delete(self.unlabel_image_files, mx_probs_indexes)
             self.current_pseudo_labels += mx_probs.shape[0]
 
-            if self.current_pseudo_labels > self.orig_training_len:
-                # self.batchsize = self.batchsize*2 if self.batchsize < self.max_batchsize else self.batchsize
-                self.current_pseudo_labels = 0
-
-                logging.info("Increasing the batch size to: ", self.batchsize)
-                print("Increasing the batch size to: ", self.batchsize)
+            # if self.current_pseudo_labels > self.orig_training_len:
+            #     self.batchsize = self.batchsize*2 if self.batchsize < self.max_batchsize else self.batchsize
+            #     self.current_pseudo_labels = 0
+            #
+            #     logging.info("Increasing the batch size to: ", self.batchsize)
+            #     print("Increasing the batch size to: ", self.batchsize)
 
             logging.info("Adding {0} pseudo labels. Training set size: {1}".format(mx_probs.shape[0],
                                                                                    len(self.train_dataset)))
             print("Adding {0} pseudo labels. Training set size: {1}".format(mx_probs.shape[0],
                                                                             len(self.train_dataset)))
+            sum = 0
+            for j in range(0, mx_probs.shape[0]):
+                img_file = self.train_dataset[-j][0]
+                with open('/home/ahmad/HiWi/data_instantdl/Blood_Cell_Classification/unlabel/groundtruth/groundtruth.csv') as csvfile:
+                    reader = csv.DictReader(csvfile)
+                    for row in reader:
+                        if row['filename'] == img_file.split('/')[-1]:
+                            sum += int(row['label'] == mx_probs_label[-j])
+                            print(row['filename'], mx_probs_label[-j], row['label'], mx_probs[-j])
 
-    def on_epoch_end(self, epoch=0, logs=None):
-        pass
+            # print("Correct Pseudo labels ratio: ", sum / mx_probs.shape[0])
+
+        self.indexes = np.arange(len(self.train_dataset))
 
     def __data_generation(self, train_image_file_batch):
 

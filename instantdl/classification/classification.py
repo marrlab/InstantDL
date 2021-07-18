@@ -1,5 +1,6 @@
 from instantdl.utils import *
 import logging
+import keras
 
 
 class Classification(object):
@@ -143,7 +144,7 @@ class Classification(object):
             A ResNet50 model
         '''
         model = ResNet50(network_input_size,
-                         Dropout=0.25,
+                         Dropout=0.1,
                          include_top=True,
                          weights=self.pretrained_weights,
                          input_tensor=None,
@@ -161,6 +162,89 @@ class Classification(object):
 
         logging.info(model.summary())
         return model
+
+    # def train_model(self, model, TrainingDataGenerator, ValidationDataGenerator, steps_per_epoch, val_image_files):
+    #     '''
+    #     Set Model callbacks such as:
+    #     - Early stopping (after the validation loss has not improved for 25 epochs
+    #     - Checkpoints: Save model after each epoch if the validation loss has improved
+    #     - Tensorboard: Monitor training live with tensorboard. Start tensorboard in terminal with: tensorboard --logdir=/path_to/logs
+    #     Args:
+    #         model: The initialized U-Net model
+    #         TrainingDataGenerator: The train data generator
+    #         ValidationDataGenerator: The validation data generator
+    #         steps_per_epoch: The number of train steps in one epoch
+    #         val_image_files: List of validation files
+    #     returns:
+    #         The trained model and the checkpoint file path
+    #     '''
+    #     early_stopping = EarlyStopping(monitor='val_loss', patience=10, mode='auto', verbose=0)
+    #     path = copy.deepcopy(self.path)
+    #     datasetname = path.rsplit("/", 1)[1]
+    #     checkpoint_filepath = (
+    #                 self.path + "/logs" + "/pretrained_weights" + datasetname + ".hdf5")  # .{epoch:02d}.hdf5")
+    #     os.makedirs((self.path + "/logs"), exist_ok=True)
+    #     model_checkpoint = ModelCheckpoint(checkpoint_filepath, monitor=('val_loss'), verbose=1, save_best_only=True)
+    #
+    #     tensorboard = TensorBoard(log_dir=self.path + "/logs/" + "/" + format(time.time()))  # , update_freq='batch')
+    #     logging.info(
+    #         "Tensorboard log is created at: logs/  it can be opend using tensorboard --logdir=logs for a terminal in the Project folder")
+    #
+    #     #################################################if self.use_algorithm == "Classification":
+    #     callbacks_list = [model_checkpoint, tensorboard, early_stopping, TrainingDataGenerator]
+    #
+    #     train_acc_metric = tf.keras.metrics.CategoricalAccuracy()
+    #     val_acc_metric = tf.keras.metrics.CategoricalAccuracy()
+    #     loss_fn = tf.keras.losses.CategoricalCrossentropy(from_logits=True)
+    #
+    #     for callback in callbacks_list:
+    #         callback.on_train_begin()
+    #
+    #     for epoch in range(self.epochs):
+    #         print("\nStart of epoch %d" % (epoch,))
+    #         start_time = time.time()
+    #
+    #         for step, (x_batch_train, y_batch_train) in enumerate(TrainingDataGenerator):
+    #             out = model.train_on_batch(x=x_batch_train, y=y_batch_train, reset_metrics=False)
+    #             print(out)
+    #
+    #         # for step, (x_batch_train, y_batch_train) in enumerate(TrainingDataGenerator):
+    #         #     with tf.GradientTape() as tape:
+    #         #         x_batch_train = x_batch_train.astype(np.float32)
+    #         #         logits = model(x_batch_train, training=True)
+    #         #         loss_value = loss_fn(y_batch_train, logits)
+    #         #     grads = tape.gradient(loss_value, model.trainable_weights)
+    #         #     model.optimizer.apply_gradients(zip(grads, model.trainable_weights))
+    #         #
+    #         #     train_acc_metric.update_state(y_batch_train, logits)
+    #         #
+    #         #     if step % 10 == 0:
+    #         #         print(
+    #         #             "Training loss (for one batch) at step %d: %.4f"
+    #         #             % (step, float(K.eval(loss_value)))
+    #         #         )
+    #         #         print("Seen so far: %d samples" % ((step + 1) * self.batchsize))
+    #         #
+    #         # # Display metrics at the end of each epoch.
+    #         # train_acc = train_acc_metric.result()
+    #         # print("Training acc over epoch: %.4f" % (float(train_acc),))
+    #         #
+    #         # train_acc_metric.reset_states()
+    #         #
+    #         # for x_batch_val, y_batch_val in ValidationDataGenerator:
+    #         #     val_logits = model(x_batch_val, training=False)
+    #         #     val_acc_metric.update_state(y_batch_val, val_logits)
+    #         #
+    #         # val_acc = val_acc_metric.result()
+    #         # val_acc_metric.reset_states()
+    #         # print("Validation acc: %.4f" % (float(val_acc),))
+    #         # print("Time taken: %.2fs" % (time.time() - start_time))
+    #
+    #     for callback in callbacks_list:
+    #         callback.on_train_end()
+    #
+    #     logging.info('finished Model.fit_generator')
+    #     return model, checkpoint_filepath
 
     def train_model(self, model, TrainingDataGenerator, ValidationDataGenerator, steps_per_epoch, val_image_files):
         '''
@@ -202,7 +286,8 @@ class Classification(object):
                             epochs=self.epochs,
                             callbacks=callbacks_list,
                             workers=0,
-                            use_multiprocessing=False)
+                            use_multiprocessing=False,
+                            verbose=True)
         logging.info('finished Model.fit_generator')
         return model, checkpoint_filepath
 
