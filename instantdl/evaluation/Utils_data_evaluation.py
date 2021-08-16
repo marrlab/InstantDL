@@ -146,7 +146,7 @@ def prepare_data_for_evaluation(root_dir, max_images):
 	os.makedirs(root_dir + "/insights/", exist_ok=True)
 	np.save(root_dir + "/insights/" + "image", image)
 	np.save(root_dir + "/insights/" + "prediction", predictions)
-	if os.path.isdir(test_dir + "/groundtruth/") and len(groundtruth) > 1:
+	if os.path.isdir(test_dir + "/groundtruth/") and len(groundtruth) > 0:
 		np.save(root_dir + "/insights/" + "groundtruth", groundtruth)
 		np.save(root_dir + "/insights/" + "abs_errormap", abs_errormap_norm)
 		np.save(root_dir + "/insights/" + "rel_errormap", rel_errormap_norm)
