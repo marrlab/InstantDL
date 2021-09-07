@@ -20,6 +20,7 @@ from keras.utils import Sequence
 from keras.callbacks import Callback
 from skimage.color import gray2rgb
 import warnings
+from tqdm import tqdm
 
 
 def get_min_max(data_path, folder_name, image_files):
@@ -657,12 +658,6 @@ class training_data_generator_classification_gen(Sequence, Callback):
 
         return X
 
-    def print_bar(self, curr, total):
-        data_per_point = total // self.progress_bar_len
-        done_point = ((curr // data_per_point) - 1)
-        print("{0}/{1} [{2}{3}{4}]".format(curr, total, "=" * done_point,
-                                           ">", "." * (self.progress_bar_len - done_point)))
-
     def on_epoch_begin(self, epoch, logs=None):
         pass
 
@@ -673,11 +668,11 @@ class training_data_generator_classification_gen(Sequence, Callback):
             logging.info("Performing pseudo labeling at epoch: ", epoch)
             print("Performing pseudo labeling at epoch: ", epoch)
 
-            for index in range(0, self.unlabel_image_files.shape[0] // self.batchsize):
+            for index in tqdm(range(0, self.unlabel_image_files.shape[0] // self.batchsize)):
                 indexes = np.arange(index * self.batchsize, (index + 1) * self.batchsize)
                 unlabel_image_file_batch = [(self.unlabel_image_files[k], 0) for k in indexes]
                 X = self.read_images(unlabel_image_file_batch)
-                self.print_bar(index, self.unlabel_image_files.shape[0] // self.batchsize)
+                # self.print_bar(index, self.unlabel_image_files.shape[0] // self.batchsize)
 
                 if index > 0:
                     out_temp = self.model.predict(X)

@@ -10,6 +10,6 @@
 	"num_classes": 15,
 	"loss_function": "categorical_crossentropy",
 	"semi_supervised": true,
-	"burn_in_iterations": 25,
+	"burn_in_iterations": 0,
 	"seeds": true
 }
