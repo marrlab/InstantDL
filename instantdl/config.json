@@ -2,7 +2,7 @@
 	"use_algorithm": "Classification",
 	"path": "/home/ahmad/HiWi/data_instantdl/Blood_Cell_Classification",
 	"batchsize": 4,
-	"iterations_over_dataset": 10,
+	"iterations_over_dataset": 100,
 	"pretrained_weights": false,
 	"image_size": false,
 	"calculate_uncertainty": false,
@@ -10,6 +10,6 @@
 	"num_classes": 15,
 	"loss_function": "categorical_crossentropy",
 	"semi_supervised": true,
-	"burn_in_iterations": 5,
+	"burn_in_iterations": 25,
 	"seeds": true
 }

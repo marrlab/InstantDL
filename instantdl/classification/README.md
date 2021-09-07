@@ -7,3 +7,9 @@ Dropout has been added to the ResNet50 to enable uncertainty quantification usin
 
 An example of how to run a classification task can be found in the [examples](examples) folder. Therefore the config.json file from the example folder has to be moved into the Pipeline folder and the main script has be executed.
 Folder names must not be changed.
+
+### Semi-supervised learning (Pseudo labeling)
+Semi-supervised learning can be enabled by adding the following attribute in config.json:
+```json
+"semi_supervised": true
+```

@@ -52,6 +52,7 @@ Possible setting in the config.json file are:
 "batchsize": 2, # Set the batchsize depeding on your GPU capabilities
 "iterations_over_dataset": 200, # Set how many iterations over the dataset should be taken for learning. 
 It might stop automatically if no improvement on the validation set was measured after 25 epochs
+"semi_supervised": true # set to true to enable semi-supervised learning        
 
 Set data augmentation parameters here
 "save_augmented_images": false, # true or false
@@ -80,6 +81,8 @@ e.g. [128,128,3]
 "seeds", false # true or false
 "calculate_uncertainty": false # true or false
 "evaluation": true # true or false
+"burn_in_iterations": 50 # When semi-supervised learning is enabled, the number of initial iterations before
+semi-supervised learning starts        
 ```
 
 The minimal settings for InstantDL to run with default parameters are:
@@ -102,11 +105,12 @@ python main.py --config ./config.json
 4. Normalization of data to the range between 0 and 1 based on the train dataset’s minimum and maximum pixel value. The data will be re-normalized when saved after testing.
 5. Batch creation and data augmentation on the fly.
 6. Training for the set epoch length using early stopping of training if the validation accuracy has not improved for the last epochs. Using the Adam optimizer (Kingma and Ba, 2014).
-7. Real time monitoring of training with Tensorboard or terminal.
-8. Saving of the best model during training.
-9. Automated evaluation of the trained model on the test data and saving of predicted labels.
-10. For pixel-wise regression, semantic segmentation or classification, InstantDL will calculate the uncertainty for each image. Therefore Monte Carlo dropout is used to evaluate 20 different models. The uncertainty estimation is saved to the project directory.
-11. Experiment settings are automatically saved to a logbook in order to simplify experiment monitoring.
+7. Performing semi supervised learning during each epoch, if enabled.
+8. Real time monitoring of training with Tensorboard or terminal.
+9. Saving of the best model during training.
+10. Automated evaluation of the trained model on the test data and saving of predicted labels.
+11. For pixel-wise regression, semantic segmentation or classification, InstantDL will calculate the uncertainty for each image. Therefore Monte Carlo dropout is used to evaluate 20 different models. The uncertainty estimation is saved to the project directory.
+12. Experiment settings are automatically saved to a logbook in order to simplify experiment monitoring.
 
 | Parameter | Explanation of the .json parameter|
 | ------ | ------ |
@@ -120,6 +124,7 @@ python main.py --config ./config.json
 | Seeds | Random seeds can be set for reproducibility of experiments |
 | Calculate uncertainty | For classification, regression and semantic segmentation uncertainty can be calculated using MC dropout |
 | Evaluation | Based on the task the model will automatically calculate relevant metrics for a quantitative evaluation and sample images for a qualitative evaluation and save them to the 'evaluation' and 'insights' folders which are automatically created |
+| Burn in iterations | Integer, If semi-supervised learning is enabled, the number of initial iteration before semi-supervised learning is performed. This results in more stable semi-supervised learning performance. |
 
 ## Run examples:
 One example of each task of semantic segmentation, instance segmentation, regression and classification is in the examples folder.
