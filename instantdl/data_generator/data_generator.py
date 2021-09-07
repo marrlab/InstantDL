@@ -715,7 +715,6 @@ class training_data_generator_classification_gen(Sequence, Callback):
                     for row in reader:
                         if row['filename'] == img_file.split('/')[-1]:
                             _sum += int(row['label'] == mx_probs_label[-j])
-                            print(row['filename'], mx_probs_label[-j], row['label'], mx_probs[-j])
 
         self.indexes = np.arange(len(self.train_dataset))
 
