@@ -19,9 +19,9 @@ class Classification(object):
                  evaluation=True,
                  semi_supervised=False,
                  burn_in_iterations=25,
-                 max_batchsize=16):
+                 pseudo_labeling_threshold=0.999):
 
-        self.use_algorithm = "Classification"
+        self.use_algorithm = use_algorithm
         self.path = path
         self.pretrained_weights = pretrained_weights
         self.batchsize = batchsize
@@ -37,6 +37,7 @@ class Classification(object):
             self.data_gen_args = data_gen_args
         self.semi_supervised = semi_supervised
         self.burn_in_iterations = burn_in_iterations
+        self.pseudo_labeling_threshold = pseudo_labeling_threshold
 
     def data_prepration(self):
         '''
@@ -112,9 +113,9 @@ class Classification(object):
                                                                            self.use_algorithm,
                                                                            self.semi_supervised,
                                                                            unlabel_image_files,
-                                                                           True,
                                                                            self.iterations_over_dataset,
-                                                                           self.burn_in_iterations)
+                                                                           self.burn_in_iterations,
+                                                                           self.pseudo_labeling_threshold)
 
         ValidationDataGenerator = training_data_generator_classification_gen(Training_Input_shape,
                                                                              self.batchsize,
@@ -128,7 +129,8 @@ class Classification(object):
                                                                              self.semi_supervised,
                                                                              unlabel_image_files,
                                                                              self.iterations_over_dataset,
-                                                                             self.burn_in_iterations)
+                                                                             self.burn_in_iterations,
+                                                                             self.pseudo_labeling_threshold)
 
         return TrainingDataGenerator, ValidationDataGenerator
 
