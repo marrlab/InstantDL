@@ -1,11 +1,12 @@
 {
 	"use_algorithm": "Classification",
-	"path": "/Users/dominik.waibel/Desktop/Classification/",
-	"batchsize": 10,
+	"path": "/Users/dominik.waibel/Desktop/Class_Lukas/",
+	"batchsize": 1,
 	"iterations_over_dataset": 1,
 	"pretrained_weights": false,
 	"image_size": false,
 	"calculate_uncertainty": false,
-	"evaluation": false,
+	"loss_function": "binary_crossentropy",
+	"evaluation": true,
 	"num_classes": 2
 }

@@ -164,7 +164,7 @@ class Classification(object):
         model.fit_generator(TrainingDataGenerator,
                                 steps_per_epoch=steps_per_epoch,
                                 validation_data=ValidationDataGenerator,
-                                validation_steps=len(val_image_files),
+                                validation_steps=int(len(val_image_files)/self.batchsize),
                                 max_queue_size=50,
                                 epochs=self.epochs,
                                 callbacks = callbacks_list,
